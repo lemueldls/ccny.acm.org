@@ -1,5 +1,5 @@
 import { getServerSession, type NextAuthOptions } from "next-auth";
-import GitHubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/lib/prisma";
 
@@ -7,16 +7,35 @@ const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    GitHubProvider({
-      clientId: process.env.AUTH_GITHUB_ID as string,
-      clientSecret: process.env.AUTH_GITHUB_SECRET as string,
-      profile(profile) {
+    // GitHubProvider({
+    //   clientId: process.env.AUTH_GITHUB_ID as string,
+    //   clientSecret: process.env.AUTH_GITHUB_SECRET as string,
+    //   profile(profile) {
+    //     return {
+    //       id: profile.id.toString(),
+    //       name: profile.name || profile.login,
+    //       gh_username: profile.login,
+    //       email: profile.email,
+    //       image: profile.avatar_url,
+    //     };
+    //   },
+    // }),
+
+    // Anonymous Login
+    CredentialsProvider({
+      id: "anonymous",
+      name: "Anonymous",
+      credentials: {
+        csrfToken: { label: "CSRF Token", type: "text" },
+        callbackUrl: { label: "Callback URL", type: "text" },
+        json: { label: "JSON", type: "text" },
+      },
+      async authorize(credentials) {
         return {
-          id: profile.id.toString(),
-          name: profile.name || profile.login,
-          gh_username: profile.login,
-          email: profile.email,
-          image: profile.avatar_url,
+          id: credentials!.csrfToken,
+          name: "Anonymous",
+          username: "anonymous",
+          email: null,
         };
       },
     }),
@@ -63,16 +82,25 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-export function getSession() {
-  return getServerSession(authOptions) as Promise<{
-    user: {
-      id: string;
-      name: string;
-      username: string;
-      email: string;
-      image: string;
-    };
-  } | null>;
+export interface Session {
+  user: {
+    id: string;
+    name: string;
+    username: string;
+    email: string;
+    image: string;
+  };
+  expires: string;
+}
+
+export async function getSession() {
+  const session: Session | null = await getServerSession(authOptions);
+  if (!session) {
+    console.trace("Session not found");
+    throw new Error("Session not found");
+  }
+
+  return session;
 }
 
 export function withSiteAuth(action: any) {

@@ -171,10 +171,10 @@ export default function Nav({ children }: { children: ReactNode }) {
       <div
         className={`transform ${
           showSidebar ? "w-full translate-x-0" : "-translate-x-full"
-        } fixed z-10 flex h-full flex-col justify-between border-r border-stone-200 bg-stone-100 p-4 transition-all dark:border-stone-700 dark:bg-stone-900 sm:w-60 sm:translate-x-0`}
+        } fixed z-10 flex h-full flex-col justify-between border-r border-stone-200 bg-stone-100 p-4 transition-all sm:w-60 sm:translate-x-0 dark:border-stone-700 dark:bg-stone-900`}
       >
         <div className="grid gap-2">
-          <div className="flex items-center space-x-2 rounded-lg px-2 py-1.5">
+          {/* <div className="flex items-center space-x-2 rounded-lg px-2 py-1.5">
             <a
               href="https://vercel.com/templates/next.js/platforms-starter-kit"
               target="_blank"
@@ -207,7 +207,7 @@ export default function Nav({ children }: { children: ReactNode }) {
                 className="dark:scale-110 dark:rounded-full dark:border dark:border-stone-400"
               />
             </Link>
-          </div>
+          </div> */}
           <div className="grid gap-1">
             {tabs.map(({ name, href, isActive, icon }) => (
               <Link
@@ -224,7 +224,7 @@ export default function Nav({ children }: { children: ReactNode }) {
           </div>
         </div>
         <div>
-          <div className="grid gap-1">
+          {/* <div className="grid gap-1">
             {externalLinks.map(({ name, href, icon }) => (
               <a
                 key={name}
@@ -240,7 +240,7 @@ export default function Nav({ children }: { children: ReactNode }) {
                 <p>↗</p>
               </a>
             ))}
-          </div>
+          </div> */}
           <div className="my-2 border-t border-stone-200 dark:border-stone-700" />
           {children}
         </div>

@@ -45,10 +45,10 @@ export default function OverviewStats() {
           }
           categories={["Total Visitors"]}
           colors={["blue"]}
-          showXAxis={true}
+          // showXAxis={true}
           showGridLines={false}
           startEndOnly={true}
-          showYAxis={false}
+          // showYAxis={false}
           showLegend={false}
         />
       </Card>
