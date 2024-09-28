@@ -40,11 +40,13 @@ export const work = Work_Sans({
 
 export const lato = Lato({
   variable: "--font-lato",
+  subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap",
 });
 export const majorMonoDisplay = Major_Mono_Display({
   variable: "--font-major-mono-display",
+  subsets: ["latin"],
   weight: "400",
   display: "swap",
 });

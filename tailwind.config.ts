@@ -4,6 +4,7 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 
 import typography from "@tailwindcss/typography";
 import forms from "@tailwindcss/forms";
+
 import animate from "tailwindcss-animate";
 
 import { nextui } from "@nextui-org/react";

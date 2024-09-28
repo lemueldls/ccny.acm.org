@@ -1,23 +1,23 @@
 "use client";
 
 import { SimpleIconsDiscord } from "@/components/icons/discord";
-import { SimpleIconsGoogleforms } from "@/components/icons/google-forms";
 import { SimpleIconsInstagram } from "@/components/icons/instagram";
 import { SimpleIconsGithub } from "@/components/icons/github";
-import { EnvelopeIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/navigation";
+import {
+  EnvelopeIcon as EnvelopeIcon20,
+  ArrowTopRightOnSquareIcon,
+} from "@heroicons/react/20/solid";
+import { EnvelopeIcon as EnvelopeIcon16 } from "@heroicons/react/16/solid";
+
 import {
   majorMonoDisplay,
   ppNeueMachinaInktrack,
   ppNeueMachinaPlain,
+  calTitle,
 } from "@/styles/fonts";
 import {
-  Accordion,
-  AccordionItem,
-  Avatar,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Button,
   Divider,
@@ -27,15 +27,14 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  NavbarMenuToggle,
-  NavbarMenu,
   Image,
-  NavbarMenuItem,
   ScrollShadow,
 } from "@nextui-org/react";
 import { Carousel } from "primereact/carousel";
 import Tilt from "react-parallax-tilt";
 import { SimpleIconsLinkedin } from "@/components/icons/linkedin";
+import { events, type Event } from "@/lib/events";
+import EventsAccordion from "@/components/events-accordion";
 
 const dateFormatter = Intl.DateTimeFormat("en-US", {
   year: "numeric",
@@ -47,96 +46,6 @@ const dateFormatter = Intl.DateTimeFormat("en-US", {
   timeZoneName: "short",
   timeZone: "America/New_York",
 });
-
-interface Event {
-  title: string;
-  start: Date;
-  end: Date;
-  description: string;
-  location: string;
-  kind: "workshop" | "hackathon" | "meeting";
-}
-
-const events: Event[] = [
-  {
-    title: "TD Bank",
-    start: new Date(Date.UTC(2024, 9, 1, 17, 30)),
-    end: new Date(Date.UTC(2024, 9, 1, 18, 45)),
-    description: "its bankin' time ‼️",
-    location: "NAC Ballroom",
-    kind: "workshop",
-  },
-  {
-    title: "Codédex",
-    start: new Date(Date.UTC(2024, 8, 26, 17, 30)),
-    end: new Date(Date.UTC(2024, 8, 26, 18, 45)),
-    description: "its codixn' time ‼️",
-    location: "NAC Ballroom",
-    kind: "workshop",
-  },
-  {
-    title: "IEEE × ACM Intro to C++ Workshop",
-    start: new Date(Date.UTC(2024, 2, 21, 17, 30)),
-    end: new Date(Date.UTC(2024, 2, 21, 18, 45)),
-    description:
-      "Unsure how to start your journey in learning C++ or need a refresher? Join this collaboration with the Institute of Electrical and Electronics Engineers where we take your coding skills to the next level!",
-    location: "NAC 4/222",
-    kind: "workshop",
-  },
-  {
-    title: "Intro to UI/UX with Figma Workshop",
-    start: new Date(Date.UTC(2024, 2, 14, 17, 30)),
-    end: new Date(Date.UTC(2024, 2, 14, 18, 45)),
-    description:
-      "Dive into design fundamentals in this interactive session where you'll use Figma to craft your own designs! Please bring your laptop and create a Figma account prior to attending.",
-    location: "NAC 4/222",
-    kind: "workshop",
-  },
-  {
-    title: "Data Structures Workshop",
-    start: new Date(Date.UTC(2024, 1, 29, 17, 30)),
-    end: new Date(Date.UTC(2024, 1, 29, 18, 45)),
-    description:
-      "Dive into data structures fundamentals and gain essential skills to tackle programming challenges with confidence in this beginner-friendly workshop!",
-    location: "NAC 4/222",
-    kind: "workshop",
-  },
-  {
-    title: "Git/GitHub Workshop",
-    start: new Date(Date.UTC(2024, 1, 27, 17, 30)),
-    end: new Date(Date.UTC(2024, 1, 27, 18, 45)),
-    description:
-      "Unleash your coding potential with Git and GitHub, mastering version control, collaboration, and streamlined workflows!",
-    location: "NAC 4/222",
-    kind: "workshop",
-  },
-  {
-    title: "Hackathon Guide Workshop",
-    start: new Date(Date.UTC(2024, 1, 20, 17, 30)),
-    end: new Date(Date.UTC(2024, 1, 20, 18, 45)),
-    description:
-      "Join us for a hackathon guide workshop where we'll provide you with the tools and tips to make the most of your hackathon experience!",
-    location: "NAC 4/222",
-    kind: "workshop",
-  },
-  {
-    title: "GWC × ACM Intro to Web Development Workshop",
-    start: new Date(Date.UTC(2024, 1, 15, 17, 30)),
-    end: new Date(Date.UTC(2024, 1, 15, 18, 45)),
-    description: "Join us for an introduction to web development!",
-    location: "NAC 6/313",
-    kind: "workshop",
-  },
-  {
-    title: "Machine Learning Retrieval Augmented Generation Workshop",
-    start: new Date(Date.UTC(2024, 1, 1, 17, 30)),
-    end: new Date(Date.UTC(2024, 1, 1, 18, 45)),
-    description:
-      "Our first workshop will teach you how to use PDFs and text files to extract key information to answer your questions, just like Chat GPT-4.0!",
-    location: "NAC 7/118",
-    kind: "workshop",
-  },
-];
 
 interface TeamMember {
   name: string;
@@ -152,30 +61,28 @@ const theTeam: TeamMember[] = [
   {
     name: "Sehr Abrar",
     position: "President",
-    image:
-      "https://media.licdn.com/dms/image/v2/D4E03AQH1wqWN1yx14Q/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1682277132785?e=1729728000&v=beta&t=l40JyNHtTQPz04n128zmJmy9KjYW2qJI-x1iBGtuRD0",
+    image: "/sehr-abrar.jpg",
     email: "sabrar000@citymail.cuny.edu",
     linkedin: "sehr-abrar",
   },
   {
     name: "Evan Haque",
     position: "Vice President",
-    image:
-      "https://cdn.discordapp.com/attachments/1201990908095250492/1275939446650437826/IMG_6915.jpg?ex=66c7b6b5&is=66c66535&hm=4c42243b1997748f9f578661f73a9b73c8f3a0561865d4e61781fa9bfce5651a&",
+    image: "/evan-haque.jpg",
     email: "ehaque002@citymail.cuny.edu",
     linkedin: "evanhaque1738",
   },
   {
     name: "Jawad Chowdhury",
     position: "Treasury",
-    image: "",
+    image: "/jawad-chowdhury.jpg",
     email: "jchowdh002@citymail.cuny.edu",
     linkedin: "jawad-chy",
   },
   {
     name: "Srewashi Mondal",
     position: "Secretary",
-    image: "",
+    image: "/srewashi-mondal.jpg",
     email: "smondal002@citymail.cuny.edu",
     linkedin: "srewashi-mondal",
   },
@@ -189,16 +96,14 @@ const theTeam: TeamMember[] = [
   {
     name: "Timson Tan",
     position: "Social Media Manager",
-    image:
-      "https://media.licdn.com/dms/image/v2/D4E03AQF9fN9rKnJv3A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1704600989600?e=1729728000&v=beta&t=8P2dyrmTeYzgEpCrt4S77ZNKOhZt749fkhbVI3ZsX6g",
+    image: "/timson-tan.jpg",
     email: "ttan001@citymail.cuny.edu",
     linkedin: "timsontan",
   },
   {
     name: "Lemuel De Los Santos",
     position: "Web Designer",
-    image:
-      "https://media.licdn.com/dms/image/v2/C4D03AQFkAWQZ7ZrP1w/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1655841037728?e=1729728000&v=beta&t=Y37GCuBqa8SyuKsl4n0aqLUA_kpnY2rfdYKZdLYEBRE",
+    image: "/lemuel-de-los-santos.jpg",
     email: "ldeloss002@citymail.cuny.edu",
     linkedin: "lemueldls",
     github: "lemueldls",
@@ -275,8 +180,6 @@ export default function HomePage() {
     [[], [], []],
   );
 
-  const router = useRouter();
-
   interface Brand {
     name: string;
     image: string;
@@ -291,26 +194,22 @@ export default function HomePage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col ">
+    <div className="flex min-h-screen flex-col">
       <Navbar className="texture">
-        <NavbarBrand>
-          <Link href="/">
-            <Image
-              src="/logo.png"
-              width={44}
-              height={44}
-              alt="Logo"
-              className="rounded-full"
-            />
-          </Link>
-          {/* <AcmeLogo /> */}
-          {/* <h1
-            className={`mb-4 font-bold text-inherit ${majorMonoDisplay.className}`}
-          >
-            Beavers Code
-          </h1> */}
-        </NavbarBrand>
-        <NavbarContent className="hidden gap-4 sm:flex">
+        <NavbarContent justify="start">
+          <NavbarBrand>
+            <Link href="/">
+              <Image
+                src="/logo.png"
+                width={44}
+                height={44}
+                alt="Logo"
+                className="rounded-full"
+              />
+            </Link>
+          </NavbarBrand>
+        </NavbarContent>
+        <NavbarContent className="flex gap-8" justify="center">
           <NavbarItem>
             <Link color="foreground" href="#team">
               Team
@@ -322,31 +221,13 @@ export default function HomePage() {
               Events
             </Link>
           </NavbarItem>
-          {/* <NavbarItem>
-            <Link color="foreground" href="#">
-              Features
-            </Link>
-          </NavbarItem>
-          <NavbarItem isActive>
-            <Link href="#" aria-current="page">
-              Customers
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link color="foreground" href="#">
-              Integrations
-            </Link>
-          </NavbarItem> */}
         </NavbarContent>
-        <NavbarContent justify="end">
-          {/* <NavbarItem className="hidden lg:flex">
-            <Link href="#">Login</Link>
-          </NavbarItem> */}
+        <NavbarContent className="hidden sm:flex" justify="end">
           <NavbarItem>
             <Button
               as={Link}
               color="default"
-              href="https://discord.gg/asZTkKZK5j"
+              href="https://discord.com/invite/CsntEuGJe5"
               isExternal
               variant="light"
               isIconOnly
@@ -387,15 +268,19 @@ export default function HomePage() {
               variant="light"
               isIconOnly
             >
-              <EnvelopeIcon className="h-5 w-5" />
+              <EnvelopeIcon20 className="h-5 w-5" />
             </Button>
           </NavbarItem>
+
+          {/* <NavbarItem className="hidden lg:flex">
+            <Link href="#">Login</Link>
+          </NavbarItem> */}
         </NavbarContent>
       </Navbar>
 
       <ScrollShadow visibility="both" className="circuit-board mb-8 px-4 py-8">
         <div className="container mx-auto flex flex-col items-center gap-8">
-          <div className="my-32 flex flex-col items-center gap-8">
+          <div className="flex flex-col items-center gap-8 sm:my-32">
             {happeningToday.length > 0 && (
               <Chip
                 color="danger"
@@ -434,11 +319,17 @@ export default function HomePage() {
 
             <span className="text-xl lg:text-3xl">Welcome to</span>
 
-            <h1
-              className={`mb-4 text-center text-6xl font-bold shadow-primary text-shadow lg:text-8xl ${ppNeueMachinaPlain.className}`}
-            >
-              BEAVERS CODE
-            </h1>
+            <div className="mb-4 text-center">
+              <h1
+                className={`text-6xl font-bold shadow-primary text-shadow lg:text-8xl ${ppNeueMachinaPlain.className}`}
+              >
+                BEAVERS CODE
+              </h1>
+
+              <span className="text-3xl font-bold lg:text-4xl">
+                (ACM @ CCNY)
+              </span>
+            </div>
 
             <div className="flex flex-col items-stretch gap-4 sm:flex-row">
               <Button
@@ -457,7 +348,7 @@ export default function HomePage() {
                 size="lg"
                 startContent={<SimpleIconsDiscord className="h-5 w-5" />}
                 as={Link}
-                href="https://discord.gg/asZTkKZK5j"
+                href="https://discord.com/invite/CsntEuGJe5"
                 isExternal
               >
                 Join the Discord
@@ -476,7 +367,7 @@ export default function HomePage() {
 
           <Card
             isBlurred
-            className="w-full max-w-[75rem] bg-background/60 p-8 dark:bg-default/10"
+            className="block w-full max-w-[75rem] bg-background/60 p-8 dark:bg-default/10"
             shadow="sm"
           >
             <CardHeader className="grid place-items-center lg:grid-cols-8">
@@ -520,17 +411,25 @@ export default function HomePage() {
                 In collaboration with{" "}
                 <Link
                   href="https://www.acm.org/"
+                  size="lg"
                   isExternal
                   showAnchorIcon
+                  anchorIcon={
+                    <ArrowTopRightOnSquareIcon className="mx-1 h-5 w-5" />
+                  }
                   className="text-2xl"
                 >
                   ACM
-                </Link>
+                </Link>{" "}
                 and{" "}
                 <Link
                   href="https://developers.google.com/community/gdsc"
+                  size="md"
                   isExternal
                   showAnchorIcon
+                  anchorIcon={
+                    <ArrowTopRightOnSquareIcon className="mx-1 h-5 w-5" />
+                  }
                   className="text-2xl"
                 >
                   GDSC
@@ -543,205 +442,110 @@ export default function HomePage() {
         </div>
       </ScrollShadow>
 
-      <div className="container mx-auto my-8 flex flex-col gap-12 px-4 py-8">
+      <div className="container mx-auto my-8 flex flex-col gap-12 p-4">
         <h2 id="team" className="text-3xl font-bold">
           Meet the Team
         </h2>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           {theTeam.map((member, index) => (
-            <Card
-              key={index}
-              isBlurred
-              className="border-none bg-background/60 p-2 dark:bg-default/10"
-              shadow="sm"
-            >
-              <CardBody className="grid grid-cols-[fit-content(8rem)_1fr] grid-rows-[fit-content(8rem)_1fr] gap-4 overflow-visible">
-                <Image
-                  isBlurred
-                  width={128}
-                  height={128}
-                  src={member.image}
-                  fallbackSrc="https://via.placeholder.com/128x128"
-                  alt={member.name}
-                  classNames={{
-                    wrapper: "row-span-1 lg:row-span-2",
-                    img: "object-cover",
-                  }}
-                />
+            <Tilt key={index}>
+              <Card
+                isBlurred
+                className="border-none bg-background/60 p-2 dark:bg-default/10"
+                shadow="sm"
+              >
+                <CardBody className="grid grid-cols-[fit-content(8rem)_1fr] grid-rows-[fit-content(8rem)_1fr] gap-4 overflow-visible">
+                  <Image
+                    isZoomed
+                    // isBlurred
+                    // as={NextImage}
+                    width={128}
+                    height={128}
+                    src={member.image || "/logo.png"}
+                    // fallbackSrc="/logo.png"
+                    alt={member.name}
+                    classNames={{
+                      wrapper: "row-span-1 lg:row-span-2",
+                      img: "object-cover object-center w-32 h-32 hover:scale-110 hover:translate-y-1.5",
+                    }}
+                  />
 
-                <div className="flex flex-1 flex-col items-start justify-start">
-                  <h3 className="text-3xl font-semibold leading-none text-default-600">
-                    {member.name}
-                  </h3>
-                  <span className="text-xl text-default-500">
-                    {member.position}
-                  </span>
-                </div>
+                  <div className="flex flex-1 flex-col items-start justify-start">
+                    <h3 className="text-3xl font-semibold leading-none text-default-600">
+                      {member.name}
+                    </h3>
+                    <span className="text-xl text-default-500">
+                      {member.position}
+                    </span>
+                  </div>
 
-                <div className="col-span-2 flex items-end justify-end gap-2 lg:col-span-1">
-                  {member.website && (
+                  <div className="col-span-2 flex items-end justify-end gap-2 lg:col-span-1">
+                    {/* {member.website && (
+                        <Button
+                          as={Link}
+                          href={member.website}
+                          variant="light"
+                          isExternal
+                          isIconOnly
+                        >
+                          <GlobeAltIcon className="h-5 w-5" />
+                        </Button>
+                      )} */}
+
+                    {member.github && (
+                      <Button
+                        as={Link}
+                        href={`https://github.com/${member.github}`}
+                        variant="light"
+                        isExternal
+                        isIconOnly
+                      >
+                        <SimpleIconsGithub className="h-5 w-5" />
+                      </Button>
+                    )}
+
+                    {member.linkedin && (
+                      <Button
+                        as={Link}
+                        href={`https://linkedin.com/in/${member.linkedin}`}
+                        variant="light"
+                        isExternal
+                        isIconOnly
+                      >
+                        <SimpleIconsLinkedin className="h-5 w-5" />
+                      </Button>
+                    )}
+
                     <Button
                       as={Link}
-                      href={member.website}
-                      variant="light"
+                      href={`mailto:${member.email}`}
+                      color="primary"
+                      variant="flat"
                       isExternal
-                      isIconOnly
+                      startContent={<EnvelopeIcon16 className="h-4 w-4" />}
                     >
-                      <GlobeAltIcon className="h-5 w-5" />
+                      Email
                     </Button>
-                  )}
-
-                  {member.github && (
-                    <Button
-                      as={Link}
-                      href={`https://github.com/${member.github}`}
-                      variant="light"
-                      isExternal
-                      isIconOnly
-                    >
-                      <SimpleIconsGithub className="h-5 w-5" />
-                    </Button>
-                  )}
-
-                  {member.linkedin && (
-                    <Button
-                      as={Link}
-                      href={`https://linkedin.com/in/${member.linkedin}`}
-                      variant="light"
-                      isExternal
-                      isIconOnly
-                    >
-                      <SimpleIconsLinkedin className="h-5 w-5" />
-                    </Button>
-                  )}
-
-                  <Button
-                    as={Link}
-                    href={`mailto:${member.email}`}
-                    color="primary"
-                    variant="flat"
-                    isExternal
-                    startContent={<EnvelopeIcon className="h-5 w-5" />}
-                  >
-                    Email
-                  </Button>
-                </div>
-              </CardBody>
-            </Card>
+                  </div>
+                </CardBody>
+              </Card>
+            </Tilt>
           ))}
         </div>
       </div>
 
-      <div className="container mx-auto my-8 flex flex-col gap-8 px-8">
+      <div className="container mx-auto my-8 flex flex-col gap-8 p-4">
         <h2 id="events" className="text-3xl font-bold">
           Events
         </h2>
 
-        <Accordion
-          selectionMode="multiple"
-          disabledKeys={[
-            ...(happeningToday.length < 1 ? ["1"] : []),
-            ...(upcomingEvents.length < 1 ? ["2"] : []),
-          ]}
-          defaultExpandedKeys={[
-            ...(happeningToday.length > 0 ? ["1"] : []),
-            ...(upcomingEvents.length > 0 ? ["2"] : []),
-          ]}
-          className="flex flex-col gap-8"
-        >
-          <AccordionItem
-            key="1"
-            aria-label="Happening Today"
-            title="Happening Today"
-            id="happening-today"
-            onPress={() => router.push("#happening-today")}
-            className="flex flex-col gap-8"
-            classNames={{ title: "text-4xl font-bold" }}
-          >
-            <Events events={happeningToday} />
-          </AccordionItem>
-
-          <AccordionItem
-            key="2"
-            aria-label="Upcoming Events"
-            title="Upcoming Events"
-            id="upcoming-events"
-            onPress={() => router.push("#upcoming-events")}
-            className="flex flex-col gap-8"
-            classNames={{ title: "text-4xl font-bold" }}
-          >
-            <Events events={upcomingEvents} />
-          </AccordionItem>
-
-          <AccordionItem
-            key="3"
-            aria-label="Past Events"
-            title="Past Events"
-            id="past-events"
-            onPress={() => router.push("#past-events")}
-            classNames={{ title: "text-4xl font-bold" }}
-          >
-            <Events events={pastEvents} />
-          </AccordionItem>
-        </Accordion>
+        <EventsAccordion />
       </div>
 
       <footer className="flex flex-col items-center justify-center gap-8 py-8">
         &copy; 2024 Beavers Code
       </footer>
-    </div>
-  );
-}
-
-interface EventsProps {
-  events: Event[];
-}
-
-function Events({ events }: EventsProps) {
-  const chipColors = {
-    workshop: "primary",
-    hackathon: "danger",
-    meeting: "success",
-  } as const;
-
-  return (
-    <div className="grid grid-cols-1 gap-8 sm:grid-cols-[repeat(auto-fill,minmax(24rem,1fr))]">
-      {events.map((event, index) => (
-        <Tilt key={index}>
-          <Card
-            isBlurred
-            className="border-none bg-background/60 p-2 dark:bg-default/10"
-            shadow="sm"
-          >
-            <CardHeader className="flex flex-col items-start gap-2">
-              <h3 className="flex w-full flex-col justify-between gap-4 text-2xl font-bold lg:flex-row">
-                {event.title}
-                <Chip color={chipColors[event.kind]}>{event.kind}</Chip>
-              </h3>
-
-              <span className="flex flex-col">
-                <span className="text-md text-foreground-500">
-                  {event.location}
-                </span>
-                <span className="text-md font-bold text-foreground-500">
-                  {
-                    dateFormatter
-                      .formatRange(event.start, event.end)
-                      .replaceAll(" ", " ") // U+2009 THIN SPACE
-                      .replaceAll(" ", " ") // U+202F NARROW NO-BREAK SPACE
-                  }
-                </span>
-              </span>
-            </CardHeader>
-
-            <CardBody>
-              {/* <p dangerouslySetInnerHTML={{ __html: event.description }} /> */}
-              {event.description}
-            </CardBody>
-          </Card>
-        </Tilt>
-      ))}
     </div>
   );
 }

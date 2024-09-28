@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import { cal, inter } from "@/styles/fonts";
 import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "./providers";
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 import { cn } from "@/lib/utils";
 
 import { Lato } from "next/font/google";
@@ -11,7 +11,12 @@ const title = "Beavers Code (ACM @ CCNY)";
 const description = "Beavers Code";
 const image = "/icon.png";
 
-const lato = Lato({ weight: ["400", "700"], display: "swap" });
+const lato = Lato({
+  variable: "--font-lato",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title,
@@ -29,8 +34,16 @@ export const metadata: Metadata = {
   //   images: [image],
   //   creator: "@vercel",
   // },
-  // metadataBase: new URL("https://vercel.pub"),
+  // metadataBase: new URL("https://beaverscode.vercel.app/"),
 };
+
+// export const viewport: Viewport = {
+//   width: "device-width",
+//   // height: "device-height",
+//   initialScale: 1,
+//   // maximumScale: 1,
+//   // minimumScale: 1,
+// };
 
 export default function RootLayout({
   children,
@@ -38,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className={cn(cal.variable, inter.variable)}>
         <Providers>
           <main

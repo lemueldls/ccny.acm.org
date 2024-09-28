@@ -1,4 +1,5 @@
 import { getServerSession, type NextAuthOptions } from "next-auth";
+import Discord from "next-auth/providers/discord";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/lib/prisma";
