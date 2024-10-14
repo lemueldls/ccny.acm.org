@@ -4,7 +4,7 @@ import million from "million/compiler";
 const nextConfig = {
   experimental: {
     serverActions: {
-      allowedOrigins: ["app.localhost:3000"],
+      allowedOrigins: ["app.localhost:3000", "admin.localhost:3000"],
     },
   },
   images: {

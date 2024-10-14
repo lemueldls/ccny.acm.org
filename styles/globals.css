@@ -10,17 +10,33 @@
 @layer tailwind-utilities {
   @tailwind components;
   @tailwind utilities;
+
+  .masonry {
+    column-gap: 1.5rem;
+    column-count: 1;
+  }
+  .masonry-sm {
+    column-gap: 1.5rem;
+    column-count: 2;
+  }
+  .masonry-md {
+    column-gap: 1.5rem;
+    column-count: 3;
+  }
+
+  .break-inside {
+    break-inside: avoid;
+  }
+}
+
+:root {
+  --vis-font-family: Consolas, ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace !important;
 }
 
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 6rem;
-}
-
-@layer utilities {
-  .overflow-hidden {
-    -webkit-mask-image: -webkit-radial-gradient(white, black);
-  }
 }
 
 .ProseMirror .is-editor-empty:first-child::before {
@@ -110,4 +126,41 @@ ul[data-type="taskList"] li[data-checked="true"] > div > p {
   color: #a8a29e;
   text-decoration: line-through;
   text-decoration-thickness: 2px;
+}
+
+/* Cursor selection background */
+.yRemoteSelection {
+  opacity: 0.5;
+  background-color: var(--user-color);
+  margin-right: -1px;
+}
+
+/* Cursor caret */
+.yRemoteSelectionHead {
+  position: absolute;
+  box-sizing: border-box;
+  height: 100%;
+  border-left: 2px solid var(--user-color);
+}
+
+/* Cursor name */
+.yRemoteSelectionHead::after {
+  position: absolute;
+  top: -1.4em;
+  left: -2px;
+  padding: 2px 6px;
+  background: var(--user-color);
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  border-bottom-left-radius: 0;
+  line-height: normal;
+  white-space: nowrap;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 600;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1000;
 }

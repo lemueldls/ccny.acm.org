@@ -1,186 +1,149 @@
-import { Accordion, AccordionItem } from "@nextui-org/react";
-import { events, type Event } from "@/lib/events";
-import EventsCard from "./events-card";
+import { useState, useEffect, type ReactNode } from "react";
 
-interface TeamMember {
-  name: string;
-  position: string;
-  image: string;
-  email: string;
-  linkedin?: string;
-  github?: string;
-  website?: string;
+import {
+  Accordion,
+  AccordionItem,
+  AccordionProps,
+  Skeleton,
+} from "@nextui-org/react";
+import EventGrid, { EventGridSkeleton } from "./event-grid";
+
+import { parseEvents, type SerializedEvent } from "@/lib/events";
+import { EventCardSkeleton } from "./event-card";
+import useEvents from "@/lib/hooks/use-events";
+
+interface EventAccordionProps extends Omit<AccordionProps, "children"> {
+  renderFooter?: (event: SerializedEvent) => ReactNode;
 }
 
-const theTeam: TeamMember[] = [
-  {
-    name: "Sehr Abrar",
-    position: "President",
-    image: "/sehr-abrar.jpg",
-    email: "sabrar000@citymail.cuny.edu",
-    linkedin: "sehr-abrar",
-  },
-  {
-    name: "Evan Haque",
-    position: "Vice President",
-    image: "/evan-haque.jpg",
-    email: "ehaque002@citymail.cuny.edu",
-    linkedin: "evanhaque1738",
-  },
-  {
-    name: "Jawad Chowdhury",
-    position: "Treasury",
-    image: "/jawad-chowdhury.jpg",
-    email: "jchowdh002@citymail.cuny.edu",
-    linkedin: "jawad-chy",
-  },
-  {
-    name: "Srewashi Mondal",
-    position: "Secretary",
-    image: "/srewashi-mondal.jpg",
-    email: "smondal002@citymail.cuny.edu",
-    linkedin: "srewashi-mondal",
-  },
-  {
-    name: "Axyl Fredrick",
-    position: "Social Media Manager",
-    image: "",
-    email: "afredri000@citymail.cuny.edu",
-    linkedin: "axyl-fredrick",
-  },
-  {
-    name: "Timson Tan",
-    position: "Social Media Manager",
-    image: "/timson-tan.jpg",
-    email: "ttan001@citymail.cuny.edu",
-    linkedin: "timsontan",
-  },
-  {
-    name: "Lemuel De Los Santos",
-    position: "Web Designer",
-    image: "/lemuel-de-los-santos.jpg",
-    email: "ldeloss002@citymail.cuny.edu",
-    linkedin: "lemueldls",
-    github: "lemueldls",
-    website: "https://lemueldls.dev",
-  },
-  {
-    name: "Lilly Minchala",
-    position: "Marketing Designer",
-    image: "",
-    email: "lmincha000@citymail.cuny.edu",
-    linkedin: "",
-  },
-  {
-    name: "Samin Chowdhury",
-    position: "Opportunities Coordinator",
-    image: "",
-    email: "schowdh047@citymail.cuny.edu",
-    linkedin: "saminfchowdhury",
-  },
-  {
-    name: "Daniel Chen",
-    position: "Student Advisor",
-    image: "/daniel-chen.jpg",
-    email: "dchen024@citymail.cuny.edu",
-    linkedin: "daniel-chen297",
-  },
-];
+export default function EventsAccordion(props: EventAccordionProps) {
+  const events = useEvents();
 
-export default function EventsAccordion() {
-  const now = new Date();
-  const utcNow = new Date(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate(),
-    now.getUTCHours(),
-    now.getUTCMinutes(),
-    now.getUTCSeconds(),
-  );
+  if (!events) return <EventsAccordionSkeleton />;
 
-  const startOfToday = new Date(
-    utcNow.getFullYear(),
-    utcNow.getMonth(),
-    utcNow.getDate(),
-    0,
-    0,
-    0,
-  );
+  const {
+    happeningToday,
+    upcomingEvents,
+    areHappeningToday,
+    areUpcomingEvents,
+    pastEvents,
+  } = parseEvents(events);
 
-  const endOfToday = new Date(
-    utcNow.getFullYear(),
-    utcNow.getMonth(),
-    utcNow.getDate(),
-    23,
-    59,
-    59,
-  );
+  const disabledKeys = [];
+  const defaultExpandedKeys = [];
 
-  const [happeningToday, upcomingEvents, pastEvents] = events.reduce<
-    [Event[], Event[], Event[]]
-  >(
-    (acc, event, _i) => {
-      const [happeningToday, upcomingEvents, pastEvents] = acc;
+  if (areHappeningToday) defaultExpandedKeys.push("1");
+  else disabledKeys.push("1");
 
-      if (event.end < startOfToday) {
-        pastEvents.push(event);
-      } else if (event.end < endOfToday) {
-        happeningToday.push(event);
-      } else {
-        upcomingEvents.push(event);
-      }
+  if (areUpcomingEvents) defaultExpandedKeys.push("2");
+  else disabledKeys.push("2");
 
-      return [happeningToday, upcomingEvents, pastEvents];
-    },
-    [[], [], []],
-  );
+  if (!areHappeningToday && !areUpcomingEvents) defaultExpandedKeys.push("3");
 
   return (
     <Accordion
       variant="bordered"
       selectionMode="multiple"
-      disabledKeys={[
-        ...(happeningToday.length < 1 ? ["1"] : []),
-        ...(upcomingEvents.length < 1 ? ["2"] : []),
-      ]}
-      defaultExpandedKeys={[
-        ...(happeningToday.length > 0 ? ["1"] : []),
-        ...(upcomingEvents.length > 0 ? ["2"] : []),
-      ]}
+      disabledKeys={disabledKeys}
+      defaultExpandedKeys={defaultExpandedKeys}
+      {...props}
     >
       <AccordionItem
         key="1"
         aria-label="Happening Today"
         title="Happening Today"
+        subtitle={
+          areHappeningToday ? null : (
+            <span className="text-xl">There are no events happening today</span>
+          )
+        }
         id="happening-today"
         // onPress={() => router.push("#happening-today")}
         className="flex flex-col gap-8"
         classNames={{ title: "text-4xl font-bold" }}
       >
-        <EventsCard events={happeningToday} />
+        <EventGrid events={happeningToday} renderFooter={props.renderFooter} />
       </AccordionItem>
 
       <AccordionItem
         key="2"
         aria-label="Upcoming Events"
         title="Upcoming Events"
+        subtitle={
+          areUpcomingEvents ? null : (
+            <span className="text-xl">There are no upcoming events</span>
+          )
+        }
         id="upcoming-events"
         // onPress={() => router.push("#upcoming-events")}
         className="flex flex-col gap-8"
         classNames={{ title: "text-4xl font-bold" }}
       >
-        <EventsCard events={upcomingEvents} />
+        <EventGrid events={upcomingEvents} renderFooter={props.renderFooter} />
       </AccordionItem>
 
       <AccordionItem
         key="3"
         aria-label="Past Events"
         title="Past Events"
+        subtitle={
+          pastEvents.length > 0 ? null : (
+            <span className="text-xl">There were no events in the past</span>
+          )
+        }
         id="past-events"
         // onPress={() => router.push("#past-events")}
         classNames={{ title: "text-4xl font-bold" }}
       >
-        <EventsCard events={pastEvents} />
+        <EventGrid
+          events={pastEvents}
+          renderFooter={props.renderFooter}
+          rsvpIsDisabled
+        />
+      </AccordionItem>
+    </Accordion>
+  );
+}
+
+export function EventsAccordionSkeleton() {
+  return (
+    <Accordion
+      variant="bordered"
+      selectionMode="multiple"
+      disabledKeys={["1", "2", "3"]}
+      // defaultExpandedKeys={["1", "2", "3"]}
+    >
+      <AccordionItem
+        key="1"
+        aria-label="Happening Today"
+        title="Happening Today"
+        subtitle={<Skeleton className="mt-2 h-5 w-64 rounded-lg" />}
+        id="happening-today"
+        classNames={{ title: "text-4xl font-bold" }}
+      >
+        {/* <EventGridSkeleton /> */}
+      </AccordionItem>
+
+      <AccordionItem
+        key="2"
+        aria-label="Upcoming Events"
+        title="Upcoming Events"
+        subtitle={<Skeleton className="mt-2 h-5 w-64 rounded-lg" />}
+        id="upcoming-events"
+        classNames={{ title: "text-4xl font-bold" }}
+      >
+        {/* <EventGridSkeleton /> */}
+      </AccordionItem>
+
+      <AccordionItem
+        key="3"
+        aria-label="Past Events"
+        title="Past Events"
+        subtitle={<Skeleton className="mt-2 h-5 w-64 rounded-lg" />}
+        id="past-events"
+        classNames={{ title: "text-4xl font-bold" }}
+      >
+        {/* <EventGridSkeleton /> */}
       </AccordionItem>
     </Accordion>
   );

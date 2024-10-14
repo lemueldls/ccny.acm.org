@@ -1,30 +1,46 @@
 import Image from "next/image";
 import LoginButton from "./login-button";
 import { Suspense } from "react";
+import { SimpleIconsDiscord } from "@/components/icons/discord";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Divider,
+} from "@nextui-org/react";
 
 export default function LoginPage() {
   return (
-    <div className="mx-5 border border-stone-200 py-10 dark:border-stone-700 sm:mx-auto sm:w-full sm:max-w-md sm:rounded-lg sm:shadow-md">
-      <h1 className="mt-6 text-center font-cal text-3xl dark:text-white">
-        Continue with an account
-      </h1>
-
-      <div className="mx-auto mt-4 w-11/12 max-w-xs sm:w-full">
-        <Suspense
-          fallback={
-            <div className="my-2 h-10 w-full rounded-md border border-stone-200 bg-stone-100 dark:border-stone-700 dark:bg-stone-800" />
-          }
+    <Card isBlurred className="mx-5 px-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <CardHeader className="text-center">
+        <h1 className="mt-6 font-cal text-3xl text-foreground">
+          Continue with an account
+        </h1>
+      </CardHeader>
+      <CardBody className="gap-4">
+        <LoginButton
+          className="hover:text-[#5865F2]"
+          provider="discord"
+          variant="faded"
+          startContent={<SimpleIconsDiscord className="h-5 w-5" />}
         >
-          <LoginButton provider="discord">Login with Discord</LoginButton>
+          Login with Discord
+        </LoginButton>
 
-          <LoginButton provider="anonymous">Login Anonymously</LoginButton>
+        <Divider />
 
-          <p className="mt-4 text-center text-stone-600 dark:text-stone-400">
-            If you login anonymously, your data will be stored locally until you
-            create an account.
+        <LoginButton provider="anonymous" variant="bordered">
+          Login Anonymously
+        </LoginButton>
+
+        <CardFooter>
+          <p className="text-center text-foreground-600">
+            If you login anonymously, your data will be transferred when you
+            decide to create an account.
           </p>
-        </Suspense>
-      </div>
-    </div>
+        </CardFooter>
+      </CardBody>
+    </Card>
   );
 }

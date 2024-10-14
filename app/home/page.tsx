@@ -6,8 +6,10 @@ import { SimpleIconsGithub } from "@/components/icons/github";
 import {
   EnvelopeIcon as EnvelopeIcon20,
   ArrowTopRightOnSquareIcon,
+  SunIcon,
+  MoonIcon,
 } from "@heroicons/react/20/solid";
-import { EnvelopeIcon as EnvelopeIcon16 } from "@heroicons/react/16/solid";
+import { useTheme } from "next-themes";
 
 import {
   majorMonoDisplay,
@@ -21,7 +23,6 @@ import {
   CardHeader,
   Button,
   Divider,
-  Chip,
   Link,
   Navbar,
   NavbarBrand,
@@ -30,11 +31,12 @@ import {
   Image,
   ScrollShadow,
 } from "@nextui-org/react";
+import NextImage from "next/image";
 import { Carousel } from "primereact/carousel";
 import Tilt from "react-parallax-tilt";
 import { SimpleIconsLinkedin } from "@/components/icons/linkedin";
-import { events, type Event } from "@/lib/events";
 import EventsAccordion from "@/components/events-accordion";
+import EventChip from "@/components/event-chips";
 
 const dateFormatter = Intl.DateTimeFormat("en-US", {
   year: "numeric",
@@ -61,28 +63,28 @@ const theTeam: TeamMember[] = [
   {
     name: "Sehr Abrar",
     position: "President",
-    image: "/sehr-abrar.jpg",
+    image: "/team/sehr-abrar.jpg",
     email: "sabrar000@citymail.cuny.edu",
     linkedin: "sehr-abrar",
   },
   {
     name: "Evan Haque",
     position: "Vice President",
-    image: "/evan-haque.jpg",
+    image: "/team/evan-haque.jpg",
     email: "ehaque002@citymail.cuny.edu",
     linkedin: "evanhaque1738",
   },
   {
     name: "Jawad Chowdhury",
     position: "Treasury",
-    image: "/jawad-chowdhury.jpg",
+    image: "/team/jawad-chowdhury.jpg",
     email: "jchowdh002@citymail.cuny.edu",
     linkedin: "jawad-chy",
   },
   {
     name: "Srewashi Mondal",
     position: "Secretary",
-    image: "/srewashi-mondal.jpg",
+    image: "/team/srewashi-mondal.jpg",
     email: "smondal002@citymail.cuny.edu",
     linkedin: "srewashi-mondal",
   },
@@ -96,14 +98,14 @@ const theTeam: TeamMember[] = [
   {
     name: "Timson Tan",
     position: "Social Media Manager",
-    image: "/timson-tan.jpg",
+    image: "/team/timson-tan.jpg",
     email: "ttan001@citymail.cuny.edu",
     linkedin: "timsontan",
   },
   {
     name: "Lemuel De Los Santos",
     position: "Web Designer",
-    image: "/lemuel-de-los-santos.jpg",
+    image: "/team/lemuel-de-los-santos.jpg",
     email: "ldeloss002@citymail.cuny.edu",
     linkedin: "lemueldls",
     github: "lemueldls",
@@ -126,72 +128,34 @@ const theTeam: TeamMember[] = [
   {
     name: "Daniel Chen",
     position: "Student Advisor",
-    image: "/daniel-chen.jpg",
+    image: "/team/daniel-chen.jpg",
     email: "dchen024@citymail.cuny.edu",
     linkedin: "daniel-chen297",
   },
+  {
+    name: "Sam Fenster",
+    position: "Club Advisor",
+    image: "/team/sam-fenster.jpg",
+    email: "fenster@ccny.cuny.edu",
+    linkedin: "samfenster",
+  },
 ];
 
+interface Brand {
+  name: string;
+  image: string;
+}
+
+function BrandTemplate(brand: Brand) {
+  return (
+    <div className="flex h-full w-full items-center justify-center">
+      <Image src={brand.image} className="w-2/3" alt={brand.name} />
+    </div>
+  );
+}
+
 export default function HomePage() {
-  const now = new Date();
-  const utcNow = new Date(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate(),
-    now.getUTCHours(),
-    now.getUTCMinutes(),
-    now.getUTCSeconds(),
-  );
-
-  const startOfToday = new Date(
-    utcNow.getFullYear(),
-    utcNow.getMonth(),
-    utcNow.getDate(),
-    0,
-    0,
-    0,
-  );
-
-  const endOfToday = new Date(
-    utcNow.getFullYear(),
-    utcNow.getMonth(),
-    utcNow.getDate(),
-    23,
-    59,
-    59,
-  );
-
-  const [happeningToday, upcomingEvents, pastEvents] = events.reduce<
-    [Event[], Event[], Event[]]
-  >(
-    (acc, event) => {
-      const [happeningToday, upcomingEvents, pastEvents] = acc;
-
-      if (event.end < startOfToday) {
-        pastEvents.push(event);
-      } else if (event.end < endOfToday) {
-        happeningToday.push(event);
-      } else {
-        upcomingEvents.push(event);
-      }
-
-      return [happeningToday, upcomingEvents, pastEvents];
-    },
-    [[], [], []],
-  );
-
-  interface Brand {
-    name: string;
-    image: string;
-  }
-
-  function BrandTemplate(brand: Brand) {
-    return (
-      <div className="flex h-full w-full items-center justify-center">
-        <img src={brand.image} className="w-2/3" alt={brand.name} />
-      </div>
-    );
-  }
+  // const { theme, setTheme } = useTheme();
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -200,11 +164,12 @@ export default function HomePage() {
           <NavbarBrand>
             <Link href="/">
               <Image
-                src="/logo.png"
+                as={NextImage}
+                // src={`/logo-on-${theme || "dark"}.png`}
+                src="/logo-on-dark.png"
                 width={44}
                 height={44}
                 alt="Logo"
-                className="rounded-full"
               />
             </Link>
           </NavbarBrand>
@@ -226,6 +191,7 @@ export default function HomePage() {
           <NavbarItem>
             <Button
               as={Link}
+              className="hover:text-[#5865F2]"
               color="default"
               href="https://discord.com/invite/CsntEuGJe5"
               isExternal
@@ -238,6 +204,7 @@ export default function HomePage() {
           <NavbarItem>
             <Button
               as={Link}
+              className="hover:text-[#E4405F]"
               color="default"
               href="https://www.instagram.com/acm.ccny/"
               isExternal
@@ -250,6 +217,7 @@ export default function HomePage() {
           <NavbarItem>
             <Button
               as={Link}
+              className="hover:text-[#0A66C2]"
               color="default"
               href="https://www.linkedin.com/in/ccnyacm/"
               isExternal
@@ -262,6 +230,7 @@ export default function HomePage() {
           <NavbarItem>
             <Button
               as={Link}
+              className="hover:text-[#7D55C7]"
               color="default"
               href="mailto:ccnyacm@gmail.com"
               isExternal
@@ -273,6 +242,21 @@ export default function HomePage() {
           </NavbarItem>
 
           {/* <NavbarItem className="hidden lg:flex">
+            <Button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              color="default"
+              variant="light"
+              isIconOnly
+            >
+              {theme === "dark" ? (
+                <SunIcon className="h-5 w-5" />
+              ) : (
+                <MoonIcon className="h-5 w-5" />
+              )}
+            </Button>
+          </NavbarItem> */}
+
+          {/* <NavbarItem className="hidden lg:flex">
             <Link href="#">Login</Link>
           </NavbarItem> */}
         </NavbarContent>
@@ -281,41 +265,7 @@ export default function HomePage() {
       <ScrollShadow visibility="both" className="circuit-board mb-8 px-4 py-8">
         <div className="container mx-auto flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-8 sm:my-32">
-            {happeningToday.length > 0 && (
-              <Chip
-                color="danger"
-                size="lg"
-                variant="flat"
-                className="diagonal-lines mb-8 flex gap-2 px-2 py-6"
-                as={Link}
-                href="#happening-today"
-                startContent={
-                  <Chip color="danger" size="lg" variant="shadow">
-                    Happening Today
-                  </Chip>
-                }
-              >
-                {happeningToday[happeningToday.length - 1].title}
-              </Chip>
-            )}
-
-            {upcomingEvents.length > 0 && (
-              <Chip
-                color="secondary"
-                size="lg"
-                variant="flat"
-                className="diagonal-lines mb-8 flex gap-2 px-2 py-6"
-                as={Link}
-                href="#upcoming-events"
-                startContent={
-                  <Chip color="secondary" size="lg" variant="shadow">
-                    Upcoming Event
-                  </Chip>
-                }
-              >
-                {upcomingEvents[upcomingEvents.length - 1].title}
-              </Chip>
-            )}
+            <EventChip />
 
             <span className="text-xl lg:text-3xl">Welcome to</span>
 
@@ -326,7 +276,7 @@ export default function HomePage() {
                 BEAVERS CODE
               </h1>
 
-              <span className="text-3xl font-bold lg:text-4xl">
+              <span className="text-3xl font-bold shadow-secondary text-shadow lg:text-4xl">
                 (ACM @ CCNY)
               </span>
             </div>
@@ -344,8 +294,9 @@ export default function HomePage() {
                 Join Us on Campus Groups!
               </Button>
               <Button
-                variant="flat"
                 size="lg"
+                className="hover:text-[#5865F2]"
+                variant="flat"
                 startContent={<SimpleIconsDiscord className="h-5 w-5" />}
                 as={Link}
                 href="https://discord.com/invite/CsntEuGJe5"
@@ -457,12 +408,13 @@ export default function HomePage() {
               >
                 <CardBody className="grid grid-cols-[fit-content(8rem)_1fr] grid-rows-[fit-content(8rem)_1fr] gap-4 overflow-visible">
                   <Image
+                    // as={NextImage}
                     isZoomed
                     // isBlurred
-                    // as={NextImage}
                     width={128}
                     height={128}
-                    src={member.image || "/logo.png"}
+                    // src={member.image || `/logo-on-${theme || "dark"}.png`}
+                    src={member.image || "/logo-on-dark.png"}
                     // fallbackSrc="/logo.png"
                     alt={member.name}
                     classNames={{
@@ -472,10 +424,10 @@ export default function HomePage() {
                   />
 
                   <div className="flex flex-1 flex-col items-start justify-start">
-                    <h3 className="text-3xl font-semibold leading-none text-default-600">
+                    <h3 className="text-3xl font-semibold leading-none text-foreground-600">
                       {member.name}
                     </h3>
-                    <span className="text-xl text-default-500">
+                    <span className="text-xl text-foreground-500">
                       {member.position}
                     </span>
                   </div>
@@ -521,12 +473,23 @@ export default function HomePage() {
                       as={Link}
                       href={`mailto:${member.email}`}
                       color="primary"
-                      variant="flat"
+                      variant="ghost"
                       isExternal
-                      startContent={<EnvelopeIcon16 className="h-4 w-4" />}
+                      startContent={<EnvelopeIcon20 className="h-5 w-5" />}
                     >
                       Email
                     </Button>
+
+                    {/* <Button
+                      as={Link}
+                      href={`mailto:${member.email}`}
+                      // color="primary"
+                      variant="light"
+                      isExternal
+                      isIconOnly
+                    >
+                      <EnvelopeIcon20 className="h-5 w-5" />
+                    </Button> */}
                   </div>
                 </CardBody>
               </Card>
@@ -544,7 +507,7 @@ export default function HomePage() {
       </div>
 
       <footer className="flex flex-col items-center justify-center gap-8 py-8">
-        &copy; 2024 Beavers Code
+        &copy; 2024 Beavers Code (ACM @ CCNY)
       </footer>
     </div>
   );

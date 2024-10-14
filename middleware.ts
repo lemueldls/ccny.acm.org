@@ -1,36 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
-import { signIn } from "next-auth/react";
+import { auth, requireAdmin } from "@/auth";
 
 export const config = {
   matcher: [
     /*
      * Match all paths except for:
-     * 1. /api routes
-     * 2. /_next (Next.js internals)
+     * 1. /api/ routes
+     * 2. /_next/ (Next.js internals)
      * 3. /_static (inside /public)
-     * 4. all root files inside /public (e.g. /favicon.ico)
+     * 4. /_vercel (Vercel internals)
+     * 5. /favicon.ico, /sitemap.xml (static files)
      */
-    "/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)",
+    "/((?!api/|_next/|_static/|gradients/|team/|_vercel|[\\w-]+\\.\\w+).*)",
+    // "/((?!api/|_next/|_static/|gradients|team|vendor|_icons|_vercel|[\\w-]+\\.\\w+).*)",
   ],
 };
 
-export default async function middleware(req: NextRequest) {
+const publicRootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN;
+
+export default async function middleware(req: NextRequest, res: NextResponse) {
   const url = req.nextUrl;
+
+  if (req.url.includes(".jpg")) console.log({ url });
 
   // Get hostname of request (e.g. demo.vercel.pub, demo.localhost:3000)
   let hostname = req.headers
-    .get("host")!
-    .replace(".localhost:3000", `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`);
+    .get("x-forwarded-host")!
+    // .get("host")!
+    .replace(".localhost:3000", `.${publicRootDomain}`);
 
   // special case for Vercel preview deployment URLs
   if (
     hostname.includes("---") &&
     hostname.endsWith(`.${process.env.NEXT_PUBLIC_VERCEL_DEPLOYMENT_SUFFIX}`)
   ) {
-    hostname = `${hostname.split("---")[0]}.${
-      process.env.NEXT_PUBLIC_ROOT_DOMAIN
-    }`;
+    hostname = `${hostname.split("---")[0]}.${publicRootDomain}`;
   }
 
   const searchParams = req.nextUrl.searchParams.toString();
@@ -40,8 +44,8 @@ export default async function middleware(req: NextRequest) {
   }`;
 
   // rewrites for app pages
-  if (hostname == `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
-    const session = await getToken({ req });
+  if (hostname == `app.${publicRootDomain}`) {
+    const session = await auth();
 
     if (!session && path !== "/login") {
       return NextResponse.redirect(new URL("/login", req.url));
@@ -49,8 +53,16 @@ export default async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/", req.url));
     }
 
+    if (path.startsWith("/admin")) await requireAdmin();
+
     return NextResponse.rewrite(
       new URL(`/app${path === "/" ? "" : path}`, req.url),
+    );
+  }
+
+  if (hostname == `admin.${publicRootDomain}`) {
+    return NextResponse.redirect(
+      new URL("/admin", process.env.NEXT_PUBLIC_APP_URL),
     );
   }
 
@@ -63,7 +75,4 @@ export default async function middleware(req: NextRequest) {
       new URL(`/home${path === "/" ? "" : path}`, req.url),
     );
   }
-
-  // rewrite everything else to `/[domain]/[slug] dynamic route
-  return NextResponse.rewrite(new URL(`/${hostname}${path}`, req.url));
 }

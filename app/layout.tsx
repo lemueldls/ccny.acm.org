@@ -5,10 +5,13 @@ import { Providers } from "./providers";
 import { Metadata, Viewport } from "next";
 import { cn } from "@/lib/utils";
 
+import { Image } from "@nextui-org/react";
+
 import { Lato } from "next/font/google";
 
 const title = "Beavers Code (ACM @ CCNY)";
-const description = "Beavers Code";
+const description =
+  "In collaboration with ACM and GDSC, we are proud to present Beavers Code, a student-led computer science club at the City College of New York.";
 const image = "/icon.png";
 
 const lato = Lato({
@@ -21,7 +24,24 @@ const lato = Lato({
 export const metadata: Metadata = {
   title,
   description,
-  icons: ["/favicon.ico"],
+  icons: {
+    icon: [
+      {
+        url: "/favicon.ico",
+        href: "/favicon.ico",
+      },
+      {
+        media: "(prefers-color-scheme: light)",
+        url: "/icon-on-light.png",
+        href: "/icon-on-light.png",
+      },
+      {
+        media: "(prefers-color-scheme: dark)",
+        url: "/icon-on-dark.png",
+        href: "/icon-on-dark.png",
+      },
+    ],
+  },
   openGraph: {
     title,
     description,
@@ -34,7 +54,7 @@ export const metadata: Metadata = {
   //   images: [image],
   //   creator: "@vercel",
   // },
-  // metadataBase: new URL("https://beaverscode.vercel.app/"),
+  // metadataBase: new URL(process.env.NEXT_PUBLIC_ROOT_URL),
 };
 
 // export const viewport: Viewport = {
@@ -55,31 +75,8 @@ export default function RootLayout({
       <body className={cn(cal.variable, inter.variable)}>
         <Providers>
           <main
-            className={`bg-background text-foreground ccny ${lato.className}`}
+            className={`min-h-screen bg-background text-foreground ${lato.className}`}
           >
-            <div
-              aria-hidden="true"
-              className="pointer-events-none fixed -bottom-[40%] -left-[20%] hidden select-none dark:opacity-70 dark:md:block"
-            >
-              <img
-                src="https://nextui.org/gradients/docs-left.png"
-                className="relative z-10 rounded-large opacity-0 shadow-none shadow-black/5 !duration-300 transition-transform-opacity data-[loaded=true]:opacity-100 motion-reduce:transition-none"
-                alt="docs left background"
-                data-loaded="true"
-              />
-            </div>
-            <div
-              aria-hidden="true"
-              className="pointer-events-none fixed -right-[60%] -top-[80%] hidden rotate-12 select-none dark:opacity-70 dark:md:block 2xl:-right-[45%] 2xl:-top-[60%]"
-            >
-              <img
-                src="https://nextui.org/gradients/docs-right.png"
-                className="relative z-10 rounded-large opacity-0 shadow-none shadow-black/5 !duration-300 transition-transform-opacity data-[loaded=true]:opacity-100 motion-reduce:transition-none"
-                alt="docs right background"
-                data-loaded="true"
-              />
-            </div>
-
             {children}
           </main>
           <Analytics />

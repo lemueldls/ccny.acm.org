@@ -1,249 +1,241 @@
 "use client";
 
-import Link from "next/link";
-import {
-  ArrowLeft,
-  BarChart3,
-  Edit3,
-  Globe,
-  Layout,
-  LayoutDashboard,
-  Megaphone,
-  Menu,
-  Newspaper,
-  Settings,
-  FileCode,
-  Github,
-} from "lucide-react";
-import {
-  useParams,
-  usePathname,
-  useSelectedLayoutSegments,
-} from "next/navigation";
-import { ReactNode, useEffect, useMemo, useState } from "react";
-import { getSiteFromPostId } from "@/lib/actions";
-import Image from "next/image";
+import { useState, type ReactNode } from "react";
 
-const externalLinks = [
-  {
-    name: "Read announcement",
-    href: "https://vercel.com/blog/platforms-starter-kit",
-    icon: <Megaphone width={18} />,
-  },
-  {
-    name: "Star on GitHub",
-    href: "https://github.com/vercel/platforms",
-    icon: <Github width={18} />,
-  },
-  {
-    name: "Read the guide",
-    href: "https://vercel.com/guides/nextjs-multi-tenant-application",
-    icon: <FileCode width={18} />,
-  },
-  {
-    name: "View demo site",
-    href: "https://demo.vercel.pub",
-    icon: <Layout width={18} />,
-  },
-  {
-    name: "Deploy your own",
-    href: "https://vercel.com/templates/next.js/platforms-starter-kit",
-    icon: (
-      <svg
-        width={18}
-        viewBox="0 0 76 76"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="py-1 text-black dark:text-white"
-      >
-        <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="currentColor" />
-      </svg>
-    ),
-  },
-];
+import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
+import {
+  Button,
+  Link,
+  Image,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  Breadcrumbs,
+  BreadcrumbItem,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  User,
+  NavbarMenuToggle,
+  Avatar,
+} from "@nextui-org/react";
+import { SimpleIconsDiscord } from "./icons/discord";
+import { SimpleIconsInstagram } from "./icons/instagram";
+import { SimpleIconsLinkedin } from "./icons/linkedin";
+import {
+  ArrowLeftEndOnRectangleIcon,
+  ArrowLeftStartOnRectangleIcon,
+  EnvelopeIcon as EnvelopeIcon20,
+  MoonIcon,
+  SunIcon,
+} from "@heroicons/react/20/solid";
+import NextImage from "next/image";
+
+import { useSession, signOut } from "next-auth/react";
 
 export default function Nav({ children }: { children: ReactNode }) {
-  const segments = useSelectedLayoutSegments();
-  const { id } = useParams() as { id?: string };
+  const { data: session, status } = useSession();
 
-  const [siteId, setSiteId] = useState<string | null>();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    if (segments[0] === "post" && id) {
-      getSiteFromPostId(id).then((id) => {
-        setSiteId(id);
-      });
-    }
-  }, [segments, id]);
+  // const segments = useSelectedLayoutSegments();
+  // const { id } = useParams() as { id?: string };
 
-  const tabs = useMemo(() => {
-    if (segments[0] === "site" && id) {
-      return [
-        {
-          name: "Back to All Sites",
-          href: "/sites",
-          icon: <ArrowLeft width={18} />,
-        },
-        {
-          name: "Posts",
-          href: `/site/${id}`,
-          isActive: segments.length === 2,
-          icon: <Newspaper width={18} />,
-        },
-        {
-          name: "Analytics",
-          href: `/site/${id}/analytics`,
-          isActive: segments.includes("analytics"),
-          icon: <BarChart3 width={18} />,
-        },
-        {
-          name: "Settings",
-          href: `/site/${id}/settings`,
-          isActive: segments.includes("settings"),
-          icon: <Settings width={18} />,
-        },
-      ];
-    } else if (segments[0] === "post" && id) {
-      return [
-        {
-          name: "Back to All Posts",
-          href: siteId ? `/site/${siteId}` : "/sites",
-          icon: <ArrowLeft width={18} />,
-        },
-        {
-          name: "Editor",
-          href: `/post/${id}`,
-          isActive: segments.length === 2,
-          icon: <Edit3 width={18} />,
-        },
-        {
-          name: "Settings",
-          href: `/post/${id}/settings`,
-          isActive: segments.includes("settings"),
-          icon: <Settings width={18} />,
-        },
-      ];
-    }
-    return [
-      {
-        name: "Overview",
-        href: "/",
-        isActive: segments.length === 0,
-        icon: <LayoutDashboard width={18} />,
-      },
-      {
-        name: "Sites",
-        href: "/sites",
-        isActive: segments[0] === "sites",
-        icon: <Globe width={18} />,
-      },
-      {
-        name: "Settings",
-        href: "/settings",
-        isActive: segments[0] === "settings",
-        icon: <Settings width={18} />,
-      },
-    ];
-  }, [segments, id, siteId]);
+  // const [siteId, setSiteId] = useState<string | null>();
+  // const [showSidebar, setShowSidebar] = useState(false);
 
-  const [showSidebar, setShowSidebar] = useState(false);
-
+  const { theme, setTheme } = useTheme();
   const pathname = usePathname();
 
-  useEffect(() => {
-    // hide sidebar on path change
-    setShowSidebar(false);
-  }, [pathname]);
+  if (status === "loading") return null;
+  const user = session?.user;
+  if (!user) return null;
 
   return (
     <>
-      <button
-        className={`fixed z-20 ${
-          // left align for Editor, right align for other pages
-          segments[0] === "post" && segments.length === 2 && !showSidebar
-            ? "left-5 top-5"
-            : "right-5 top-7"
-        } sm:hidden`}
-        onClick={() => setShowSidebar(!showSidebar)}
-      >
-        <Menu width={20} />
-      </button>
-      <div
-        className={`transform ${
-          showSidebar ? "w-full translate-x-0" : "-translate-x-full"
-        } fixed z-10 flex h-full flex-col justify-between border-r border-stone-200 bg-stone-100 p-4 transition-all sm:w-60 sm:translate-x-0 dark:border-stone-700 dark:bg-stone-900`}
-      >
-        <div className="grid gap-2">
-          {/* <div className="flex items-center space-x-2 rounded-lg px-2 py-1.5">
-            <a
-              href="https://vercel.com/templates/next.js/platforms-starter-kit"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg p-1.5 hover:bg-stone-200 dark:hover:bg-stone-700"
-            >
-              <svg
-                width="26"
-                viewBox="0 0 76 65"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-black dark:text-white"
-              >
-                <path
-                  d="M37.5274 0L75.0548 65H0L37.5274 0Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </a>
-            <div className="h-6 rotate-[30deg] border-l border-stone-400 dark:border-stone-500" />
-            <Link
-              href="/"
-              className="rounded-lg p-2 hover:bg-stone-200 dark:hover:bg-stone-700"
-            >
+      <Navbar className="texture" onMenuOpenChange={setIsMenuOpen}>
+        <NavbarContent justify="start">
+          <NavbarMenuToggle
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            className="sm:hidden"
+          />
+
+          <NavbarBrand className="flex items-center">
+            <Link href={process.env.NEXT_PUBLIC_ROOT_URL}>
               <Image
-                src="/logo.png"
-                width={24}
-                height={24}
+                as={NextImage}
+                src={`/logo-on-${theme || "dark"}.png`}
+                width={44}
+                height={44}
                 alt="Logo"
-                className="dark:scale-110 dark:rounded-full dark:border dark:border-stone-400"
               />
             </Link>
-          </div> */}
-          <div className="grid gap-1">
-            {tabs.map(({ name, href, isActive, icon }) => (
-              <Link
-                key={name}
-                href={href}
-                className={`flex items-center space-x-3 ${
-                  isActive ? "bg-stone-200 text-black dark:bg-stone-700" : ""
-                } rounded-lg px-2 py-1.5 transition-all duration-150 ease-in-out hover:bg-stone-200 active:bg-stone-300 dark:text-white dark:hover:bg-stone-700 dark:active:bg-stone-800`}
-              >
-                {icon}
-                <span className="text-sm font-medium">{name}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-        <div>
-          {/* <div className="grid gap-1">
-            {externalLinks.map(({ name, href, icon }) => (
-              <a
-                key={name}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between rounded-lg px-2 py-1.5 transition-all duration-150 ease-in-out hover:bg-stone-200 active:bg-stone-300 dark:text-white dark:hover:bg-stone-700 dark:active:bg-stone-800"
-              >
-                <div className="flex items-center space-x-3">
-                  {icon}
-                  <span className="text-sm font-medium">{name}</span>
+
+            {/* <div className="mx-4 h-11 rotate-[30deg] border-l border-foreground-400" /> */}
+            <span className="px-2 text-medium text-foreground/50">/</span>
+
+            <Link href="/">
+              <h1 className="font-mono text-2xl font-bold text-foreground shadow-primary text-shadow">
+                [workshop]
+              </h1>
+            </Link>
+
+            <Breadcrumbs
+              size="lg"
+              separator="/"
+              itemClasses={{ separator: "px-2" }}
+              maxItems={3}
+              itemsBeforeCollapse={3}
+              itemsAfterCollapse={0}
+              className="hidden sm:block"
+              renderEllipsis={({ items, ellipsisIcon, separator }) => (
+                <div className="flex items-center">
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        isIconOnly
+                        className="h-6 w-6 min-w-6"
+                        size="sm"
+                        variant="flat"
+                      >
+                        {ellipsisIcon}
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Routes">
+                      {items.map((item, index) => (
+                        <DropdownItem key={index} href={item.href}>
+                          {item.children}
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  </Dropdown>
+                  {separator}
                 </div>
-                <p>↗</p>
-              </a>
-            ))}
-          </div> */}
-          <div className="my-2 border-t border-stone-200 dark:border-stone-700" />
-          {children}
-        </div>
+              )}
+            >
+              {pathname.split("/").map((segment, index) => (
+                <BreadcrumbItem
+                  key={index}
+                  href={`/${pathname
+                    .split("/")
+                    .slice(1, index + 1)
+                    .join("/")}`}
+                >
+                  {segment}
+                </BreadcrumbItem>
+              ))}
+            </Breadcrumbs>
+          </NavbarBrand>
+        </NavbarContent>
+        {/* <NavbarContent className="flex gap-8" justify="center">
+          <NavbarItem>
+            <Link color="foreground" href="#team">
+              Team
+            </Link>
+          </NavbarItem>
+
+          <NavbarItem>
+            <Link color="foreground" href="#events">
+              Events
+            </Link>
+          </NavbarItem>
+        </NavbarContent> */}
+        <NavbarContent className="hidden sm:flex" justify="end">
+          <NavbarItem>
+            <Dropdown placement="bottom-end">
+              <DropdownTrigger>
+                {/* <User
+                  as={Button}
+                  isFocusable
+                  size="sm"
+                  variant="light"
+                  avatarProps={
+                    user.image
+                      ? {
+                          isBordered: true,
+                          src: user.image,
+                        }
+                      : undefined
+                  }
+                  className="h-auto justify-start p-2 transition-transform"
+                  description={user.email}
+                  name={user.name}
+                /> */}
+                <Avatar
+                  as="button"
+                  isBordered
+                  size="sm"
+                  src={user.image || undefined}
+                  className="transition-transform"
+                  name={user.name}
+                />
+              </DropdownTrigger>
+              <DropdownMenu aria-label="User Actions" variant="flat">
+                {/* <DropdownItem key="profile" className="h-14 gap-2">
+                  <p className="font-semibold">Signed in as</p>
+                  <p className="font-semibold">{user.email}</p>
+                </DropdownItem> */}
+                <DropdownItem
+                  key="logout"
+                  color="danger"
+                  startContent={
+                    <ArrowLeftStartOnRectangleIcon className="h-5 w-5" />
+                  }
+                  onClick={() => signOut()}
+                >
+                  Log Out
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </NavbarItem>
+        </NavbarContent>
+      </Navbar>
+
+      <div className="flex h-[calc(100%-4rem)]">
+        {/* <div className="diagonal-lines flex h-full w-[20rem] flex-col gap-4 bg-default bg-opacity-20 p-4 backdrop-blur">
+          <div className="flex flex-1 flex-col gap-4">lmfao</div>
+
+          <div className="flex flex-col gap-4">
+            <Dropdown placement="top-start">
+              <DropdownTrigger>
+                <User
+                  as={Button}
+                  isFocusable
+                  size="lg"
+                  variant="light"
+                  avatarProps={
+                    user.image
+                      ? {
+                          isBordered: true,
+                          src: user.image,
+                        }
+                      : undefined
+                  }
+                  className="h-auto justify-start p-2 transition-transform"
+                  description={user.email}
+                  name={user.name}
+                />
+              </DropdownTrigger>
+              <DropdownMenu aria-label="User Actions" variant="flat">
+                <DropdownItem
+                  key="logout"
+                  color="danger"
+                  startContent={
+                    <ArrowLeftStartOnRectangleIcon className="h-5 w-5" />
+                  }
+                  onClick={() => signOut()}
+                >
+                  Log Out
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+        </div> */}
+
+        {children}
       </div>
     </>
   );

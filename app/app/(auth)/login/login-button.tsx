@@ -1,17 +1,22 @@
 "use client";
 
 import LoadingDots from "@/components/icons/loading-dots";
+import { Button, ButtonProps } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 
-interface LoginButtonProps {
+interface LoginButtonProps extends ButtonProps {
   provider: string;
-  children: React.ReactNode;
+  startContent?: React.ReactNode;
+  variant?: ButtonProps["variant"];
+  children?: React.ReactNode;
 }
 
-export default function LoginButton({ provider, children }: LoginButtonProps) {
+export default function LoginButton(props: LoginButtonProps) {
+  const { provider, startContent, variant, children } = props;
+
   const [loading, setLoading] = useState(false);
 
   // Get error message added by next/auth in URL.
@@ -24,27 +29,19 @@ export default function LoginButton({ provider, children }: LoginButtonProps) {
   }, [error]);
 
   return (
-    <button
-      disabled={loading}
+    <Button
+      size="lg"
+      variant={variant}
+      isLoading={loading}
       onClick={() => {
         setLoading(true);
         signIn(provider);
       }}
-      className={`${
-        loading
-          ? "cursor-not-allowed bg-stone-50 dark:bg-stone-800"
-          : "bg-white hover:bg-stone-50 active:bg-stone-100 dark:bg-black dark:hover:border-white dark:hover:bg-black"
-      } group my-2 flex h-10 w-full items-center justify-center space-x-2 rounded-md border border-stone-200 transition-colors duration-75 focus:outline-none dark:border-stone-700`}
+      startContent={!loading && startContent}
+      spinner={<LoadingDots color="#A8A29E" />}
+      {...props}
     >
-      {loading ? (
-        <LoadingDots color="#A8A29E" />
-      ) : (
-        <>
-          <p className="text-sm font-medium text-stone-600 dark:text-stone-400">
-            {children}
-          </p>
-        </>
-      )}
-    </button>
+      {children}
+    </Button>
   );
 }

@@ -1,24 +1,29 @@
 import { Liveblocks } from "@liveblocks/node";
-import { getSession } from "@/lib/auth";
-import { getServerSession } from "next-auth";
-
-const secret = process.env.LIVEBLOCKS_SECRET_API_KEY;
-if (!secret) throw new Error("liveblock secret key not found");
-
-const liveblocks = new Liveblocks({ secret });
+import { requireUser } from "@/auth";
+import { NextResponse } from "next/server";
+import { liveblocks } from "@/lib/liveblocks";
 
 export async function POST(request: Request) {
-  // const {room} = await request.json();
+  const user = await requireUser();
 
-  const { user } = await getSession();
+  const groupIds = [];
 
-  // // Identify the user and return the result
+  if (user.isAdmin) {
+    groupIds.push("admin");
+  }
+
   const { status, body } = await liveblocks.identifyUser(
     {
       userId: user.id,
-      groupIds: [], // Optional
+      groupIds,
     },
-    // { userInfo: user.metadata },
+    {
+      userInfo: {
+        id: user.id,
+        name: user.name,
+        image: user.image || undefined,
+      },
+    },
   );
 
   return new Response(body, { status });

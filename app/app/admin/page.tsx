@@ -1,20 +1,14 @@
-import { liveblocks } from "@/lib/liveblocks";
-import { RoomCard } from "./room-card";
+// "use client";
 
-export default async function AdminPage() {
-  const { data: rooms, nextPage, nextCursor } = await liveblocks.getRooms();
+import AdminUsersPage from "./users/page";
+import AdminEventsPage from "./events/page";
 
+export default function AdminHomePage() {
   return (
-    <div className="flex max-w-screen-xl flex-col space-y-12 p-8 font-cal text-3xl font-bold dark:text-white">
-      <h1>Admin</h1>
-      <h2>Active rooms</h2>
-      <div>
-        {rooms.map((room) => (
-          <RoomCard key={room.id} room={room} />
-        ))}
-      </div>
-      Next cursor: {nextCursor}
-      Next page: {nextPage}
+    <div className="masonry sm:masonry-sm md:masonry-md">
+      {/* <AdminUsersPage /> */}
+      {/* <AdminEventsPage /> */}
+      go away
     </div>
   );
 }
