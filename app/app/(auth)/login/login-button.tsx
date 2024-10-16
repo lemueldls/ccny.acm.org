@@ -1,8 +1,8 @@
 "use client";
 
+import { useAuthActions } from "@convex-dev/auth/react";
 import LoadingDots from "@/components/icons/loading-dots";
 import { Button, ButtonProps } from "@nextui-org/react";
-import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -18,6 +18,8 @@ export default function LoginButton(props: LoginButtonProps) {
   const { provider, startContent, variant, children } = props;
 
   const [loading, setLoading] = useState(false);
+
+  const { signIn } = useAuthActions();
 
   // Get error message added by next/auth in URL.
   const searchParams = useSearchParams();

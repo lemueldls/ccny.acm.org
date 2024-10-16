@@ -33,11 +33,12 @@ import {
   SunIcon,
 } from "@heroicons/react/20/solid";
 import NextImage from "next/image";
-
-import { useSession, signOut } from "next-auth/react";
+import { useAuthActions } from "@convex-dev/auth/react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export default function Nav({ children }: { children: ReactNode }) {
-  const { data: session, status } = useSession();
+  const { signOut, signIn } = useAuthActions();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -50,8 +51,8 @@ export default function Nav({ children }: { children: ReactNode }) {
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
 
-  if (status === "loading") return null;
-  const user = session?.user;
+  const user = useQuery(api.users.currentUser);
+
   if (!user) return null;
 
   return (
@@ -178,16 +179,26 @@ export default function Nav({ children }: { children: ReactNode }) {
                   <p className="font-semibold">Signed in as</p>
                   <p className="font-semibold">{user.email}</p>
                 </DropdownItem> */}
-                <DropdownItem
-                  key="logout"
-                  color="danger"
-                  startContent={
-                    <ArrowLeftStartOnRectangleIcon className="h-5 w-5" />
-                  }
-                  onClick={() => signOut()}
-                >
-                  Log Out
-                </DropdownItem>
+                {user.isAnonymous ? (
+                  <DropdownItem
+                    key="link-discord"
+                    startContent={<SimpleIconsDiscord className="h-5 w-5" />}
+                    onClick={() => signIn("discord")}
+                  >
+                    Link Discord
+                  </DropdownItem>
+                ) : (
+                  <DropdownItem
+                    key="logout"
+                    color="danger"
+                    startContent={
+                      <ArrowLeftStartOnRectangleIcon className="h-5 w-5" />
+                    }
+                    onClick={() => signOut()}
+                  >
+                    Log Out
+                  </DropdownItem>
+                )}
               </DropdownMenu>
             </Dropdown>
           </NavbarItem>

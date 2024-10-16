@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import LoginButton from "./login-button";
 import { Suspense } from "react";
@@ -9,6 +11,7 @@ import {
   CardHeader,
   Divider,
 } from "@nextui-org/react";
+import { SimpleIconsGithub } from "@/components/icons/github";
 
 export default function LoginPage() {
   return (
@@ -19,6 +22,14 @@ export default function LoginPage() {
         </h1>
       </CardHeader>
       <CardBody className="gap-4">
+        {/* <LoginButton
+          // className="hover:text-[#5865F2]"
+          provider="github"
+          variant="faded"
+          startContent={<SimpleIconsGithub className="h-5 w-5" />}
+        >
+          Login with GitHub
+        </LoginButton> */}
         <LoginButton
           className="hover:text-[#5865F2]"
           provider="discord"

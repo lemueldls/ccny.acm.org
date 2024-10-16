@@ -11,10 +11,7 @@ import {
 } from "@liveblocks/react/suspense";
 
 import { QuicktimePrompt, workshops } from "@/lib/workshops";
-import {
-  CodeFile,
-  CollaborativeEditor,
-} from "@/components/collaborative-editor/editor";
+import { CollaborativeEditor } from "@/components/collaborative-editor/editor";
 import {
   Avatar,
   AvatarGroup,
@@ -38,8 +35,8 @@ export default function Quicktime(props: QuicktimeProps) {
 
   let i = 0;
 
-  const users = useOthers();
-  const currentUser = useSelf();
+  // const users = useOthers();
+  // const currentUser = useSelf();
 
   useEffect(() => {
     const timerId = setInterval(() => {
@@ -96,7 +93,7 @@ export default function Quicktime(props: QuicktimeProps) {
         </Button>
       </div>
 
-      <AvatarGroup className="self-end" isBordered max={12}>
+      {/* <AvatarGroup className="self-end" isBordered max={12}>
         {users.map(({ connectionId, info }) => (
           <Avatar
             key={connectionId}
@@ -114,7 +111,7 @@ export default function Quicktime(props: QuicktimeProps) {
             size="sm"
           />
         )}
-      </AvatarGroup>
+      </AvatarGroup> */}
     </div>
   );
 }

@@ -19,7 +19,7 @@ export default function MarkdownRenderer(props: MarkdownRendererProps) {
         p: (props) => <p className="text-[1em]" {...props} />,
         code: (props) => (
           <code
-            className="rounded bg-default/25 px-1 pb-0.5 pt-1 font-mono"
+            className="rounded bg-default/25 px-1 pb-0.5 pt-1 font-mono text-[0.9em] font-semibold"
             {...props}
           />
         ),

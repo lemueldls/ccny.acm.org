@@ -14,8 +14,8 @@ import { useGlitch } from "react-powerglitch";
 
 import { VisSingleContainer, VisGraph } from "@unovis/react";
 import {
-  CodeFile,
   CollaborativeEditor,
+  Language,
   RoomType,
 } from "@/components/collaborative-editor/editor";
 import Markdown from "react-markdown";
@@ -24,17 +24,25 @@ import {
   CircularProgress,
   Divider,
   Input,
+  Link,
   ScrollShadow,
   Snippet,
 } from "@nextui-org/react";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { User } from "@/auth";
 import { GraphData } from "@unovis/ts/data-models/graph";
-import { ArrowPathIcon } from "@heroicons/react/16/solid";
+import {
+  ArrowPathIcon,
+  ArrowTopRightOnSquareIcon,
+} from "@heroicons/react/16/solid";
 
 import { prompts, workshops } from "@/lib/workshops";
 import Quicktime from "./quicktime";
 import MarkdownRenderer from "@/components/markdown-renderer";
+import { ConvexClientProvider } from "@/components/convex-client-provider";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Doc } from "@/convex/_generated/dataModel";
 
 export interface WorkshopPageProps {
   params: { slug: string };
@@ -105,36 +113,37 @@ For example, the following code defines a heading with the text "Hello, World!":
 \`\`\`
 `;
 
+let debounceTimeout: ReturnType<typeof setTimeout>;
+
+const debounce = (callback: () => void, delay: number) => {
+  clearTimeout(debounceTimeout);
+  debounceTimeout = setTimeout(callback, delay);
+};
+
 export default function WorkshopPage({ params }: WorkshopPageProps) {
   const id = decodeURIComponent(params.slug);
   const workshop = workshops.find((workshop) => workshop.id === id);
 
   const iframe = useRef<HTMLIFrameElement>(null);
 
-  const [user, setUser] = useState<User>();
-  const [roomType, setRoomType] = useState<RoomType>("personal");
+  const user = useQuery(api.users.currentUser);
 
-  const [html, setHtml] = useState("");
-  const [css, setCss] = useState("");
-  const [js, setJs] = useState("");
+  const createOrGetWebsite = useMutation(api.websites.createOrGetWebsite);
+  const updateWebsite = useMutation(api.websites.update);
 
-  const [personalRoomId, setPersonalRoomId] = useState<string>();
+  const [initial, setInitial] = useState(true);
+
+  const [website, setWebsite] = useState<Doc<"websites">>();
 
   useEffect(() => {
-    if (workshop)
-      fetch(`/api/workshops/personal`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug: workshop.id }),
-      })
-        .then((res) => res.json())
-        .then(({ id }) => setPersonalRoomId(id));
-  }, [workshop]);
+    if (!initial || !user) return;
 
-  const { data: session, status } = useSession();
-  useEffect(() => {
-    setUser(session?.user);
-  }, [session]);
+    createOrGetWebsite({ userId: user._id }).then((website) =>
+      setWebsite(website),
+    );
+
+    setInitial(false);
+  }, [createOrGetWebsite, initial, user]);
 
   const [graph, setGraph] = useState<GraphData<NodeDatum, LinkDatum>>();
 
@@ -144,7 +153,7 @@ export default function WorkshopPage({ params }: WorkshopPageProps) {
 
   useEffect(() => {
     const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
+    const doc = parser.parseFromString(website?.html || "", "text/html");
 
     function buildTree(node: Element): TreeNode {
       const children = Array.from(node.children).map(buildTree);
@@ -181,50 +190,54 @@ export default function WorkshopPage({ params }: WorkshopPageProps) {
       if (!doc) return;
 
       doc.open();
-      doc.write(html);
+      doc.write(website?.html || "");
       doc.close();
 
-      const style = doc.createElement("style");
-      style.innerHTML = css;
-      doc.head.appendChild(style);
+      if (website?.css) {
+        const style = doc.createElement("style");
+        style.innerHTML = website.css;
+        doc.head.appendChild(style);
+      }
 
-      const script = doc.createElement("script");
-      script.type = "module";
-      // script.async = true;
-      // script.defer = true;
-      script.innerHTML = js;
-      doc.head.appendChild(script);
+      if (website?.javascript) {
+        const script = doc.createElement("script");
+        script.type = "module";
+        script.innerHTML = website.javascript;
+        doc.head.appendChild(script);
+      }
     }
-  }, [html, css, js]);
+  }, [website]);
 
   // if (status === "loading") return null;
   // const user = session?.user;
   // if (!user) return null;
 
-  function handleOnChange(file: CodeFile) {
-    // console.log({ file });
-    if (file.language === "html") {
-      setHtml(file.value);
-    } else if (file.language === "css") {
-      setCss(file.value);
-    } else if (file.language === "javascript") {
-      setJs(file.value);
-    }
+  async function handleOnChange(file: { language: Language; value: string }) {
+    if (!website) throw new Error("Website not found");
+
+    setWebsite({ ...website, [file.language]: file.value });
+
+    debounce(() => {
+      void updateWebsite({
+        id: website._id,
+        [file.language]: file.value,
+      });
+    }, 1000);
   }
 
-  const roomTypeToId = useCallback(
-    (roomType: RoomType) => {
-      if (!workshop) throw new Error("Workshop not found");
-      if (!user) throw new Error("User not found");
+  // const roomTypeToId = useCallback(
+  //   (roomType: RoomType) => {
+  //     if (!workshop) throw new Error("Workshop not found");
+  //     if (!user) throw new Error("User not found");
 
-      if (roomType === "host") {
-        return `workshop:${workshop.id}:host`;
-      } else {
-        return `workshop:${workshop.id}:personal:${user.id}`;
-      }
-    },
-    [workshop, user],
-  );
+  //     if (roomType === "host") {
+  //       return `workshop:${workshop.id}:host`;
+  //     } else {
+  //       return `workshop:${workshop.id}:personal:${user._id}`;
+  //     }
+  //   },
+  //   [workshop, user],
+  // );
 
   function reloadIframe() {
     if (iframe.current) {
@@ -232,19 +245,15 @@ export default function WorkshopPage({ params }: WorkshopPageProps) {
 
       if (doc) {
         doc.open();
-        doc.write(html);
+        doc.write(doc.documentElement.outerHTML);
         doc.close();
       }
     }
   }
 
-  if (!workshop) {
-    return <div>Workshop not found</div>;
-  }
+  if (!workshop) return <div>Workshop not found</div>;
 
-  if (!user) {
-    return <div>User not found</div>;
-  }
+  if (!user) return <div>User not found</div>;
 
   return (
     <div className="flex h-full w-full gap-4">
@@ -254,30 +263,29 @@ export default function WorkshopPage({ params }: WorkshopPageProps) {
         </ScrollShadow>
 
         <div className="formal-invitation h-[20rem] bg-default/25 p-4">
-          <LiveblocksProvider authEndpoint="/api/liveblocks-auth">
+          {/* <LiveblocksProvider authEndpoint="/api/liveblocks-auth">
             <RoomProvider id={`workshop:${workshop.id}:quicktime`}>
-              <ClientSideSuspense fallback={<div>Loading…</div>}>
-                <Quicktime prompt={prompts[0]} onEnd={console.log} />
-              </ClientSideSuspense>
+              <ClientSideSuspense fallback={<div>Loading…</div>}> */}
+          <Quicktime prompt={prompts[0]} onEnd={console.log} />
+          {/* </ClientSideSuspense>
             </RoomProvider>
-          </LiveblocksProvider>
+          </LiveblocksProvider> */}
         </div>
       </div>
 
       <div className="flex flex-1 gap-4">
         <div className="flex-1">
-          <LiveblocksProvider authEndpoint="/api/liveblocks-auth">
+          {/* <LiveblocksProvider authEndpoint="/api/liveblocks-auth">
             <RoomProvider id={roomTypeToId(roomType)}>
-              <ClientSideSuspense fallback={<div>Loading…</div>}>
-                <CollaborativeEditor
-                  workshop={workshop}
-                  roomType={roomType}
-                  onRoomChange={setRoomType}
-                  onFileChange={handleOnChange}
-                />
-              </ClientSideSuspense>
+              <ClientSideSuspense fallback={<div>Loading…</div>}> */}
+          <CollaborativeEditor
+            workshop={workshop}
+            website={website}
+            onFileChange={handleOnChange}
+          />
+          {/* </ClientSideSuspense>
             </RoomProvider>
-          </LiveblocksProvider>
+          </LiveblocksProvider> */}
         </div>
 
         <div className="m-4 flex flex-1 flex-col gap-4">
@@ -309,6 +317,15 @@ export default function WorkshopPage({ params }: WorkshopPageProps) {
                     </span>
                   </div>
                 }
+              />
+
+              <Button
+                as={Link}
+                isDisabled
+                size="sm"
+                variant="light"
+                startContent={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}
+                isIconOnly
               />
             </div>
 

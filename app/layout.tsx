@@ -3,9 +3,10 @@ import { cal, inter } from "@/styles/fonts";
 import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "./providers";
 import { Metadata, Viewport } from "next";
-import { cn } from "@/lib/utils";
 
-import { Image } from "@nextui-org/react";
+import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
+
+import { Image, cn } from "@nextui-org/react";
 
 import { Lato } from "next/font/google";
 
@@ -71,17 +72,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={cn(cal.variable, inter.variable)}>
-        <Providers>
-          <main
-            className={`min-h-screen bg-background text-foreground ${lato.className}`}
-          >
-            {children}
-          </main>
-          <Analytics />
-        </Providers>
-      </body>
-    </html>
+    <ConvexAuthNextjsServerProvider verbose>
+      <html lang="en" suppressHydrationWarning>
+        <body className={cn(cal.variable, inter.variable)}>
+          <Providers>
+            <main
+              className={`min-h-screen bg-background text-foreground ${lato.className}`}
+            >
+              {children}
+            </main>
+            <Analytics />
+          </Providers>
+        </body>
+      </html>
+    </ConvexAuthNextjsServerProvider>
   );
 }

@@ -2,7 +2,7 @@
 
 import LoadingDots from "@/components/icons/loading-dots";
 import { cn } from "@/lib/utils";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import { toast } from "sonner";
@@ -33,7 +33,7 @@ export default function Form({
 }) {
   const { id } = useParams() as { id?: string };
   const router = useRouter();
-  const { update } = useSession();
+  // const { update } = useSession();
   return (
     <form
       action={async (data: FormData) => {
@@ -53,7 +53,7 @@ export default function Form({
             if (id) {
               router.refresh();
             } else {
-              await update();
+              // await update();
               router.refresh();
             }
             toast.success(`Successfully updated ${inputAttrs.name}!`);
@@ -125,7 +125,7 @@ export default function Form({
       {inputAttrs.name === "customDomain" && inputAttrs.defaultValue && (
         <DomainConfiguration domain={inputAttrs.defaultValue} />
       )}
-      <div className="flex flex-col items-center justify-center space-y-2 rounded-b-lg border-t border-stone-200 bg-stone-50 p-3 sm:flex-row sm:justify-between sm:space-y-0 sm:px-10 dark:border-stone-700 dark:bg-stone-800">
+      <div className="flex flex-col items-center justify-center space-y-2 rounded-b-lg border-t border-stone-200 bg-stone-50 p-3 dark:border-stone-700 dark:bg-stone-800 sm:flex-row sm:justify-between sm:space-y-0 sm:px-10">
         <p className="text-sm text-stone-500 dark:text-stone-400">{helpText}</p>
         <FormButton />
       </div>

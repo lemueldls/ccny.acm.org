@@ -24,7 +24,6 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import EventCard, { EventCardSkeleton } from "@/components/event-card";
-import type { Event, SerializedEvent } from "@/lib/events";
 import { parseDateTime } from "@internationalized/date";
 import {
   CalendarDaysIcon,
@@ -34,6 +33,15 @@ import {
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid";
 
 import { toast } from "sonner";
+import {
+  DeserializedEvent,
+  SerializedEvent,
+  deserializeEvent,
+  serializeEvent,
+} from "@/lib/events";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 
 interface EditEventPageProps {
   params: { slug: string };
@@ -41,44 +49,40 @@ interface EditEventPageProps {
 
 export default function EditEventPage({ params }: EditEventPageProps) {
   const router = useRouter();
+  const id = decodeURIComponent(params.slug) as Id<"events">;
 
-  const id = decodeURIComponent(params.slug);
+  const rawEvent = useQuery(api.events.getById, { id });
+  const setRawEvent = useMutation(api.events.updateById);
+  const deleteEvent = useMutation(api.events.deleteById);
+
   const [event, setEvent] = useState<SerializedEvent>();
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
   useEffect(() => {
-    fetch(`/api/events/${id}`)
-      .then((res) => res.json())
-      .then(setEvent)
-      .catch((err) => toast.error(err.message));
-  }, [id]);
+    if (rawEvent) setEvent(serializeEvent(rawEvent));
+  }, [rawEvent]);
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   async function updateEvent<T extends keyof SerializedEvent>(
     key: T,
     value: SerializedEvent[T],
   ) {
-    setEvent({ ...event!, [key]: value || null });
+    setEvent({ ...event!, [key]: value });
   }
 
   async function saveEvent() {
-    await fetch(`/api/events/${event!.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(event!),
-    })
-      .then((res) => res.json())
-      .catch((err) => toast.error(err.message));
+    if (!event) throw new Error("Event not found");
+
+    const deserializedEvent = deserializeEvent(event);
+    await setRawEvent({ id, event: deserializedEvent });
 
     toast.success("Event saved!");
   }
 
-  async function deleteEvent() {
+  async function handleDeleteEvent() {
     onOpen();
 
-    await fetch(`/api/events/${event!.id}`, { method: "DELETE" }).then((res) =>
-      res.json(),
-    );
+    await deleteEvent({ id });
 
     toast.success("Event deleted!");
     router.push("/admin/events");
@@ -96,7 +100,7 @@ export default function EditEventPage({ params }: EditEventPageProps) {
                 isDisabled={!event}
                 value={event?.kind}
                 onValueChange={(value) =>
-                  updateEvent("kind", value as Event["kind"])
+                  updateEvent("kind", value as SerializedEvent["kind"])
                 }
               >
                 <Radio value="workshop" color="primary">
@@ -138,8 +142,8 @@ export default function EditEventPage({ params }: EditEventPageProps) {
                   label="Start"
                   labelPlacement="outside"
                   isDisabled={!event}
-                  value={event?.start ? parseDateTime(event.start) : null}
-                  onChange={(value) => updateEvent("start", value.toString())}
+                  value={event?.start}
+                  onChange={(value) => updateEvent("start", value)}
                   selectorIcon={
                     <>
                       <CalendarDaysIcon className="h-5 w-5" />
@@ -151,14 +155,8 @@ export default function EditEventPage({ params }: EditEventPageProps) {
                   label="End"
                   labelPlacement="outside"
                   isDisabled={!event}
-                  value={
-                    event?.end
-                      ? parseDateTime(event.end)
-                      : event?.start
-                        ? parseDateTime(event.start)
-                        : null
-                  }
-                  onChange={(value) => updateEvent("end", value.toString())}
+                  value={event?.end || event?.start}
+                  onChange={(value) => updateEvent("end", value)}
                   selectorIcon={
                     <>
                       <CalendarDaysIcon className="h-5 w-5" />
@@ -268,7 +266,7 @@ export default function EditEventPage({ params }: EditEventPageProps) {
                   variant="flat"
                   color="danger"
                   startContent={<TrashIcon className="h-5 w-5" />}
-                  onClick={deleteEvent}
+                  onClick={handleDeleteEvent}
                 >
                   Delete
                 </Button>

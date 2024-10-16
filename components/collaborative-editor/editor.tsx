@@ -22,37 +22,22 @@ import { SimpleIconsJavascript } from "../icons/javascript";
 import { Room } from "@liveblocks/client";
 import { QuicktimePrompt, Workshop } from "@/lib/workshops";
 
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+
 export type RoomType = "personal" | "host";
+export type Language = "html" | "css" | "javascript";
 
-export interface CodeFile {
-  name: string;
-  language: string;
-  value: string;
-}
-
-const files: { [key: string]: CodeFile } = {
-  "index.html": {
-    name: "index.html",
-    language: "html",
-    value: "",
-  },
-  "style.css": {
-    name: "style.css",
-    language: "css",
-    value: "",
-  },
-  "script.js": {
-    name: "script.js",
-    language: "javascript",
-    value: "",
-  },
+const files = {
+  html: "index.html",
+  css: "style.css",
+  javascript: "script.js",
 };
 
 export interface EditorProps {
   workshop: Workshop;
-  // roomType: RoomType;
-  // onRoomChange?: (roomType: RoomType) => void;
-  onFileChange?: (value: CodeFile) => void;
+  website: any;
+  onFileChange?: (value: { language: Language; value: string }) => void;
 }
 
 const yDoc = new Y.Doc();
@@ -70,7 +55,7 @@ export function CollaborativeEditor(props: EditorProps) {
   // const yDoc = useMemo(() => new Y.Doc(), []);
   // const [binding, setBinding] = useState<MonacoBinding>();
 
-  const [file, setFile] = useState(files["index.html"]);
+  const [language, setLanguage] = useState<Language>("html");
 
   const [quicktimePrompt, setQuicktimePrompt] = useState<QuicktimePrompt>();
   const [quicktimeAnswer, setQuicktimeAnswer] = useState<string>();
@@ -124,15 +109,11 @@ export function CollaborativeEditor(props: EditorProps) {
   }, []);
 
   function handleTabChange(key: string | number) {
-    setFile(files[key as string]);
+    setLanguage(key as Language);
   }
 
   function handleOnChange(value: string | undefined) {
-    props.onFileChange?.({
-      name: file.name,
-      language: file.language,
-      value: value || "",
-    });
+    props.onFileChange?.({ language, value: value || "" });
   }
 
   return (
@@ -144,33 +125,33 @@ export function CollaborativeEditor(props: EditorProps) {
         size="lg"
         variant="underlined"
         // disabledKeys={["style.css", "script.js"]}
-        selectedKey={file.name}
+        selectedKey={language}
         onSelectionChange={handleTabChange}
       >
         <Tab
-          key="index.html"
+          key="html"
           title={
             <div className="flex items-center space-x-2">
               <SimpleIconsHtml5 />
-              <span>index.html</span>
+              <span>{files["html"]}</span>
             </div>
           }
         />
         <Tab
-          key="style.css"
+          key="css"
           title={
             <div className="flex items-center space-x-2">
               <SimpleIconsCss3 />
-              <span>style.css</span>
+              <span>{files["css"]}</span>
             </div>
           }
         />
         <Tab
-          key="script.js"
+          key="javascript"
           title={
             <div className="flex items-center space-x-2">
               <SimpleIconsJavascript />
-              <span>script.js</span>
+              <span>{files["javascript"]}</span>
             </div>
           }
         />
@@ -183,13 +164,13 @@ export function CollaborativeEditor(props: EditorProps) {
           height="100%"
           width="100%"
           theme="vs-dark"
-          path={file.name}
-          language={file.language}
-          defaultValue={file.value}
+          path={files[language]}
+          language={language}
+          defaultValue={props.website?.[language]}
           options={{
             tabSize: 2,
             padding: { top: 20 },
-            // readOnly: !currentUser.canWrite,
+            readOnly: !props.website,
           }}
         />
       </div>

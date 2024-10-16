@@ -1,27 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth, requireAdmin } from "@/auth";
+import {
+  convexAuthNextjsMiddleware,
+  createRouteMatcher,
+  // nextjsMiddlewareRedirect,
+} from "@convex-dev/auth/nextjs/server";
+import { fetchQuery } from "convex/nextjs";
+import { api } from "./convex/_generated/api";
+import { convexAuth } from "@convex-dev/auth/server";
 
 export const config = {
   matcher: [
-    /*
-     * Match all paths except for:
-     * 1. /api/ routes
-     * 2. /_next/ (Next.js internals)
-     * 3. /_static (inside /public)
-     * 4. /_vercel (Vercel internals)
-     * 5. /favicon.ico, /sitemap.xml (static files)
-     */
-    "/((?!api/|_next/|_static/|gradients/|team/|_vercel|[\\w-]+\\.\\w+).*)",
-    // "/((?!api/|_next/|_static/|gradients|team|vendor|_icons|_vercel|[\\w-]+\\.\\w+).*)",
+    "/((?!api/|_next/|_static/|gradients|team|vendor|_icons|_vercel|[\\w-]+\\.\\w+).*)",
+    // "/((?!.*\\..*|_next).*)",
+    // "/",
+    // "/(api|trpc)(.*)",
+    "/api/auth(.*)",
   ],
 };
 
+const isApiRoute = createRouteMatcher(["/api/(.*)"]);
+const isLoginPage = createRouteMatcher(["/login"]);
+// const isProtectedRoute = createRouteMatcher(["/.*"]);
+
 const publicRootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN;
 
-export default async function middleware(req: NextRequest, res: NextResponse) {
+export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
   const url = req.nextUrl;
-
-  if (req.url.includes(".jpg")) console.log({ url });
 
   // Get hostname of request (e.g. demo.vercel.pub, demo.localhost:3000)
   let hostname = req.headers
@@ -31,6 +35,9 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
 
   // special case for Vercel preview deployment URLs
   if (
+    //   console.log("api route", { req });
+    //   return NextResponse.rewrite(new URL("/", req.url));
+    // }
     hostname.includes("---") &&
     hostname.endsWith(`.${process.env.NEXT_PUBLIC_VERCEL_DEPLOYMENT_SUFFIX}`)
   ) {
@@ -43,17 +50,45 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
     searchParams.length > 0 ? `?${searchParams}` : ""
   }`;
 
+  // console.log({ hostname, path, api: isApiRoute(req) });
+  // if (isApiRoute(req)) {
+  //   return NextResponse.rewrite(new URL("/", req.url));
+  // }
+
   // rewrites for app pages
   if (hostname == `app.${publicRootDomain}`) {
-    const session = await auth();
+    // if (!token && path !== "/login") {
+    //   return NextResponse.redirect(new URL("/login", req.url));
+    // } else if (token && path == "/login") {
+    //   return NextResponse.redirect(new URL("/", req.url));
+    // }
 
-    if (!session && path !== "/login") {
-      return NextResponse.redirect(new URL("/login", req.url));
-    } else if (session && path == "/login") {
-      return NextResponse.redirect(new URL("/", req.url));
+    // console.log({
+    //   authenticated: convexAuth.isAuthenticated(),
+    //   isLoginPage: isLoginPage(req),
+    // });
+
+    if (convexAuth.isAuthenticated()) {
+      if (isLoginPage(req)) {
+        return NextResponse.redirect(new URL("/", req.url));
+      }
+    } else {
+      if (!isLoginPage(req)) {
+        return NextResponse.redirect(new URL("/login", req.url));
+      }
     }
 
-    if (path.startsWith("/admin")) await requireAdmin();
+    if (path.startsWith("/admin")) {
+      const user = await fetchQuery(
+        api.users.currentUser,
+        {},
+        { token: convexAuth.getToken() },
+      );
+
+      if (!user) return NextResponse.redirect(new URL("/login", req.url));
+      if (!user.isAdmin) return new Response("Not authorized", { status: 403 });
+      // return NextResponse.redirect(new URL("/login", req.url));
+    }
 
     return NextResponse.rewrite(
       new URL(`/app${path === "/" ? "" : path}`, req.url),
@@ -75,4 +110,4 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
       new URL(`/home${path === "/" ? "" : path}`, req.url),
     );
   }
-}
+});

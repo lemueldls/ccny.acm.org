@@ -10,9 +10,9 @@ import {
   Link,
   Skeleton,
 } from "@nextui-org/react";
-import type { SerializedEvent } from "@/lib/events";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/16/solid";
 import EventCard, { EventCardSkeleton } from "./event-card";
+import { SerializedEvent } from "@/lib/events";
 
 export interface EventGridProps {
   events: SerializedEvent[];

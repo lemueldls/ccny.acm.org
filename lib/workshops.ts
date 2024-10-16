@@ -15,7 +15,7 @@ export interface Workshop {
 
 export const workshops: Workshop[] = [
   {
-    id: "introductory-web",
+    id: "intro-to-web",
     title: "Introduction to Web Development Workshop",
     description:
       "Learn how to build modern web applications from start to finish. Create a personal website or portfolio, and showcase your skills to potential employers.",

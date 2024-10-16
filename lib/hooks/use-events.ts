@@ -1,20 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
-import type { SerializedEvent } from "@/lib/events";
-
-import { toast } from "sonner";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { serializeEvent } from "../events";
 
 export default function useEvents() {
-  const [events, setEvents] = useState<SerializedEvent[]>();
+  const events = useQuery(api.events.getAllEvents);
 
-  useEffect(() => {
-    fetch("/api/events")
-      .then((res) => res.json())
-      .then(setEvents)
-      .catch((err) => toast.error(err.message));
-  }, []);
-
-  return events;
+  return events?.map(serializeEvent);
 }

@@ -11,7 +11,6 @@ import {
   Link,
   Skeleton,
 } from "@nextui-org/react";
-import type { Event, SerializedEvent } from "@/lib/events";
 import {
   ArrowTopRightOnSquareIcon,
   CalendarDaysIcon,
@@ -22,7 +21,10 @@ import {
   getLocalTimeZone,
   DateFormatter,
   parseDateTime,
+  fromAbsolute,
 } from "@internationalized/date";
+import { SerializedEvent } from "@/lib/events";
+import MarkdownRenderer from "./markdown-renderer";
 
 // const timeZone = getLocalTimeZone();
 const timeZone = "America/New_York";
@@ -65,11 +67,13 @@ export default function EventCard(props: EventCardProps) {
     <Card isBlurred className={`${className} !bg-default/20 p-2`} {...props}>
       <CardHeader className="flex flex-col items-start">
         <div className="mb-2 flex h-8 w-full items-center justify-between gap-4">
-          {event.kind && (
-            <Chip className="font-bold" color={chipColors[event.kind]}>
-              {chipText[event.kind]}
-            </Chip>
-          )}
+          <div className="flex-1">
+            {event.kind && (
+              <Chip className="font-bold" color={chipColors[event.kind]}>
+                {chipText[event.kind]}
+              </Chip>
+            )}
+          </div>
 
           {event.rsvp && (
             <Button
@@ -103,12 +107,10 @@ export default function EventCard(props: EventCardProps) {
               <span className="flex-1">
                 {event.end
                   ? dateFormatter.formatRange(
-                      parseDateTime(event.start).toDate(timeZone),
-                      parseDateTime(event.end).toDate(timeZone),
+                      event.start.toDate(),
+                      event.end.toDate(),
                     )
-                  : dateFormatter.format(
-                      parseDateTime(event.start).toDate(timeZone),
-                    )}
+                  : dateFormatter.format(event.start.toDate())}
               </span>
             </div>
           )}
@@ -116,8 +118,7 @@ export default function EventCard(props: EventCardProps) {
       </CardHeader>
 
       <CardBody>
-        {/* <p dangerouslySetInnerHTML={{ __html: event.description }} /> */}
-        {event.description}
+        <MarkdownRenderer>{event.description}</MarkdownRenderer>
       </CardBody>
 
       {footer && <CardFooter className="flex justify-end">{footer}</CardFooter>}

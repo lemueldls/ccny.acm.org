@@ -13,6 +13,8 @@ import {
   toCalendarDateTime,
 } from "@internationalized/date";
 import { toast } from "sonner";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 // const timeZone = getLocalTimeZone();
 const timeZone = "America/New_York";
@@ -21,9 +23,9 @@ const templateEvent = {
   title: "Event Title",
   kind: undefined,
   location: undefined,
-  start: toCalendarDateTime(now(timeZone)).toString(),
+  start: Date.now(),
   end: undefined,
-  description: "A brief description.",
+  description: "A not so brief description.",
   rsvp: undefined,
 };
 
@@ -35,20 +37,29 @@ const templateEvent = {
 export default function AdminEventsPage() {
   const router = useRouter();
 
-  const createEvent = useCallback(async () => {
-    const response = await fetch("/api/events", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(templateEvent),
-    });
+  const createEvent = useMutation(api.events.createEvent);
 
-    if (response.status === 200) {
-      toast.success("Event created!");
+  // const createEvent = useCallback(async () => {
+  //   const response = await fetch("/api/events", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(templateEvent),
+  //   });
 
-      const { id } = await response.json();
-      router.push(`/admin/events/${id}`);
-    }
-  }, [router]);
+  //   if (response.status === 200) {
+  //     toast.success("Event created!");
+
+  //     const { id } = await response.json();
+  //     router.push(`/admin/events/${id}`);
+  //   }
+  // }, [router]);
+
+  const handleCreateEvent = useCallback(async () => {
+    const id = await createEvent({ event: templateEvent });
+
+    toast.success("Event created!");
+    router.push(`/admin/events/${id}`);
+  }, [createEvent, router]);
 
   return (
     <Card isBlurred>
@@ -58,7 +69,7 @@ export default function AdminEventsPage() {
         <Button
           color="primary"
           variant="shadow"
-          onClick={createEvent}
+          onClick={handleCreateEvent}
           startContent={<PlusIcon className="h-5 w-5" />}
         >
           Create Event

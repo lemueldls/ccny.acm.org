@@ -8,13 +8,17 @@ import {
 } from "@nextui-org/react";
 import EventGrid, { EventGridSkeleton } from "./event-grid";
 
-import { parseEvents, type SerializedEvent } from "@/lib/events";
-import { EventCardSkeleton } from "./event-card";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+
+import { SerializedEvent, parseEvents } from "@/lib/events";
 import useEvents from "@/lib/hooks/use-events";
 
 interface EventAccordionProps extends Omit<AccordionProps, "children"> {
   renderFooter?: (event: SerializedEvent) => ReactNode;
 }
+
+let t = 0;
 
 export default function EventsAccordion(props: EventAccordionProps) {
   const events = useEvents();

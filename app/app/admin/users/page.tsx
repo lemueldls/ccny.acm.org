@@ -31,6 +31,9 @@ import {
 import { User } from "@/auth";
 import { TrashIcon } from "@heroicons/react/16/solid";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Doc } from "@/convex/_generated/dataModel";
 
 const columns = [
   { uid: "profile", name: "Profile" },
@@ -41,97 +44,99 @@ const columns = [
 ];
 
 export default function AdminEventsPage() {
-  const [users, setUsers] = useState<User[]>([]);
+  const users = useQuery(api.users.getAllUsers);
+  const patchUser = useMutation(api.users.patchUser);
+  const deleteUser = useMutation(api.users.deleteUser);
 
-  useEffect(() => {
-    fetch("/api/users")
-      .then((res) => res.json())
-      .then(setUsers);
-  }, []);
+  console.log({ users });
 
-  function updateUser(user: User) {
-    fetch(`/api/users/${user.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user),
-    }).then((res) => res.json());
-  }
-
-  function deleteUser(user: User) {
-    fetch(`/api/users/${user.id}`, { method: "DELETE" }).then((res) =>
-      res.json(),
-    );
-  }
-
-  const renderCell = useCallback((user: User, column: string) => {
-    switch (column) {
-      case "profile":
-        return (
-          <NextUIUser
-            avatarProps={
-              user.image ? { isBordered: true, src: user.image } : undefined
-            }
-            name={user.name}
-          />
-        );
-      case "user-id":
-        return user.id;
-      case "discord-id":
-        return user.discordId;
-      case "account-type":
-        return (
-          <Select
-            variant="bordered"
-            defaultSelectedKeys={[
-              user.isAnonymous ? "anonymous" : user.isAdmin ? "admin" : "user",
-            ]}
-            onSelectionChange={(values) => {
-              const [value] = values;
-
-              if (value === "anonymous") {
-                updateUser({ ...user, isAnonymous: true, isAdmin: false });
-              } else if (value === "user") {
-                updateUser({ ...user, isAnonymous: false, isAdmin: false });
-              } else if (value === "admin") {
-                updateUser({ ...user, isAnonymous: false, isAdmin: true });
+  const renderCell = useCallback(
+    (user: Doc<"users">, column: string) => {
+      switch (column) {
+        case "profile":
+          return (
+            <NextUIUser
+              avatarProps={
+                user.image ? { isBordered: true, src: user.image } : undefined
               }
-            }}
-          >
-            <SelectItem key="anonymous" value="Anonymous">
-              Anonymous
-            </SelectItem>
-            <SelectItem key="user" value="User">
-              User
-            </SelectItem>
-            <SelectItem key="admin" value="Admin">
-              Admin
-            </SelectItem>
-          </Select>
-        );
-      case "actions":
-        return (
-          <Dropdown>
-            <DropdownTrigger>
-              <Button variant="light" isIconOnly>
-                <EllipsisVerticalIcon className="h-5 w-5" />
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="User Actions" variant="flat">
-              <DropdownItem
-                key="delete"
-                color="danger"
-                startContent={<TrashIcon className="h-4 w-4" />}
-                onClick={() => deleteUser(user)}
-              >
-                Delete
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        );
-      default:
-        return null;
-    }
-  }, []);
+              name={user.name}
+            />
+          );
+        case "user-id":
+          return user._id;
+        case "discord-id":
+          return user.discordId;
+        case "account-type":
+          return (
+            <Select
+              variant="bordered"
+              defaultSelectedKeys={[
+                user.isAnonymous
+                  ? "anonymous"
+                  : user.isAdmin
+                    ? "admin"
+                    : "user",
+              ]}
+              onSelectionChange={(values) => {
+                const [value] = values;
+
+                if (value === "anonymous") {
+                  patchUser({
+                    id: user._id,
+                    user: { isAnonymous: true, isAdmin: false },
+                  });
+                } else if (value === "user") {
+                  patchUser({
+                    id: user._id,
+                    user: { isAnonymous: false, isAdmin: false },
+                  });
+                } else if (value === "admin") {
+                  patchUser({
+                    id: user._id,
+                    user: { isAnonymous: false, isAdmin: true },
+                  });
+                }
+              }}
+            >
+              <SelectItem key="anonymous" value="Anonymous">
+                Anonymous
+              </SelectItem>
+              <SelectItem key="user" value="User">
+                User
+              </SelectItem>
+              <SelectItem key="admin" value="Admin">
+                Admin
+              </SelectItem>
+            </Select>
+          );
+        case "actions":
+          return (
+            <Dropdown>
+              <DropdownTrigger>
+                <Button variant="light" isIconOnly>
+                  <EllipsisVerticalIcon className="h-5 w-5" />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="User Actions" variant="flat">
+                <DropdownItem
+                  key="delete"
+                  color="danger"
+                  startContent={<TrashIcon className="h-4 w-4" />}
+                  onClick={() => deleteUser({ id: user._id })}
+                >
+                  Delete
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          );
+        default:
+          return null;
+      }
+    },
+    [deleteUser, patchUser],
+  );
+
+  if (!users) return <div>Loading...</div>;
 
   return (
     <Card isBlurred>
@@ -175,7 +180,7 @@ export default function AdminEventsPage() {
           </TableHeader>
           <TableBody items={users}>
             {(user) => (
-              <TableRow key={user.id}>
+              <TableRow key={user._id}>
                 {(key) => (
                   <TableCell>{renderCell(user, key as string)}</TableCell>
                 )}
