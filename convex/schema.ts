@@ -2,6 +2,21 @@ import { defineSchema, defineTable } from "convex/server";
 import { authTables } from "@convex-dev/auth/server";
 import { v } from "convex/values";
 
+export const slideSegment = v.union(
+  v.object({
+    kind: v.literal("markdown"),
+    content: v.string(),
+  }),
+  v.object({
+    kind: v.literal("quicktime"),
+    question: v.string(),
+    answers: v.array(v.string()),
+    correctAnswer: v.string(),
+    points: v.number(),
+    time: v.number(),
+  }),
+);
+
 export default defineSchema({
   ...authTables,
   users: defineTable({
@@ -12,9 +27,11 @@ export default defineSchema({
     phone: v.optional(v.string()),
     phoneVerificationTime: v.optional(v.number()),
     image: v.optional(v.string()),
+    githubId: v.optional(v.string()),
     discordId: v.optional(v.string()),
     isAnonymous: v.boolean(),
     isAdmin: v.boolean(),
+    points: v.optional(v.number()),
   })
     .index("slug", ["slug"])
     .index("email", ["email"])
@@ -38,9 +55,16 @@ export default defineSchema({
   }),
 
   workshops: defineTable({
-    id: v.string(),
+    slug: v.string(),
     title: v.string(),
     description: v.string(),
+    slideSegments: v.array(slideSegment),
+  }),
+
+  activeWorkshops: defineTable({
+    workshopId: v.id("workshops"),
+    slideSegments: v.array(slideSegment),
+    userAnswers: v.record(v.id("users"), v.string()),
   }),
 
   websites: defineTable({

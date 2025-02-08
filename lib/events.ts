@@ -1,5 +1,4 @@
 import { Doc, Id } from "@/convex/_generated/dataModel";
-import * as schema from "@/lib/schema";
 import {
   isSameDay,
   now,
@@ -16,8 +15,8 @@ export type EventDoc = Doc<"events">;
 export interface SerializedEvent
   extends Omit<Doc<"events">, "_id" | "_creationTime" | "start" | "end"> {
   id: Id<"events">;
-  start: ZonedDateTime | undefined;
-  end: ZonedDateTime | undefined;
+  start: ZonedDateTime | null;
+  end: ZonedDateTime | null;
 }
 
 export interface DeserializedEvent
@@ -35,8 +34,8 @@ export function serializeEvent(event: Doc<"events">) {
     title: event.title,
     kind: event.kind,
     location: event.location,
-    start: event.start ? fromAbsolute(event.start, timeZone) : undefined,
-    end: event.end ? fromAbsolute(event.end, timeZone) : undefined,
+    start: event.start ? fromAbsolute(event.start, timeZone) : null,
+    end: event.end ? fromAbsolute(event.end, timeZone) : null,
     description: event.description,
     rsvp: event.rsvp,
   };

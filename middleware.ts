@@ -18,9 +18,8 @@ export const config = {
   ],
 };
 
-const isApiRoute = createRouteMatcher(["/api/(.*)"]);
 const isLoginPage = createRouteMatcher(["/login"]);
-// const isProtectedRoute = createRouteMatcher(["/.*"]);
+const isAdminPage = createRouteMatcher(["/admin"]);
 
 const publicRootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN;
 
@@ -78,7 +77,7 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
       }
     }
 
-    if (path.startsWith("/admin")) {
+    if (isAdminPage(req)) {
       const user = await fetchQuery(
         api.users.currentUser,
         {},
@@ -87,7 +86,6 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
 
       if (!user) return NextResponse.redirect(new URL("/login", req.url));
       if (!user.isAdmin) return new Response("Not authorized", { status: 403 });
-      // return NextResponse.redirect(new URL("/login", req.url));
     }
 
     return NextResponse.rewrite(
@@ -110,4 +108,7 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
       new URL(`/home${path === "/" ? "" : path}`, req.url),
     );
   }
+
+  // rewrite everything else to `/[domain]/[slug] dynamic route
+  return NextResponse.rewrite(new URL(`/${hostname}${path}`, req.url));
 });

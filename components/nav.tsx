@@ -21,7 +21,7 @@ import {
   User,
   NavbarMenuToggle,
   Avatar,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { SimpleIconsDiscord } from "./icons/discord";
 import { SimpleIconsInstagram } from "./icons/instagram";
 import { SimpleIconsLinkedin } from "./icons/linkedin";

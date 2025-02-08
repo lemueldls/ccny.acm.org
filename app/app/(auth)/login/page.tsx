@@ -10,7 +10,7 @@ import {
   CardFooter,
   CardHeader,
   Divider,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { SimpleIconsGithub } from "@/components/icons/github";
 
 export default function LoginPage() {
@@ -22,14 +22,14 @@ export default function LoginPage() {
         </h1>
       </CardHeader>
       <CardBody className="gap-4">
-        {/* <LoginButton
+        <LoginButton
           // className="hover:text-[#5865F2]"
           provider="github"
           variant="faded"
           startContent={<SimpleIconsGithub className="h-5 w-5" />}
         >
           Login with GitHub
-        </LoginButton> */}
+        </LoginButton>
         <LoginButton
           className="hover:text-[#5865F2]"
           provider="discord"
@@ -47,8 +47,8 @@ export default function LoginPage() {
 
         <CardFooter>
           <p className="text-center text-foreground-600">
-            If you login anonymously, your data will be transferred when you
-            decide to create an account.
+            If you login anonymously, your data will not be transferred when you
+            link an account.
           </p>
         </CardFooter>
       </CardBody>

@@ -6,7 +6,7 @@ import { Metadata, Viewport } from "next";
 
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 
-import { Image, cn } from "@nextui-org/react";
+import { Image, cn } from "@heroui/react";
 
 import { Lato } from "next/font/google";
 

@@ -10,7 +10,7 @@ import {
   Chip,
   Link,
   Skeleton,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {
   ArrowTopRightOnSquareIcon,
   CalendarDaysIcon,
@@ -57,10 +57,10 @@ export default function EventCard(props: EventCardProps) {
     hackathon: "danger",
   } as const;
   const chipText = {
-    workshop: "workshop",
-    meeting: "meeting",
-    informationSession: "information session",
-    hackathon: "hackathon",
+    workshop: "Workshop",
+    meeting: "Meeting",
+    informationSession: "Information Session",
+    hackathon: "Hackathon",
   };
 
   return (
@@ -69,7 +69,10 @@ export default function EventCard(props: EventCardProps) {
         <div className="mb-2 flex h-8 w-full items-center justify-between gap-4">
           <div className="flex-1">
             {event.kind && (
-              <Chip className="font-bold" color={chipColors[event.kind]}>
+              <Chip
+                // classNames={{ content: "font-semibold" }}
+                color={chipColors[event.kind]}
+              >
                 {chipText[event.kind]}
               </Chip>
             )}

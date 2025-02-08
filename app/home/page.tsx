@@ -30,13 +30,14 @@ import {
   NavbarItem,
   Image,
   ScrollShadow,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import NextImage from "next/image";
 import { Carousel } from "primereact/carousel";
 import Tilt from "react-parallax-tilt";
 import { SimpleIconsLinkedin } from "@/components/icons/linkedin";
 import EventsAccordion from "@/components/events-accordion";
 import EventChip from "@/components/event-chips";
+import HyperText from "@/components/ui/hyper-text";
 
 const dateFormatter = Intl.DateTimeFormat("en-US", {
   year: "numeric",
@@ -104,7 +105,7 @@ const theTeam: TeamMember[] = [
   },
   {
     name: "Lemuel De Los Santos",
-    position: "Web Designer",
+    position: "Web Developer",
     image: "/team/lemuel-de-los-santos.jpg",
     email: "ldeloss002@citymail.cuny.edu",
     linkedin: "lemueldls",
@@ -118,13 +119,13 @@ const theTeam: TeamMember[] = [
     email: "lmincha000@citymail.cuny.edu",
     linkedin: "",
   },
-  {
-    name: "Samin Chowdhury",
-    position: "Opportunities Coordinator",
-    image: "",
-    email: "schowdh047@citymail.cuny.edu",
-    linkedin: "saminfchowdhury",
-  },
+  // {
+  //   name: "Samin Chowdhury",
+  //   position: "Opportunities Coordinator",
+  //   image: "",
+  //   email: "schowdh047@citymail.cuny.edu",
+  //   linkedin: "saminfchowdhury",
+  // },
   {
     name: "Daniel Chen",
     position: "Student Advisor",
@@ -132,13 +133,13 @@ const theTeam: TeamMember[] = [
     email: "dchen024@citymail.cuny.edu",
     linkedin: "daniel-chen297",
   },
-  {
-    name: "Sam Fenster",
-    position: "Club Advisor",
-    image: "/team/sam-fenster.jpg",
-    email: "fenster@ccny.cuny.edu",
-    linkedin: "samfenster",
-  },
+  // {
+  //   name: "Sam Fenster",
+  //   position: "Club Advisor",
+  //   image: "/team/sam-fenster.jpg",
+  //   email: "fenster@ccny.cuny.edu",
+  //   linkedin: "samfenster",
+  // },
 ];
 
 interface Brand {

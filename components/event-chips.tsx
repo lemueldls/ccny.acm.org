@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Chip, Link } from "@nextui-org/react";
+import { Chip, Link } from "@heroui/react";
 
 import { parseEvents } from "@/lib/events";
 import useEvents from "@/lib/hooks/use-events";

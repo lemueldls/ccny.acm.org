@@ -5,7 +5,7 @@ import {
   AccordionItem,
   AccordionProps,
   Skeleton,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import EventGrid, { EventGridSkeleton } from "./event-grid";
 
 import { useQuery } from "convex/react";

@@ -1,4 +1,4 @@
-import { convexAuth } from "@convex-dev/auth/server";
+import { convexAuth, getAuthUserId } from "@convex-dev/auth/server";
 
 import { Anonymous } from "@convex-dev/auth/providers/Anonymous";
 import GitHub from "@auth/core/providers/github";
@@ -17,6 +17,7 @@ export const { auth, signIn, signOut, store } = convexAuth({
           name: "Anonymous",
           email: undefined,
           image: undefined,
+          githubId: undefined,
           discordId: undefined,
           isAnonymous: true,
           isAdmin: false,
@@ -45,6 +46,7 @@ export const { auth, signIn, signOut, store } = convexAuth({
           slug: discordProfile.username,
           email: discordProfile.email,
           image: discordProfile.image_url,
+          githubId: undefined,
           discordId: discordProfile.id,
           isAnonymous: false,
           isAdmin: false,
@@ -59,8 +61,10 @@ export const { auth, signIn, signOut, store } = convexAuth({
         return {
           id: githubProfile.id.toString(),
           name: githubProfile.name ?? githubProfile.login,
+          slug: githubProfile.login,
           email: githubProfile.email,
           image: githubProfile.avatar_url,
+          githubId: githubProfile.id.toString(),
           discordId: undefined,
           isAnonymous: false,
           isAdmin: false,
@@ -98,38 +102,35 @@ export const { auth, signIn, signOut, store } = convexAuth({
   callbacks: {
     // `args.provider` is the currently used provider config
     async createOrUpdateUser(ctx: MutationCtx, args) {
-      console.log({ args });
       const profile = args.profile as Doc<"users">;
-
       if (args.existingUserId) {
-        await ctx.db.patch(args.existingUserId, profile);
-
+        // await ctx.db.patch(args.existingUserId, profile);
         return args.existingUserId;
       }
 
-      const emailUser = await ctx.db
-        .query("users")
-        .filter((q) => q.eq(q.field("email"), profile.email))
-        .unique();
-      if (emailUser) {
-        // await ctx.db.patch(emailUser._id, profile);
-
-        return emailUser._id;
-      }
-
-      const discordUser = await ctx.db
-        .query("users")
-        .filter((q) => q.eq(q.field("discordId"), profile.discordId))
-        .unique();
-      if (discordUser) {
-        // await ctx.db.patch(discordUser._id, profile);
-
-        return discordUser._id;
-      }
+      // const emailUser = await ctx.db
+      //   .query("users")
+      //   .filter((q) => q.eq(q.field("email"), profile.email))
+      //   .unique();
+      // if (emailUser) {
+      //   // await ctx.db.patch(emailUser._id, profile);
+      //   return emailUser._id;
+      // }
+      // const discordUser = await ctx.db
+      //   .query("users")
+      //   .filter((q) => q.eq(q.field("discordId"), profile.discordId))
+      //   .unique();
+      // if (discordUser) {
+      //   // await ctx.db.patch(discordUser._id, profile);
+      //   return discordUser._id;
+      // }
 
       const userId = await ctx.db.insert("users", profile as Doc<"users">);
 
       return userId;
     },
+    // async afterUserCreatedOrUpdated(ctx, args) {
+    //   console.log("[afterUserCreatedOrUpdated]", { args });
+    // },
   },
 });

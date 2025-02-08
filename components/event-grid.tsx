@@ -9,7 +9,7 @@ import {
   Chip,
   Link,
   Skeleton,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/16/solid";
 import EventCard, { EventCardSkeleton } from "./event-card";
 import { SerializedEvent } from "@/lib/events";

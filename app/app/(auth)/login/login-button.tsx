@@ -2,7 +2,7 @@
 
 import { useAuthActions } from "@convex-dev/auth/react";
 import LoadingDots from "@/components/icons/loading-dots";
-import { Button, ButtonProps } from "@nextui-org/react";
+import { Button, ButtonProps } from "@heroui/react";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";

@@ -1,7 +1,12 @@
-import { getAuthSessionId, getAuthUserId } from "@convex-dev/auth/server";
+import {
+  getAuthSessionId,
+  getAuthUserId,
+  signInViaProvider,
+} from "@convex-dev/auth/server";
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import schema from "./schema";
+import { signIn } from "./auth";
 
 export const currentSession = query({
   args: {},

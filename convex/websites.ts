@@ -26,15 +26,27 @@ export const getByUserId = query({
       .unique();
 
     if (website) return website;
+  },
+});
 
-    // const id = await ctx.db.insert("websites", {
-    //   userId: args.userId,
-    //   html: "",
-    //   css: "",
-    //   javascript: "",
-    // });
+export const getByUserSlug = query({
+  args: { userSlug: v.optional(v.string()) },
+  handler: async (ctx, args) => {
+    if (!args.userSlug) return;
 
-    // return await ctx.db.get(id);
+    const user = await ctx.db
+      .query("users")
+      .filter((q) => q.eq(q.field("slug"), args.userSlug))
+      .unique();
+
+    if (!user) throw new Error("User not found");
+
+    const website = await ctx.db
+      .query("websites")
+      .filter((q) => q.eq(q.field("userId"), user._id))
+      .unique();
+
+    if (website) return website;
   },
 });
 
