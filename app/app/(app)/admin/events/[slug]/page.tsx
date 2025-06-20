@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { useRouter, notFound } from "next/navigation";
 import {
+  addToast,
+  useDisclosure,
   Card,
   CardBody,
   CardHeader,
@@ -21,9 +23,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  useDisclosure,
 } from "@heroui/react";
-import EventCard, { EventCardSkeleton } from "@/components/event-card";
+import EventCard from "@/components/event-card";
 import { parseDateTime } from "@internationalized/date";
 import {
   CalendarDaysIcon,
@@ -32,11 +33,11 @@ import {
 } from "@heroicons/react/20/solid";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid";
 
-import { toast } from "sonner";
 import {
   DeserializedEvent,
   SerializedEvent,
   deserializeEvent,
+  eventKindTextMap,
   serializeEvent,
 } from "@/lib/events";
 import { useMutation, useQuery } from "convex/react";
@@ -44,10 +45,11 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 
 interface EditEventPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-export default function EditEventPage({ params }: EditEventPageProps) {
+export default function EditEventPage(props: EditEventPageProps) {
+  const params = use(props.params);
   const router = useRouter();
   const id = decodeURIComponent(params.slug) as Id<"events">;
 
@@ -56,6 +58,10 @@ export default function EditEventPage({ params }: EditEventPageProps) {
   const deleteEvent = useMutation(api.events.deleteById);
 
   const [event, setEvent] = useState<SerializedEvent>();
+
+  const eventStart = event?.start;
+  const eventEnd = event?.end || eventStart?.add({ hours: 1, minutes: 15 });
+  const published = event?.public;
 
   useEffect(() => {
     if (rawEvent) setEvent(serializeEvent(rawEvent));
@@ -73,10 +79,16 @@ export default function EditEventPage({ params }: EditEventPageProps) {
   async function saveEvent() {
     if (!event) throw new Error("Event not found");
 
-    const deserializedEvent = deserializeEvent(event);
+    const deserializedEvent = deserializeEvent(Object.assign(event, { end: eventEnd }));
+    deserializedEvent.public = true;
+
     await setRawEvent({ id, event: deserializedEvent });
 
-    toast.success("Event saved!");
+    const eventKind = event?.kind;
+    addToast({
+      title: `${eventKind ? eventKindTextMap[eventKind] : 'Event'} ${published ? "published" : "saved"}!`,
+      color: "success"
+    });
   }
 
   async function handleDeleteEvent() {
@@ -84,7 +96,7 @@ export default function EditEventPage({ params }: EditEventPageProps) {
 
     await deleteEvent({ id });
 
-    toast.success("Event deleted!");
+    addToast({ title: "Event deleted!", color: "danger" });
     router.push("/admin/events");
   }
 
@@ -142,12 +154,12 @@ export default function EditEventPage({ params }: EditEventPageProps) {
                   label="Start"
                   labelPlacement="outside"
                   isDisabled={!event}
-                  value={event?.start}
+                  value={eventStart}
                   onChange={(value) => updateEvent("start", value)}
                   selectorIcon={
-                    <>
+                    <span>
                       <CalendarDaysIcon className="h-5 w-5" />
-                    </>
+                    </span>
                   }
                 />
 
@@ -155,12 +167,12 @@ export default function EditEventPage({ params }: EditEventPageProps) {
                   label="End"
                   labelPlacement="outside"
                   isDisabled={!event}
-                  value={event?.end || event?.start}
+                  value={eventEnd}
                   onChange={(value) => updateEvent("end", value)}
                   selectorIcon={
-                    <>
+                    <span>
                       <CalendarDaysIcon className="h-5 w-5" />
-                    </>
+                    </span>
                   }
                 />
 
@@ -223,7 +235,7 @@ export default function EditEventPage({ params }: EditEventPageProps) {
 
             <div className="flex w-full flex-col gap-4 lg:w-[28rem]">
               <div className="flex-1">
-                {event ? <EventCard event={event} /> : <EventCardSkeleton />}
+                {event ? <EventCard event={event} /> : null}
               </div>
 
               <div className="flex justify-end gap-4">
@@ -232,7 +244,7 @@ export default function EditEventPage({ params }: EditEventPageProps) {
                   color="danger"
                   isDisabled={!event}
                   startContent={<TrashIcon className="h-5 w-5" />}
-                  onClick={onOpen}
+                  onPress={onOpen}
                 >
                   Delete
                 </Button>
@@ -243,9 +255,9 @@ export default function EditEventPage({ params }: EditEventPageProps) {
                   className="flex-1"
                   isDisabled={!event}
                   startContent={<PencilSquareIcon className="h-5 w-5" />}
-                  onClick={saveEvent}
+                  onPress={saveEvent}
                 >
-                  Save
+                  {published ? "Save" : "Publish"}
                 </Button>
               </div>
             </div>
@@ -266,11 +278,11 @@ export default function EditEventPage({ params }: EditEventPageProps) {
                   variant="flat"
                   color="danger"
                   startContent={<TrashIcon className="h-5 w-5" />}
-                  onClick={handleDeleteEvent}
+                  onPress={handleDeleteEvent}
                 >
                   Delete
                 </Button>
-                <Button variant="ghost" color="primary" onClick={onClose}>
+                <Button variant="ghost" color="primary" onPress={onClose}>
                   Cancel
                 </Button>
               </ModalFooter>

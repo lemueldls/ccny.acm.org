@@ -1,6 +1,6 @@
+import { v } from "convex/values";
 import { defineSchema, defineTable } from "convex/server";
 import { authTables } from "@convex-dev/auth/server";
-import { v } from "convex/values";
 
 export const slideSegment = v.union(
   v.object({
@@ -19,6 +19,7 @@ export const slideSegment = v.union(
 
 export default defineSchema({
   ...authTables,
+
   users: defineTable({
     name: v.string(),
     slug: v.optional(v.string()),
@@ -52,6 +53,7 @@ export default defineSchema({
     end: v.optional(v.number()),
     description: v.optional(v.string()),
     rsvp: v.optional(v.string()),
+    public: v.optional(v.boolean()),
   }),
 
   workshops: defineTable({

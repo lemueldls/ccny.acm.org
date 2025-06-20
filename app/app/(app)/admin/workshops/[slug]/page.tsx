@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useState } from "react";
+import { useState, use } from "react";
 import {
   Button,
   Card,
@@ -20,12 +20,11 @@ import {
 } from "@heroicons/react/20/solid";
 
 export interface AdminWorkshopPresentPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-export default function AdminWorkshopPresentPage({
-  params,
-}: AdminWorkshopPresentPageProps) {
+export default function AdminWorkshopPresentPage(props: AdminWorkshopPresentPageProps) {
+  const params = use(props.params);
   const slug = decodeURIComponent(params.slug);
   const workshop = useQuery(api.workshops.getBySlug, { slug });
   const setWorkshopSlideSegments = useMutation(api.workshops.setSlideSegments);
@@ -72,7 +71,7 @@ export default function AdminWorkshopPresentPage({
               <Button
                 color="primary"
                 variant="flat"
-                onClick={() => {
+                onPress={() => {
                   const segments = [...workshop.slideSegments];
                   const temp = segments[i];
                   segments[i] = segments[i - 1];
@@ -90,7 +89,7 @@ export default function AdminWorkshopPresentPage({
               <Button
                 color="primary"
                 variant="flat"
-                onClick={() => {
+                onPress={() => {
                   const segments = [...workshop.slideSegments];
                   const temp = segments[i];
                   segments[i] = segments[i + 1];
@@ -110,7 +109,7 @@ export default function AdminWorkshopPresentPage({
               className="self-end"
               color="danger"
               variant="flat"
-              onClick={() =>
+              onPress={() =>
                 setWorkshopSlideSegments({
                   workshopId: workshop._id,
                   slideSegments: workshop.slideSegments.filter(
@@ -139,7 +138,7 @@ export default function AdminWorkshopPresentPage({
           <Button
             color="primary"
             variant="shadow"
-            onClick={() =>
+            onPress={() =>
               setWorkshopSlideSegments({
                 workshopId: workshop._id,
                 slideSegments: [
@@ -147,13 +146,13 @@ export default function AdminWorkshopPresentPage({
                   newSegmentKind === "markdown"
                     ? { kind: "markdown", content: "" }
                     : {
-                        kind: "quicktime",
-                        question: "",
-                        answers: ["", "", "", ""],
-                        correctAnswer: "",
-                        points: 10,
-                        time: 10,
-                      },
+                      kind: "quicktime",
+                      question: "",
+                      answers: ["", "", "", ""],
+                      correctAnswer: "",
+                      points: 10,
+                      time: 10,
+                    },
                 ],
               })
             }

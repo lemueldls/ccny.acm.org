@@ -8,7 +8,7 @@ import { createId } from "@paralleldrive/cuid2";
 import { MutationCtx } from "./_generated/server";
 import { Doc } from "./_generated/dataModel";
 
-export const { auth, signIn, signOut, store } = convexAuth({
+export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
   providers: [
     Anonymous({
       // @ts-expect-error

@@ -101,7 +101,7 @@ export default function AdminWorkshopQuicktimePromptCard(
               className="h-full"
               color="danger"
               variant="flat"
-              // onClick={() => setAnswer(0)}
+            // onPress={() => setAnswer(0)}
             >
               <Snippet hideSymbol hideCopyButton color="danger" size="lg">
                 {prompt.answers[0]}
@@ -110,21 +110,21 @@ export default function AdminWorkshopQuicktimePromptCard(
             <Button
               className="h-full"
               color="secondary"
-              // onClick={() => setAnswer(1)}
+            // onPress={() => setAnswer(1)}
             >
               {prompt.answers[1]}
             </Button>
             <Button
               className="h-full"
               color="warning"
-              // onClick={() => setAnswer(2)}
+            // onPress={() => setAnswer(2)}
             >
               {prompt.answers[2]}
             </Button>
             <Button
               className="h-full"
               color="success"
-              // onClick={() => setAnswer(3)}
+            // onPress={() => setAnswer(3)}
             >
               {prompt.answers[3]}
             </Button>

@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, use } from "react";
 import { Button } from "@heroui/react";
 import MarkdownRenderer from "@/components/markdown-renderer";
 import { Carousel, CarouselPageChangeEvent } from "primereact/carousel";
@@ -11,16 +11,16 @@ import ShineBorder from "@/components/ui/shine-border";
 import Quicktime, {
   QuicktimePrompt,
 } from "@/app/app/(app)/workshops/[slug]/quicktime";
-import { work } from "@/styles/fonts";
 import { Id } from "@/convex/_generated/dataModel";
 
 export interface AdminWorkshopPresentPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-export default function AdminWorkshopPresentPage({
-  params,
-}: AdminWorkshopPresentPageProps) {
+export default function AdminWorkshopPresentPage(
+  props: AdminWorkshopPresentPageProps,
+) {
+  const params = use(props.params);
   const slug = decodeURIComponent(params.slug);
   const workshop = useQuery(api.workshops.getBySlug, { slug });
 

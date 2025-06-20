@@ -1,13 +1,6 @@
 "use client";
 
 import * as Y from "yjs";
-import { LiveblocksYjsProvider } from "@liveblocks/yjs";
-import {
-  useEventListener,
-  useOthers,
-  useRoom,
-  useSelf,
-} from "@liveblocks/react/suspense";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Editor } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
@@ -18,7 +11,6 @@ import { Avatar, AvatarGroup, Tab, Tabs } from "@heroui/react";
 import { SimpleIconsHtml5 } from "../icons/html5";
 import { SimpleIconsCss3 } from "../icons/css3";
 import { SimpleIconsJavascript } from "../icons/javascript";
-import { Room } from "@liveblocks/client";
 import { QuicktimePrompt, Workshop } from "@/lib/workshops";
 
 import { useQuery } from "convex/react";
@@ -40,69 +32,13 @@ export interface EditorProps {
   onFileChange?: (value: { language: Language; value: string }) => void;
 }
 
-const yDoc = new Y.Doc();
+// const yDoc = new Y.Doc();
 
 // Collaborative code editor with undo/redo, live cursors, and live avatars
 export function CollaborativeEditor(props: EditorProps) {
-  // const room = useRoom();
-
-  // const users = useOthers();
-  // const currentUser = useSelf();
-
   const [editorRef, setEditorRef] = useState<editor.IStandaloneCodeEditor>();
-  const [provider, setProvider] = useState<LiveblocksYjsProvider>();
-  // const [yDoc, setYDoc] = useState<Y.Doc>(new Y.Doc());
-  // const yDoc = useMemo(() => new Y.Doc(), []);
-  // const [binding, setBinding] = useState<MonacoBinding>();
 
   const [language, setLanguage] = useState<Language>("html");
-
-  const [quicktimePrompt, setQuicktimePrompt] = useState<QuicktimePrompt>();
-  const [quicktimeAnswer, setQuicktimeAnswer] = useState<string>();
-
-  // // Set up Liveblocks Yjs provider and attach Monaco editor
-  // useEffect(() => {
-  //   let yProvider: LiveblocksYjsProvider;
-  //   let binding: MonacoBinding;
-
-  //   if (editorRef) {
-  //     const yText = yDoc.getText(`${room.id}:${file.name}`);
-  //     yProvider = new LiveblocksYjsProvider(room, yDoc);
-  //     setProvider(yProvider);
-
-  //     // Attach Yjs to Monaco
-  //     binding = new MonacoBinding(
-  //       yText,
-  //       editorRef.getModel() as editor.ITextModel,
-  //       new Set([editorRef]),
-  //       yProvider.awareness as unknown as Awareness,
-  //     );
-  //   }
-
-  //   return () => {
-  //     yDoc?.destroy();
-  //     yProvider?.destroy();
-  //     binding?.destroy();
-  //   };
-  // }, [editorRef, file.name, room, yDoc]);
-
-  // useEventListener(({ event, user, connectionId }) => {
-  //   if (event.type === "QUICKTIME") {
-  //     const { question, answers, points, time } = event;
-  //   }
-  // });
-
-  // const handleQuicktimeAnswer = useCallback(async () => {
-  //   await fetch(`/api/workshops/${props.workshop.id}/answer`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       answer: file.value,
-  //     }),
-  //   });
-  // }, []);
 
   const handleOnMount = useCallback((e: editor.IStandaloneCodeEditor) => {
     setEditorRef(e);

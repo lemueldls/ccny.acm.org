@@ -8,15 +8,6 @@ import {
   useCallback,
   use,
 } from "react";
-
-import {
-  ClientSideSuspense,
-  LiveblocksProvider,
-  RoomProvider,
-  useEventListener,
-  useRoom,
-} from "@liveblocks/react/suspense";
-
 import { useGlitch } from "react-powerglitch";
 
 import { VisSingleContainer, VisGraph } from "@unovis/react";
@@ -62,7 +53,7 @@ import confetti from "canvas-confetti";
 import { QuicktimePrompt } from "../../admin/workshops/[slug]/quicktime-card";
 
 export interface WorkshopPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 interface TreeNode {
@@ -102,7 +93,8 @@ const debounce = (callback: () => void, delay: number) => {
   debounceTimeout = setTimeout(callback, delay);
 };
 
-export default function WorkshopPage({ params }: WorkshopPageProps) {
+export default function WorkshopPage(props: WorkshopPageProps) {
+  const params = use(props.params);
   const slug = decodeURIComponent(params.slug);
   const workshop = useQuery(api.workshops.getBySlug, { slug });
 
@@ -398,7 +390,7 @@ export default function WorkshopPage({ params }: WorkshopPageProps) {
                 variant="light"
                 startContent={<ArrowPathIcon className="h-4 w-4" />}
                 isIconOnly
-                onClick={reloadIframe}
+                onPress={reloadIframe}
               />
 
               <Input

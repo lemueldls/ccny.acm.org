@@ -4,20 +4,14 @@ import Image from "next/image";
 import LoginButton from "./login-button";
 import { Suspense } from "react";
 import { SimpleIconsDiscord } from "@/components/icons/discord";
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Divider,
-} from "@heroui/react";
+import { Card, CardBody, CardFooter, CardHeader, Divider } from "@heroui/react";
 import { SimpleIconsGithub } from "@/components/icons/github";
 
 export default function LoginPage() {
   return (
     <Card isBlurred className="mx-5 px-8 sm:mx-auto sm:w-full sm:max-w-md">
       <CardHeader className="text-center">
-        <h1 className="mt-6 font-cal text-3xl text-foreground">
+        <h1 className="mt-6 text-3xl text-foreground">
           Continue with an account
         </h1>
       </CardHeader>

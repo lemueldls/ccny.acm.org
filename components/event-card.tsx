@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactNode } from "react";
 
 import {
@@ -23,7 +25,7 @@ import {
   parseDateTime,
   fromAbsolute,
 } from "@internationalized/date";
-import { SerializedEvent } from "@/lib/events";
+import { eventKindColorMap, eventKindTextMap, SerializedEvent } from "@/lib/events";
 import MarkdownRenderer from "./markdown-renderer";
 
 // const timeZone = getLocalTimeZone();
@@ -50,31 +52,24 @@ export interface EventCardProps extends CardProps {
 export default function EventCard(props: EventCardProps) {
   const { event, rsvpIsDisabled, footer, className } = props;
 
-  const chipColors = {
-    workshop: "primary",
-    meeting: "secondary",
-    informationSession: "success",
-    hackathon: "danger",
-  } as const;
-  const chipText = {
-    workshop: "Workshop",
-    meeting: "Meeting",
-    informationSession: "Information Session",
-    hackathon: "Hackathon",
-  };
-
   return (
-    <Card isBlurred className={`${className} !bg-default/20 p-2`} {...props}>
-      <CardHeader className="flex flex-col items-start">
+    <Card
+      isBlurred
+      shadow="sm"
+      className={`${className} diagonal-lines !bg-default/20 p-2`}
+      {...props}
+    >
+      <CardHeader className="flex flex-col items-start pb-0">
         <div className="mb-2 flex h-8 w-full items-center justify-between gap-4">
-          <div className="flex-1">
-            {event.kind && (
-              <Chip
-                // classNames={{ content: "font-semibold" }}
-                color={chipColors[event.kind]}
-              >
-                {chipText[event.kind]}
+          <div className="flex-1 flex items-center gap-4">
+            {event.public || (
+              <Chip color="default">
+                Unpublished
               </Chip>
+            )}
+
+            {event.kind && (
+              <Chip color={eventKindColorMap[event.kind]}>{eventKindTextMap[event.kind]}</Chip>
             )}
           </div>
 
@@ -86,8 +81,8 @@ export default function EventCard(props: EventCardProps) {
               showAnchorIcon
               size="sm"
               isDisabled={rsvpIsDisabled}
-              anchorIcon={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}
-              variant="bordered"
+              anchorIcon={<ArrowTopRightOnSquareIcon className="size-4" />}
+              variant="flat"
             >
               RSVP
             </Button>
@@ -107,12 +102,12 @@ export default function EventCard(props: EventCardProps) {
           {event.start && (
             <div className="text-md flex items-center gap-2 text-foreground-500">
               <CalendarDaysIcon className="h-4 w-4" />
-              <span className="flex-1">
+              <span className="flex-1" suppressHydrationWarning>
                 {event.end
                   ? dateFormatter.formatRange(
-                      event.start.toDate(),
-                      event.end.toDate(),
-                    )
+                    event.start.toDate(),
+                    event.end.toDate(),
+                  )
                   : dateFormatter.format(event.start.toDate())}
               </span>
             </div>
@@ -125,29 +120,6 @@ export default function EventCard(props: EventCardProps) {
       </CardBody>
 
       {footer && <CardFooter className="flex justify-end">{footer}</CardFooter>}
-    </Card>
-  );
-}
-
-export interface EventCardSkeletonProps extends CardProps {}
-
-export function EventCardSkeleton(props: EventCardSkeletonProps) {
-  const { className } = props;
-
-  return (
-    <Card isBlurred className={`${className} p-2`} {...props}>
-      <CardHeader className="flex flex-col items-start">
-        <Skeleton className="h-7 w-24 rounded-full" />
-
-        <Skeleton className="mt-4 h-6 w-full rounded-lg" />
-
-        <Skeleton className="mt-2 h-4 w-full rounded-lg" />
-        <Skeleton className="mt-2 h-4 w-full rounded-lg" />
-      </CardHeader>
-
-      <CardBody>
-        <Skeleton className="h-36 w-full rounded-lg" />
-      </CardBody>
     </Card>
   );
 }

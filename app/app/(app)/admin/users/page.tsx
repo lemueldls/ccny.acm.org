@@ -21,7 +21,7 @@ import {
   TableCell,
   Tooltip,
   getKeyValue,
-  User as NextUIUser,
+  User as HeroUIUser,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -37,6 +37,7 @@ import { Doc } from "@/convex/_generated/dataModel";
 const columns = [
   { uid: "profile", name: "Profile" },
   { uid: "user-id", name: "User ID" },
+  { uid: "github-id", name: "GitHub ID" },
   { uid: "discord-id", name: "Discord ID" },
   { uid: "account-type", name: "Account Type" },
   { uid: "actions", name: "Actions" },
@@ -47,14 +48,12 @@ export default function AdminEventsPage() {
   const patchUser = useMutation(api.users.patchUser);
   const deleteUser = useMutation(api.users.deleteUser);
 
-  console.log({ users });
-
   const renderCell = useCallback(
     (user: Doc<"users">, column: string) => {
       switch (column) {
         case "profile":
           return (
-            <NextUIUser
+            <HeroUIUser
               avatarProps={
                 user.image ? { isBordered: true, src: user.image } : undefined
               }
@@ -63,6 +62,8 @@ export default function AdminEventsPage() {
           );
         case "user-id":
           return user._id;
+        case "github-id":
+          return user.githubId;
         case "discord-id":
           return user.discordId;
         case "account-type":
@@ -97,15 +98,9 @@ export default function AdminEventsPage() {
                 }
               }}
             >
-              <SelectItem key="anonymous" value="Anonymous">
-                Anonymous
-              </SelectItem>
-              <SelectItem key="user" value="User">
-                User
-              </SelectItem>
-              <SelectItem key="admin" value="Admin">
-                Admin
-              </SelectItem>
+              <SelectItem key="anonymous">Anonymous</SelectItem>
+              <SelectItem key="user">User</SelectItem>
+              <SelectItem key="admin">Admin</SelectItem>
             </Select>
           );
         case "actions":
@@ -121,7 +116,7 @@ export default function AdminEventsPage() {
                   key="delete"
                   color="danger"
                   startContent={<TrashIcon className="h-4 w-4" />}
-                  onClick={() => deleteUser({ id: user._id })}
+                  onPress={() => deleteUser({ id: user._id })}
                 >
                   Delete
                 </DropdownItem>
@@ -147,7 +142,7 @@ export default function AdminEventsPage() {
         {/* {users.map((user) => (
           <Card key={user.id} isBlurred>
             <CardBody className="flex gap-4">
-              <NextUIUser
+              <HeroUIUser
                 avatarProps={
                   user.image
                     ? {

@@ -36,6 +36,7 @@ import NextImage from "next/image";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { SimpleIconsGithub } from "./icons/github";
 
 export default function Nav({ children }: { children: ReactNode }) {
   const { signOut, signIn } = useAuthActions();
@@ -48,7 +49,7 @@ export default function Nav({ children }: { children: ReactNode }) {
   // const [siteId, setSiteId] = useState<string | null>();
   // const [showSidebar, setShowSidebar] = useState(false);
 
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const pathname = usePathname();
 
   const user = useQuery(api.users.currentUser);
@@ -68,7 +69,7 @@ export default function Nav({ children }: { children: ReactNode }) {
             <Link href={process.env.NEXT_PUBLIC_ROOT_URL}>
               <Image
                 as={NextImage}
-                src={`/logo-on-${theme || "dark"}.png`}
+                src={`/logo-on-${resolvedTheme}.png`}
                 width={44}
                 height={44}
                 alt="Logo"
@@ -79,8 +80,8 @@ export default function Nav({ children }: { children: ReactNode }) {
             <span className="px-2 text-medium text-foreground/50">/</span>
 
             <Link href="/">
-              <h1 className="font-mono text-2xl font-bold text-foreground shadow-primary text-shadow">
-                [workshop]
+              <h1 className="font-mono text-2xl font-bold text-foreground dark:shadow-primary dark:text-shadow">
+                [app]
               </h1>
             </Link>
 
@@ -93,7 +94,7 @@ export default function Nav({ children }: { children: ReactNode }) {
               itemsAfterCollapse={0}
               className="hidden sm:block"
               renderEllipsis={({ items, ellipsisIcon, separator }) => (
-                <div className="flex items-center">
+                <div key="ellipsis" className="flex items-center">
                   <Dropdown>
                     <DropdownTrigger>
                       <Button
@@ -179,26 +180,37 @@ export default function Nav({ children }: { children: ReactNode }) {
                   <p className="font-semibold">Signed in as</p>
                   <p className="font-semibold">{user.email}</p>
                 </DropdownItem> */}
-                {user.isAnonymous ? (
+
+                {!user.githubId ? (
+                  <DropdownItem
+                    key="link-github"
+                    startContent={<SimpleIconsGithub className="h-5 w-5" />}
+                    onPress={() => signIn("github")}
+                  >
+                    Link GitHub
+                  </DropdownItem>
+                ) : null}
+
+                {!user.discordId ? (
                   <DropdownItem
                     key="link-discord"
                     startContent={<SimpleIconsDiscord className="h-5 w-5" />}
-                    onClick={() => signIn("discord")}
+                    onPress={() => signIn("discord")}
                   >
                     Link Discord
                   </DropdownItem>
-                ) : (
-                  <DropdownItem
-                    key="logout"
-                    color="danger"
-                    startContent={
-                      <ArrowLeftStartOnRectangleIcon className="h-5 w-5" />
-                    }
-                    onClick={() => signOut()}
-                  >
-                    Log Out
-                  </DropdownItem>
-                )}
+                ) : null}
+
+                <DropdownItem
+                  key="logout"
+                  color="danger"
+                  startContent={
+                    <ArrowLeftStartOnRectangleIcon className="h-5 w-5" />
+                  }
+                  onPress={() => signOut()}
+                >
+                  Log Out
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </NavbarItem>
@@ -237,7 +249,7 @@ export default function Nav({ children }: { children: ReactNode }) {
                   startContent={
                     <ArrowLeftStartOnRectangleIcon className="h-5 w-5" />
                   }
-                  onClick={() => signOut()}
+                  onPress={() => signOut()}
                 >
                   Log Out
                 </DropdownItem>

@@ -1,7 +1,6 @@
-import million from "million/compiler";
+import type { NextConfig } from "next";
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
       allowedOrigins: ["app.localhost:3000", "admin.localhost:3000"],
@@ -25,5 +24,4 @@ const nextConfig = {
   },
 };
 
-// export default million.next(nextConfig, { auto: true, rsc: true });
 export default nextConfig;

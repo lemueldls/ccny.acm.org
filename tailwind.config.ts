@@ -93,7 +93,7 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./lib/**/*.{js,ts,jsx,tsx}",
 
-    "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}", // NextUI module
+    "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}", // HeroUI module
     // "./node_modules/primereact/**/*.{js,ts,jsx,tsx}", // PrimeReact module
     // "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}", // Tremor module
   ],
@@ -108,25 +108,8 @@ const config: Config = {
         lg: "0 8px 16px var(--tw-shadow-color)",
       },
       fontFamily: {
-        default: ["var(--font-inter)", ...fontFamily.sans],
-        cal: ["var(--font-cal)", ...fontFamily.sans],
-        title: ["var(--font-title)", ...fontFamily.sans],
-        lora: ["var(--font-lora)", ...fontFamily.serif],
-        work: ["var(--font-work-sans)", ...fontFamily.sans],
-        lato: ["var(--font-lato)", ...fontFamily.sans],
-        majorMonoDisplay: [
-          "var(--font-major-mono-display)",
-          ...fontFamily.mono,
-        ],
-        ppNeueMachinaInktrack: [
-          "var(--font-pp-neue-machina-inktrack)",
-          ...fontFamily.sans,
-        ],
-        ppNeueMachinaPlain: [
-          "var(--font-pp-neue-machina-plain)",
-          ...fontFamily.sans,
-        ],
-        mono: ["Consolas", ...fontFamily.mono],
+        default: ["var(--font-lato)", ...fontFamily.sans],
+        brand: ["var(--font-brand)", ...fontFamily.sans],
       },
       animation: {
         shine: "shine var(--duration) infinite linear",

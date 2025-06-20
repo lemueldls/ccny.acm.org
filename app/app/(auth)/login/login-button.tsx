@@ -2,10 +2,9 @@
 
 import { useAuthActions } from "@convex-dev/auth/react";
 import LoadingDots from "@/components/icons/loading-dots";
-import { Button, ButtonProps } from "@heroui/react";
+import { addToast, Button, ButtonProps } from "@heroui/react";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import { toast } from "sonner";
 
 interface LoginButtonProps extends ButtonProps {
   provider: string;
@@ -27,7 +26,7 @@ export default function LoginButton(props: LoginButtonProps) {
 
   useEffect(() => {
     const errorMessage = Array.isArray(error) ? error.pop() : error;
-    errorMessage && toast.error(errorMessage);
+    errorMessage && addToast({ title: errorMessage, color: "danger" });
   }, [error]);
 
   return (
@@ -35,7 +34,7 @@ export default function LoginButton(props: LoginButtonProps) {
       size="lg"
       variant={variant}
       isLoading={loading}
-      onClick={() => {
+      onPress={() => {
         setLoading(true);
         signIn(provider);
       }}

@@ -1,12 +1,50 @@
+import { v } from "convex/values";
 import {
   getAuthSessionId,
   getAuthUserId,
-  signInViaProvider,
 } from "@convex-dev/auth/server";
-import { mutation, query } from "./_generated/server";
-import { v } from "convex/values";
-import schema from "./schema";
-import { signIn } from "./auth";
+import { mutation, query, internalQuery } from "./_generated/server";
+
+import { internal } from "./_generated/api";
+
+export const requireUser = internalQuery({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (userId === null) throw new Error("Unauthorized");
+
+    const user = await ctx.db.get(userId);
+    if (!user) throw new Error("Unauthorized");
+
+    return user;
+  },
+});
+
+export const requireAdmin = internalQuery({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (userId === null) throw new Error("Unauthorized");
+    
+    const user = await ctx.db.get(userId);
+    if (!user || !user.isAdmin) throw new Error("Unauthorized");
+
+    return user;
+  },
+});
+
+export const isAdmin = internalQuery({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (userId === null) return false;
+
+    const user = await ctx.db.get(userId);
+    if (!user) return false;
+
+    return user.isAdmin;
+  },
+});
 
 export const currentSession = query({
   args: {},
@@ -32,6 +70,8 @@ export const currentUser = query({
 export const getAllUsers = query({
   args: {},
   handler: async (ctx) => {
+    await ctx.runQuery(internal.users.requireAdmin);
+
     const users = await ctx.db.query("users").collect();
     // users.sort((a, b) => (a.name || a.email || "").localeCompare(b.name || b.email || ""));
 
@@ -42,6 +82,7 @@ export const getAllUsers = query({
 export const getByEmail = query({
   args: { email: v.optional(v.string()) },
   handler: async (ctx, args) => {
+
     return await ctx.db
       .query("users")
       .filter((q) => q.eq(q.field("email"), args.email))

@@ -103,7 +103,7 @@ export default function Quicktime(props: QuicktimeProps) {
           }
           className="h-full p-4 text-[1.25em]"
           color="danger"
-          onClick={() => handleSetAnswer(0)}
+          onPress={() => handleSetAnswer(0)}
           isDisabled={showAnswer && prompt.correctAnswer !== prompt.answers[0]}
         >
           <MarkdownRenderer>{prompt.answers[0]}</MarkdownRenderer>
@@ -118,7 +118,7 @@ export default function Quicktime(props: QuicktimeProps) {
           }
           className="h-full p-4 text-[1.25em]"
           color="secondary"
-          onClick={() => handleSetAnswer(1)}
+          onPress={() => handleSetAnswer(1)}
           isDisabled={showAnswer && prompt.correctAnswer !== prompt.answers[1]}
         >
           <MarkdownRenderer>{prompt.answers[1]}</MarkdownRenderer>
@@ -133,7 +133,7 @@ export default function Quicktime(props: QuicktimeProps) {
           }
           className="h-full p-4 text-[1.25em]"
           color="warning"
-          onClick={() => handleSetAnswer(2)}
+          onPress={() => handleSetAnswer(2)}
           isDisabled={showAnswer && prompt.correctAnswer !== prompt.answers[2]}
         >
           <MarkdownRenderer>{prompt.answers[2]}</MarkdownRenderer>
@@ -148,7 +148,7 @@ export default function Quicktime(props: QuicktimeProps) {
           }
           className="h-full p-4 text-[1.25em]"
           color="success"
-          onClick={() => handleSetAnswer(3)}
+          onPress={() => handleSetAnswer(3)}
           isDisabled={showAnswer && prompt.correctAnswer !== prompt.answers[3]}
         >
           <MarkdownRenderer>{prompt.answers[3]}</MarkdownRenderer>

@@ -14,7 +14,7 @@ import type {
   Options as ConfettiOptions,
 } from "canvas-confetti";
 import confetti from "canvas-confetti";
-import { Button, ButtonProps } from "@heroui/react";
+import { Button, type ButtonProps, type PressEvent } from "@heroui/react";
 
 type Api = {
   fire: (options?: ConfettiOptions) => void;
@@ -94,13 +94,13 @@ const Confetti = forwardRef<ConfettiRef, Props>((props, ref) => {
 
 interface ConfettiButtonProps extends ButtonProps {
   options?: ConfettiOptions &
-    ConfettiGlobalOptions & { canvas?: HTMLCanvasElement };
+  ConfettiGlobalOptions & { canvas?: HTMLCanvasElement };
   children?: React.ReactNode;
 }
 
 function ConfettiButton({ options, children, ...props }: ConfettiButtonProps) {
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
+  const handleClick = (event: PressEvent) => {
+    const rect = event.target.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
     const y = rect.top + rect.height / 2;
     confetti({
@@ -113,7 +113,7 @@ function ConfettiButton({ options, children, ...props }: ConfettiButtonProps) {
   };
 
   return (
-    <Button onClick={handleClick} {...props}>
+    <Button onPress={handleClick} {...props}>
       {children}
     </Button>
   );

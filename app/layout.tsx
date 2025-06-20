@@ -1,26 +1,23 @@
 import "@/styles/globals.css";
-import { cal, inter } from "@/styles/fonts";
-import { Analytics } from "@vercel/analytics/react";
-import { Providers } from "./providers";
-import { Metadata, Viewport } from "next";
+
+import type { Metadata } from "next";
 
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 
-import { Image, cn } from "@heroui/react";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
-import { Lato } from "next/font/google";
+import { Providers } from "./providers";
+
+import { Image } from "@heroui/react";
+// import NextImage from "next/image";
+
+import { lato } from "@/styles/fonts";
 
 const title = "Beavers Code (ACM @ CCNY)";
 const description =
-  "In collaboration with ACM and GDSC, we are proud to present Beavers Code, a student-led computer science club at the City College of New York.";
-const image = "/icon.png";
-
-const lato = Lato({
-  variable: "--font-lato",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  display: "swap",
-});
+  "With leaders from ACM, GDGC, Notion, and BYTE, we are proud to present Beavers Code, a student-led computer science club at the City College of New York. The club aims to foster a community of tech enthusiasts who collaborate in developing the skills they need in the industry, expanding their network, participating in activities related to new technologies, and learning how to further their professional careers.";
+const image = "/og-image.png";
 
 export const metadata: Metadata = {
   title,
@@ -55,7 +52,7 @@ export const metadata: Metadata = {
   //   images: [image],
   //   creator: "@vercel",
   // },
-  // metadataBase: new URL(process.env.NEXT_PUBLIC_ROOT_URL),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_ROOT_URL!),
 };
 
 // export const viewport: Viewport = {
@@ -72,16 +69,43 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ConvexAuthNextjsServerProvider verbose>
+    <ConvexAuthNextjsServerProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={cn(cal.variable, inter.variable)}>
+        <Analytics />
+        <SpeedInsights />
+
+        <body>
           <Providers>
             <main
               className={`min-h-screen bg-background text-foreground ${lato.className}`}
             >
               {children}
             </main>
-            <Analytics />
+
+            <div
+              aria-hidden="true"
+              className="fixed -bottom-[40%] -left-[20%] z-0 hidden dark:opacity-70 dark:md:block"
+            >
+              <Image
+                // as={NextImage}
+                width={1266}
+                height={1211}
+                alt="left background"
+                src="/gradients/docs-left.png"
+              />
+            </div>
+            <div
+              aria-hidden="true"
+              className="fixed -right-[60%] -top-[80%] z-0 hidden rotate-12 dark:opacity-70 dark:md:block 2xl:-right-[45%] 2xl:-top-[60%]"
+            >
+              <Image
+                // as={NextImage}
+                width={1833}
+                height={1822}
+                alt="right background"
+                src="/gradients/docs-right.png"
+              />
+            </div>
           </Providers>
         </body>
       </html>

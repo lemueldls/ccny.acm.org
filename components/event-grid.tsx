@@ -1,29 +1,21 @@
-import { ReactNode } from "react";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  CardProps,
-  Chip,
-  Link,
-  Skeleton,
-} from "@heroui/react";
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/16/solid";
-import EventCard, { EventCardSkeleton } from "./event-card";
+"use client";
+
+import EventCard from "./event-card";
 import { SerializedEvent } from "@/lib/events";
+import { Button, Link } from "@heroui/react";
+
+import { PencilSquareIcon } from "@heroicons/react/20/solid";
 
 export interface EventGridProps {
   events: SerializedEvent[];
   rsvpIsDisabled?: boolean;
-  renderFooter?: (event: SerializedEvent) => ReactNode;
+  showEditLink?: boolean;
 }
 
 export default function EventGrid({
   events,
   rsvpIsDisabled,
-  renderFooter,
+  showEditLink,
 }: EventGridProps) {
   return (
     <div className="mb-2 grid grid-cols-1 gap-4 sm:grid-cols-[repeat(auto-fill,minmax(28rem,1fr))]">
@@ -32,20 +24,20 @@ export default function EventGrid({
           key={index}
           event={event}
           rsvpIsDisabled={rsvpIsDisabled}
-          footer={renderFooter?.(event)}
+          footer={
+            showEditLink && (
+              <Button
+                as={Link}
+                href={`/admin/events/${event.id}`}
+                variant="ghost"
+                color="primary"
+                startContent={<PencilSquareIcon className="h-5 w-5" />}
+              >
+                Edit
+              </Button>
+            )
+          }
         />
-      ))}
-    </div>
-  );
-}
-
-export interface EventGridSkeletonProps extends CardProps {}
-
-export function EventGridSkeleton(props: EventGridSkeletonProps) {
-  return (
-    <div className="mb-2 grid grid-cols-1 gap-4 sm:grid-cols-[repeat(auto-fill,minmax(28rem,1fr))]">
-      {Array.from({ length: 3 }).map((_, i) => (
-        <EventCardSkeleton key={i} {...props} />
       ))}
     </div>
   );

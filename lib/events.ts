@@ -25,6 +25,22 @@ export interface DeserializedEvent
   end: number | undefined;
 }
 
+
+export const eventKindColorMap = {
+  workshop: "primary",
+  meeting: "secondary",
+  informationSession: "success",
+  hackathon: "danger",
+} as const;
+
+export const eventKindTextMap = {
+  workshop: "Workshop",
+  meeting: "Meeting",
+  informationSession: "Information Session",
+  hackathon: "Hackathon",
+};
+
+
 export function serializeEvent(event: Doc<"events">) {
   // const timeZone = getLocalTimeZone();
   const timeZone = "America/New_York";
@@ -38,6 +54,7 @@ export function serializeEvent(event: Doc<"events">) {
     end: event.end ? fromAbsolute(event.end, timeZone) : null,
     description: event.description,
     rsvp: event.rsvp,
+    public: event.public,
   };
 }
 
@@ -50,6 +67,7 @@ export function deserializeEvent(event: SerializedEvent): DeserializedEvent {
     end: event.end ? event.end.toDate().getTime() : undefined,
     description: event.description,
     rsvp: event.rsvp,
+    public: event.public,
   };
 }
 
@@ -70,7 +88,7 @@ export function parseEvents(events: SerializedEvent[]) {
         return [happeningToday, upcomingEvents, pastEvents];
       }
 
-      if (isSameDay(event.end, localNow)) {
+      if (isSameDay(event.start, localNow) || isSameDay(event.end, localNow)) {
         happeningToday.push(event);
       } else if (event.end.compare(localNow) < 0) {
         pastEvents.push(event);

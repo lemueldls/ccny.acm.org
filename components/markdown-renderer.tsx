@@ -1,20 +1,21 @@
 import { Divider, Link, Snippet } from "@heroui/react";
 import Markdown, { Options } from "react-markdown";
 
-export interface MarkdownRendererProps extends Options {}
+export interface MarkdownRendererProps extends Options { }
 
 export default function MarkdownRenderer(props: MarkdownRendererProps) {
   return (
     <Markdown
+      className="flex flex-col gap-[0.5em]"
       components={{
         h1: (props) => (
-          <h1 className="mb-[1em] text-[2em] font-extrabold" {...props} />
+          <h1 className="text-[2em] font-extrabold" {...props} />
         ),
         h2: (props) => (
-          <h2 className="mb-[1em] text-[1.75em] font-bold" {...props} />
+          <h2 className="text-[1.75em] font-bold" {...props} />
         ),
         h3: (props) => (
-          <h3 className="mb-[1em] text-[1.5em] font-semibold" {...props} />
+          <h3 className="text-[1.5em] font-semibold" {...props} />
         ),
         p: (props) => (
           <p
@@ -36,19 +37,19 @@ export default function MarkdownRenderer(props: MarkdownRendererProps) {
         hr: (props) => <Divider className="my-4" />,
         ul: (props) => (
           <ul
-            className="mt-[1em] list-inside list-disc [line-height:1.25em]"
+            className="list-inside list-disc"
             {...props}
           >
             {props.children}
           </ul>
         ),
-        li: (props) => <li className="text-[0.9em]">{props.children}</li>,
+        li: (props) => <li>{props.children}</li>,
         a: (props) => (
           <Link
-            className="text-[1em] underline"
+            className="underline"
             href={props.href}
             target="_blank"
-            // rel="noopener noreferrer"
+          // rel="noopener noreferrer"
           >
             {props.children}
           </Link>
