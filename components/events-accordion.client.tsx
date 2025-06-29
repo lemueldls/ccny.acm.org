@@ -21,6 +21,16 @@ export interface EventsAccordionClientProps
   showEditLink?: boolean;
 }
 
+if (![].toReversed) {
+  Array.prototype.toReversed = function () {
+    for (var i = this.length - 1, arr = []; i >= 0; --i) {
+      arr.push(this[i]);
+    }
+
+    return arr;
+  };
+}
+
 export default function EventsAccordionClient(
   props: EventsAccordionClientProps,
 ) {
@@ -67,7 +77,10 @@ export default function EventsAccordionClient(
         className="flex flex-col gap-8"
         classNames={{ title: "text-4xl font-bold" }}
       >
-        <EventGrid events={happeningToday.toReversed()} showEditLink={props.showEditLink} />
+        <EventGrid
+          events={happeningToday.toReversed()}
+          showEditLink={props.showEditLink}
+        />
       </AccordionItem>
 
       <AccordionItem
@@ -83,7 +96,10 @@ export default function EventsAccordionClient(
         className="flex flex-col gap-8"
         classNames={{ title: "text-4xl font-bold" }}
       >
-        <EventGrid events={upcomingEvents.toReversed()} showEditLink={props.showEditLink} />
+        <EventGrid
+          events={upcomingEvents.toReversed()}
+          showEditLink={props.showEditLink}
+        />
       </AccordionItem>
 
       <AccordionItem
@@ -114,7 +130,7 @@ export function EventsAccordionSkeleton() {
       variant="bordered"
       selectionMode="multiple"
       disabledKeys={["1", "2", "3"]}
-    // defaultExpandedKeys={["1", "2", "3"]}
+      // defaultExpandedKeys={["1", "2", "3"]}
     >
       <AccordionItem
         key="1"

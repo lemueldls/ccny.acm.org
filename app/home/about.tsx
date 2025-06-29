@@ -43,14 +43,13 @@ function BrandTemplate(brand: Brand) {
 
 const values = [
   { name: "ACM", image: "/acm.svg" },
-  { name: "GDSC", image: "/gdsc.svg" },
-  { name: "Notion", image: "/notion.png" },
+  // { name: "GDSC", image: "/gdsc.svg" },
+  // { name: "Notion", image: "/notion.png" },
   // { name: "GitHub", image: "/github-light.svg" },
-  { name: "BYTE", image: "/byte.png" },
+  // { name: "BYTE", image: "/byte.png" },
 ];
 
 export default function HomePageAbout() {
-
   const [page, setPage] = useState(0);
 
   useEffect(() => {
@@ -67,7 +66,7 @@ export default function HomePageAbout() {
       className="texture block w-full max-w-[75rem] bg-background/60 px-16 py-8 dark:bg-default/10"
       shadow="sm"
     >
-      <CardHeader className="items-center justify-center flex flex-col lg:flex-row gap-16">
+      <CardHeader className="flex flex-col items-center justify-center gap-16 lg:flex-row">
         <Image
           as={NextImage}
           width="710"
@@ -76,10 +75,7 @@ export default function HomePageAbout() {
           src="/ccny-collab.svg"
           alt="CCNY Collab"
         />
-        <Divider
-          orientation="vertical"
-          className="hidden h-64 w-1 lg:block"
-        />
+        <Divider orientation="vertical" className="hidden h-64 w-1 lg:block" />
         <Divider orientation="horizontal" className="mt-4 block lg:hidden" />
         <Carousel
           value={values}
@@ -102,52 +98,11 @@ export default function HomePageAbout() {
 
       <CardBody>
         <p className="m-auto w-full max-w-5xl text-center text-2xl">
-          With leaders from{" "}
-          <Link
-            href="https://www.acm.org/"
-            isExternal
-            showAnchorIcon
-            anchorIcon={<ArrowTopRightOnSquareIcon className="ml-1 size-4" />}
-            className="text-2xl"
-          >
-            ACM
-          </Link>
-          ,{" "}
-          <Link
-            href="https://developers.google.com/community"
-            isExternal
-            showAnchorIcon
-            anchorIcon={<ArrowTopRightOnSquareIcon className="ml-1 size-4" />}
-            className="text-2xl"
-          >
-            GDGC
-          </Link>
-          ,{" "}
-          <Link
-            href="https://www.notion.so/"
-            isExternal
-            showAnchorIcon
-            anchorIcon={<ArrowTopRightOnSquareIcon className="ml-1 size-4" />}
-            className="text-2xl"
-          >
-            Notion
-          </Link>
-          , and{" "}
-          <Link
-            href="https://www.byteccny.com/"
-            isExternal
-            showAnchorIcon
-            anchorIcon={<ArrowTopRightOnSquareIcon className="ml-1 size-4" />}
-            className="text-2xl"
-          >
-            BYTE
-          </Link>
-          , we are proud to present Beavers Code, a student-led computer
-          science club at the City College of New York. The club aims to foster
-          a community of tech enthusiasts who collaborate in developing the
-          skills they need in the industry, expanding their network,
-          participating in activities related to new technologies, and learning
-          how to further their professional careers.
+          We are a student-led computer science club at the City College of New
+          York. The club aims to foster a community of tech enthusiasts who
+          collaborate in developing the skills they need in the industry,
+          expanding their network, participating in activities related to new
+          technologies, and learning how to further their professional careers.
         </p>
       </CardBody>
     </Card>

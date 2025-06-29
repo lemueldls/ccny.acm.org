@@ -1,8 +1,5 @@
 import { v } from "convex/values";
-import {
-  getAuthSessionId,
-  getAuthUserId,
-} from "@convex-dev/auth/server";
+import { getAuthSessionId, getAuthUserId } from "@convex-dev/auth/server";
 import { mutation, query, internalQuery } from "./_generated/server";
 
 import { internal } from "./_generated/api";
@@ -25,7 +22,7 @@ export const requireAdmin = internalQuery({
   handler: async (ctx) => {
     const userId = await getAuthUserId(ctx);
     if (userId === null) throw new Error("Unauthorized");
-    
+
     const user = await ctx.db.get(userId);
     if (!user || !user.isAdmin) throw new Error("Unauthorized");
 
@@ -82,6 +79,7 @@ export const getAllUsers = query({
 export const getByEmail = query({
   args: { email: v.optional(v.string()) },
   handler: async (ctx, args) => {
+    await ctx.runQuery(internal.users.requireAdmin);
 
     return await ctx.db
       .query("users")
@@ -93,6 +91,8 @@ export const getByEmail = query({
 export const getByDiscordId = query({
   args: { discordId: v.optional(v.string()) },
   handler: async (ctx, args) => {
+    await ctx.runQuery(internal.users.requireAdmin);
+
     return await ctx.db
       .query("users")
       .filter((q) => q.eq(q.field("discordId"), args.discordId))
