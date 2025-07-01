@@ -31,6 +31,7 @@ import {
   SerializedEvent,
 } from "@/lib/events";
 import MarkdownRenderer from "./markdown-renderer";
+import { cn } from "../lib/utils";
 
 // const timeZone = getLocalTimeZone();
 const timeZone = "America/New_York";
@@ -60,7 +61,7 @@ export default function EventCard(props: EventCardProps) {
     <Card
       isBlurred
       shadow="sm"
-      className={`${className} diagonal-lines !bg-default/20 p-2`}
+      className={cn("diagonal-lines !bg-default/20 p-2", className)}
       {...props}
     >
       <CardHeader className="flex flex-col items-start pb-0">
@@ -95,14 +96,14 @@ export default function EventCard(props: EventCardProps) {
 
         <span className="flex flex-col">
           {event.location && (
-            <div className="text-md flex items-center gap-2 text-foreground-500">
+            <div className="text-md text-foreground-500 flex items-center gap-2">
               <MapPinIcon className="h-4 w-4" />
               <span className="flex-1">{event.location}</span>
             </div>
           )}
 
           {event.start && (
-            <div className="text-md flex items-center gap-2 text-foreground-500">
+            <div className="text-md text-foreground-500 flex items-center gap-2">
               <CalendarDaysIcon className="h-4 w-4" />
               <span className="flex-1" suppressHydrationWarning>
                 {event.end

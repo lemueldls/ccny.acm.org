@@ -12,6 +12,7 @@ import { SimpleIconsLinkedin } from "@/components/icons/linkedin";
 import { EnvelopeIcon as EnvelopeIcon24 } from "@heroicons/react/24/solid";
 import HomePageHeader from "./header";
 import { LineShadowText } from "@/components/line-shadow";
+import { cn } from "@/lib/utils";
 // import HomePageBulletin from "./bulletin";
 
 export default function HomePage() {
@@ -19,17 +20,20 @@ export default function HomePage() {
     <div className="flex min-h-screen flex-col">
       <HomePageHeader />
 
-      <ScrollShadow visibility="both" className="circuit-board mb-8 px-4 py-8">
+      <ScrollShadow visibility="both" className="circuit-board mb-8 p-4 pb-8">
         <div className="container mx-auto flex flex-col items-center gap-8">
-          <div className="mb-32 mt-16 flex flex-col items-center gap-4 sm:mb-32 sm:mt-20">
-            <div className="mb-12 min-h-12">
+          <div className="mb-32 mt-8 flex flex-col items-center gap-4 sm:mb-32 sm:mt-20">
+            <div className="min-h-26 mb-4 sm:min-h-12">
               <EventChip />
             </div>
 
             <span className="text-xl lg:text-3xl">Welcome to</span>
 
             <h1
-              className={`mb-8 text-center text-7xl font-bold md:text-8xl lg:text-9xl ${brand.className}`}
+              className={cn(
+                "mb-8 text-center text-7xl font-bold md:text-8xl lg:text-9xl",
+                brand.className,
+              )}
             >
               <LineShadowText
                 as={"a"}

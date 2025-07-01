@@ -28,7 +28,7 @@ export default function EventChipClient(props: EventChipClientProps) {
       color="danger"
       size="lg"
       variant="flat"
-      className="diagonal-lines wrap-center balance flex h-auto max-w-xl flex-col gap-2 rounded-3xl px-2 py-6 sm:h-8 sm:flex-row"
+      className="diagonal-lines wrap-center balance flex h-auto max-w-xl flex-col gap-2 rounded-3xl p-2 sm:h-8 sm:flex-row sm:py-6"
       as={Link}
       href="#happening-today"
       startContent={
@@ -45,7 +45,7 @@ export default function EventChipClient(props: EventChipClientProps) {
         color="secondary"
         size="lg"
         variant="flat"
-        className="diagonal-lines wrap-center balance flex h-auto max-w-xl flex-col gap-2 rounded-3xl px-2 py-6 sm:h-8 sm:flex-row"
+        className="diagonal-lines wrap-center balance flex h-auto max-w-xl flex-col gap-2 rounded-3xl p-2 sm:h-8 sm:flex-row sm:py-6"
         as={Link}
         href="#upcoming-events"
         startContent={

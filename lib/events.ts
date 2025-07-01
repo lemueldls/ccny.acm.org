@@ -94,7 +94,12 @@ export function parseEvents(events: SerializedEvent[]) {
         upcomingEvents.push(event);
       }
 
-      // upcomingEvents.push(pastEvents.at(0)!);
+      // upcomingEvents.push(
+      //   // pastEvents.reduce(
+      //   //   (a, b) => (a.title.length > b.title.length ? a : b),
+      //   pastEvents[0],
+      //   // ),
+      // );
 
       return [happeningToday, upcomingEvents, pastEvents];
     },

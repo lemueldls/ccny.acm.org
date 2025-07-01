@@ -203,7 +203,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
     <Tilt className="flex-1 flex-shrink basis-full md:max-w-[22rem] lg:max-w-[30rem]">
       <Card
         isBlurred
-        className="brick-wall border-none bg-background/60 p-2 dark:bg-default/10"
+        className="brick-wall border-none !bg-default/20 p-2"
         shadow="md"
       >
         <CardBody className="grid grid-cols-[fit-content(8rem)_1fr] grid-rows-[fit-content(8rem)_1fr] gap-5 overflow-visible">
@@ -283,17 +283,6 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
                 Email
               </Button>
             )}
-
-            {/* <Button
-        as={Link}
-        href={`mailto:${member.email}`}
-        // color="primary"
-        variant="light"
-        isExternal
-        isIconOnly
-      >
-        <EnvelopeIcon20 className="h-5 w-5" />
-      </Button> */}
           </div>
         </CardBody>
       </Card>
