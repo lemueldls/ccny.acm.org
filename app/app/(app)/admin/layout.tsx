@@ -3,7 +3,7 @@ import { Button, Link, Navbar, NavbarContent, NavbarItem } from "@heroui/react";
 import { CalendarDaysIcon, UsersIcon } from "@heroicons/react/20/solid";
 
 export const metadata: Metadata = {
-  title: "Admin | Beavers Code (ACM @ CCNY)",
+  title: "Admin | ACM @ CCNY",
 };
 
 export interface RootLayoutProps {

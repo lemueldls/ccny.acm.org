@@ -200,7 +200,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
   const zoom = 1.1;
 
   return (
-    <Tilt className="max-w-[22rem] flex-1 flex-shrink basis-full lg:max-w-[30rem]">
+    <Tilt className="flex-1 flex-shrink basis-full md:max-w-[22rem] lg:max-w-[30rem]">
       <Card
         isBlurred
         className="brick-wall border-none bg-background/60 p-2 dark:bg-default/10"
@@ -224,10 +224,10 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
           />
 
           <div className="flex flex-1 flex-col items-start justify-start">
-            <h3 className="text-3xl font-semibold leading-none text-foreground-800">
+            <h3 className="text-foreground-800 text-3xl font-semibold leading-none">
               {member.name}
             </h3>
-            <span className="text-xl text-foreground-500">
+            <span className="text-foreground-500 text-xl">
               {member.position}
             </span>
           </div>

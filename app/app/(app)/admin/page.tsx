@@ -5,7 +5,7 @@ import AdminEventsPage from "./events/page";
 
 export default function AdminHomePage() {
   return (
-    <div className="masonry sm:masonry-sm md:masonry-md">
+    <div>
       {/* <AdminUsersPage /> */}
       {/* <AdminEventsPage /> */}
       go away

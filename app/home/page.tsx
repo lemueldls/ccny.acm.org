@@ -1,54 +1,58 @@
-import { SimpleIconsDiscord } from "@/components/icons/discord";
-
-import { ppNeueMachinaPlain } from "@/styles/fonts";
-import { Button, Link, ScrollShadow } from "@heroui/react";
+import { brand } from "@/styles/fonts";
+import { Button, Divider, Link, ScrollShadow } from "@heroui/react";
 import EventChip from "@/components/event-chip";
 // import HyperText from "@/components/ui/hyper-text";
 import HomePageTeam from "./team";
 import HomePageEvents from "./events";
 import HomePageAbout from "./about";
-import { useTheme } from "next-themes";
+
+import { SimpleIconsDiscord } from "@/components/icons/discord";
+import { SimpleIconsInstagram } from "@/components/icons/instagram";
+import { SimpleIconsLinkedin } from "@/components/icons/linkedin";
+import { EnvelopeIcon as EnvelopeIcon24 } from "@heroicons/react/24/solid";
 import HomePageHeader from "./header";
+import { LineShadowText } from "@/components/line-shadow";
 // import HomePageBulletin from "./bulletin";
 
-const dateFormatter = Intl.DateTimeFormat("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  weekday: "long",
-  hour: "numeric",
-  minute: "numeric",
-  timeZoneName: "short",
-  timeZone: "America/New_York",
-});
-
 export default function HomePage() {
-
   return (
     <div className="flex min-h-screen flex-col">
       <HomePageHeader />
 
       <ScrollShadow visibility="both" className="circuit-board mb-8 px-4 py-8">
         <div className="container mx-auto flex flex-col items-center gap-8">
-          <div className="mb-32 mt-16 flex flex-col items-center gap-8 sm:mb-32 sm:mt-20">
-            <div className="mb-8 min-h-12">
+          <div className="mb-32 mt-16 flex flex-col items-center gap-4 sm:mb-32 sm:mt-20">
+            <div className="mb-12 min-h-12">
               <EventChip />
             </div>
 
             <span className="text-xl lg:text-3xl">Welcome to</span>
 
-            <div className="mb-4 text-center">
-              <h1
-                className={`text-6xl font-extrabold lg:text-8xl ${ppNeueMachinaPlain.className}`}
+            <h1
+              className={`mb-8 text-center text-7xl font-bold md:text-8xl lg:text-9xl ${brand.className}`}
+            >
+              <LineShadowText
+                as={"a"}
+                href="https://www.acm.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                shadowColor="#3db7e4"
+                className="after:paused hover:after:running"
               >
-                BEAVERS CODE
-                {/* <HyperText text="BEAVERS CODE" /> */}
-              </h1>
-
-              <span className="text-3xl font-bold lg:text-5xl">
-                (<span className="text-shadow-sm shadow-secondary">ACM</span> @ <span className="text-shadow-sm shadow-primary">CCNY</span>)
-              </span>
-            </div>
+                ACM
+              </LineShadowText>{" "}
+              @{" "}
+              <LineShadowText
+                as={"a"}
+                href="https://www.ccny.cuny.edu/"
+                target="_blank"
+                rel="noopener noreferrer"
+                shadowColor="#7d55c7"
+                className="after:paused hover:after:running"
+              >
+                CCNY
+              </LineShadowText>
+            </h1>
 
             <div className="flex flex-col items-stretch gap-4 sm:flex-row">
               <Button
@@ -62,17 +66,67 @@ export default function HomePage() {
               >
                 Join Us on Campus Groups!
               </Button>
-              <Button
-                size="lg"
-                className="hover:text-[#5865F2]"
-                variant="flat"
-                startContent={<SimpleIconsDiscord className="h-5 w-5" />}
-                as={Link}
-                href="https://discord.com/invite/CsntEuGJe5"
-                isExternal
-              >
-                Join the Discord
-              </Button>
+
+              <Divider
+                orientation="vertical"
+                className="hidden h-12 sm:block"
+              />
+              <Divider orientation="horizontal" className="block sm:hidden" />
+
+              <div className="flex justify-center gap-4">
+                <Button
+                  as={Link}
+                  size="lg"
+                  title="Discord"
+                  className="hover:text-[#5865F2]"
+                  color="default"
+                  href="https://discord.com/invite/CsntEuGJe5"
+                  isExternal
+                  variant="flat"
+                  isIconOnly
+                >
+                  <SimpleIconsDiscord className="size-6" />
+                </Button>
+                <Button
+                  as={Link}
+                  size="lg"
+                  title="Instagram"
+                  className="hover:text-[#E4405F]"
+                  color="default"
+                  href="https://www.instagram.com/acm.ccny/"
+                  isExternal
+                  variant="flat"
+                  isIconOnly
+                >
+                  <SimpleIconsInstagram className="size-6" />
+                </Button>
+                <Button
+                  as={Link}
+                  size="lg"
+                  title="LinkedIn"
+                  className="hover:text-[#0A66C2]"
+                  color="default"
+                  href="https://www.linkedin.com/in/ccnyacm/"
+                  isExternal
+                  variant="flat"
+                  isIconOnly
+                >
+                  <SimpleIconsLinkedin className="size-6" />
+                </Button>
+                <Button
+                  as={Link}
+                  size="lg"
+                  title="Email"
+                  className="hover:text-[#7D55C7]"
+                  color="default"
+                  href="mailto:ccnyacm@gmail.com"
+                  isExternal
+                  variant="flat"
+                  isIconOnly
+                >
+                  <EnvelopeIcon24 className="size-6" />
+                </Button>
+              </div>
             </div>
           </div>
 
@@ -95,9 +149,35 @@ export default function HomePage() {
 
       <HomePageEvents />
 
+      <footer className="texture bg-background/60 p-8 dark:bg-default/10">
+        <div className="flex flex-col justify-center gap-16 md:flex-row">
+          {/* <div>
+            <strong className="mb-2 block text-lg">Socials</strong>
+            <ul>
+              <li>
+                <a href="https://discord.com/invite/CsntEuGJe5">Discord</a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/acm.ccny/">Instagram</a>
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/in/ccnyacm/">LinkedIn</a>
+              </li>
+            </ul>
+          </div> */}
 
-      <footer className="flex flex-col items-center justify-center gap-8 py-8">
-        &copy; 2025 Beavers Code (ACM @ CCNY)
+          {/* <div>
+            <strong className="mb-2 block text-lg">Contact</strong>
+
+            <ul>
+              <li>
+                <a href="mailto:ccnyacm@gmail.com">ccnyacm@gmail.com</a>
+              </li>
+            </ul>
+          </div> */}
+
+          <span>&copy; 2025 ACM @ CCNY</span>
+        </div>
       </footer>
     </div>
   );

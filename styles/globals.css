@@ -11,19 +11,6 @@
   @tailwind components;
   @tailwind utilities;
 
-  .masonry {
-    column-gap: 1.5rem;
-    column-count: 1;
-  }
-  .masonry-sm {
-    column-gap: 1.5rem;
-    column-count: 2;
-  }
-  .masonry-md {
-    column-gap: 1.5rem;
-    column-count: 3;
-  }
-
   .break-inside {
     break-inside: avoid;
   }
@@ -34,7 +21,7 @@
     text-wrap: wrap;
     text-wrap: stable;
     text-wrap: pretty;
-    text-wrap: balance;
+    /* text-wrap: balance; */
   }
 }
 
@@ -78,8 +65,6 @@ html {
     filter: brightness(90%);
   }
 }
-
-/* Custom TODO list checkboxes – shoutout to this awesome tutorial: https://moderncss.dev/pure-css-custom-checkbox-style/ */
 
 ul[data-type="taskList"] li > label {
   margin-right: 0.2rem;

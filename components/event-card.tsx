@@ -25,7 +25,11 @@ import {
   parseDateTime,
   fromAbsolute,
 } from "@internationalized/date";
-import { eventKindColorMap, eventKindTextMap, SerializedEvent } from "@/lib/events";
+import {
+  eventKindColorMap,
+  eventKindTextMap,
+  SerializedEvent,
+} from "@/lib/events";
 import MarkdownRenderer from "./markdown-renderer";
 
 // const timeZone = getLocalTimeZone();
@@ -61,15 +65,13 @@ export default function EventCard(props: EventCardProps) {
     >
       <CardHeader className="flex flex-col items-start pb-0">
         <div className="mb-2 flex h-8 w-full items-center justify-between gap-4">
-          <div className="flex-1 flex items-center gap-4">
-            {event.public || (
-              <Chip color="default">
-                Unpublished
-              </Chip>
-            )}
+          <div className="flex flex-1 items-center gap-4">
+            {event.public || <Chip color="default">Unpublished</Chip>}
 
             {event.kind && (
-              <Chip color={eventKindColorMap[event.kind]}>{eventKindTextMap[event.kind]}</Chip>
+              <Chip color={eventKindColorMap[event.kind]}>
+                {eventKindTextMap[event.kind]}
+              </Chip>
             )}
           </div>
 
@@ -105,9 +107,9 @@ export default function EventCard(props: EventCardProps) {
               <span className="flex-1" suppressHydrationWarning>
                 {event.end
                   ? dateFormatter.formatRange(
-                    event.start.toDate(),
-                    event.end.toDate(),
-                  )
+                      event.start.toDate(),
+                      event.end.toDate(),
+                    )
                   : dateFormatter.format(event.start.toDate())}
               </span>
             </div>

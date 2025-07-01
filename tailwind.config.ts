@@ -10,6 +10,8 @@ import animate from "tailwindcss-animate";
 import { heroui } from "@heroui/react";
 import plugin from "tailwindcss/plugin";
 
+import themes from "./themes.json";
+
 const colors = {
   primary: {
     "50": "#efeaf8",
@@ -113,6 +115,7 @@ const config: Config = {
       },
       animation: {
         shine: "shine var(--duration) infinite linear",
+        "line-shadow": "line-shadow 15s linear infinite",
       },
       keyframes: {
         shine: {
@@ -125,6 +128,10 @@ const config: Config = {
           to: {
             "background-position": "0% 0%",
           },
+        },
+        "line-shadow": {
+          "0%": { "background-position": "0 0" },
+          "100%": { "background-position": "100% -100%" },
         },
       },
     },
@@ -163,12 +170,13 @@ const config: Config = {
     typography,
     // forms,
     animate,
-    heroui({
-      themes: {
-        dark: { extend: "dark", colors },
-        light: { extend: "light", colors },
-      },
-    }),
+    // heroui({
+    //   themes: {
+    //     dark: { extend: "dark", colors },
+    //     light: { extend: "light", colors },
+    //   },
+    // }),
+    heroui(themes),
     plugin(function ({ matchUtilities, theme }) {
       matchUtilities(
         {

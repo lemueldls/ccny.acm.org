@@ -1,12 +1,20 @@
-"use client";
+// "use client";
 
 import NextImage from "next/image";
 import { Image } from "@heroui/react";
 
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export default function ThemedLogo() {
   const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <Image
@@ -17,5 +25,5 @@ export default function ThemedLogo() {
       alt="Logo"
       suppressHydrationWarning
     />
-  )
+  );
 }

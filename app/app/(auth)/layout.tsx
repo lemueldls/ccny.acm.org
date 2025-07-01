@@ -6,7 +6,7 @@ import { Image } from "@heroui/react";
 import NextImage from "next/image";
 
 export const metadata: Metadata = {
-  title: "Login | Beavers Code (ACM @ CCNY)",
+  title: "Login | ACM @ CCNY",
 };
 
 export interface RootLayoutProps {

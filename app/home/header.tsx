@@ -1,26 +1,15 @@
 "use client";
 
 import {
-  Button,
   Link,
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Image,
 } from "@heroui/react";
 
-import { SimpleIconsDiscord } from "@/components/icons/discord";
-import { SimpleIconsInstagram } from "@/components/icons/instagram";
-import { SimpleIconsLinkedin } from "@/components/icons/linkedin";
-import {
-  EnvelopeIcon as EnvelopeIcon20,
-  ArrowTopRightOnSquareIcon,
-} from "@heroicons/react/20/solid";
-import { useTheme } from "next-themes";
-import dynamic from "next/dynamic";
-
-const ThemedLogo = dynamic(() => import('@/components/themed-logo'), { ssr: false })
+import ThemedLogo from "@/components/themed-logo";
+import ThemeToggle from "@/components/theme-toggle";
 
 export default function HomePageHeader() {
   return (
@@ -34,7 +23,8 @@ export default function HomePageHeader() {
           </NavbarBrand>
         </NavbarItem>
       </NavbarContent>
-      <NavbarContent className="hidden gap-8 md:flex" justify="center">
+
+      <NavbarContent justify="center">
         <NavbarItem>
           <Link color="foreground" href="#about">
             About
@@ -48,10 +38,10 @@ export default function HomePageHeader() {
         </NavbarItem>
 
         {/* <NavbarItem>
-            <Link color="foreground" href="#news">
-              News
-            </Link>
-          </NavbarItem> */}
+          <Link color="foreground" href="#sponsors">
+            Sponsors
+          </Link>
+        </NavbarItem> */}
 
         <NavbarItem>
           <Link color="foreground" href="#events">
@@ -59,83 +49,12 @@ export default function HomePageHeader() {
           </Link>
         </NavbarItem>
       </NavbarContent>
+
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button
-            as={Link}
-            title="Discord"
-            className="hover:text-[#5865F2]"
-            color="default"
-            href="https://discord.com/invite/CsntEuGJe5"
-            isExternal
-            variant="light"
-            isIconOnly
-          >
-            <SimpleIconsDiscord className="h-5 w-5" />
-          </Button>
+          <ThemeToggle />
         </NavbarItem>
-        <NavbarItem>
-          <Button
-            as={Link}
-            title="Instagram"
-            className="hover:text-[#E4405F]"
-            color="default"
-            href="https://www.instagram.com/acm.ccny/"
-            isExternal
-            variant="light"
-            isIconOnly
-          >
-            <SimpleIconsInstagram className="h-5 w-5" />
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button
-            as={Link}
-            title="LinkedIn"
-            className="hover:text-[#0A66C2]"
-            color="default"
-            href="https://www.linkedin.com/in/ccnyacm/"
-            isExternal
-            variant="light"
-            isIconOnly
-          >
-            <SimpleIconsLinkedin className="h-5 w-5" />
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button
-            as={Link}
-            title="Email"
-            className="hover:text-[#7D55C7]"
-            color="default"
-            href="mailto:ccnyacm@gmail.com"
-            isExternal
-            variant="light"
-            isIconOnly
-          >
-            <EnvelopeIcon20 className="h-5 w-5" />
-          </Button>
-        </NavbarItem>
-
-        {/* <NavbarItem className="hidden lg:flex">
-            <Button
-              onPress={() => setTheme(theme === "dark" ? "light" : "dark")}
-              color="default"
-              variant="light"
-              isIconOnly
-            >
-              {theme === "dark" ? (
-                <SunIcon className="h-5 w-5" />
-              ) : (
-                <MoonIcon className="h-5 w-5" />
-              )}
-            </Button>
-          </NavbarItem> */}
-
-        {/* <NavbarItem className="hidden lg:flex">
-            <Link href="#">Login</Link>
-          </NavbarItem> */}
       </NavbarContent>
     </Navbar>
-  )
+  );
 }

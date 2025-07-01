@@ -10,21 +10,13 @@ import { PrimeReactProvider } from "primereact/api";
 import Tailwind from "primereact/passthrough/tailwind";
 import { twMerge } from "tailwind-merge";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
-import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
-
-import { useTheme } from "next-themes";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const { theme } = useTheme();
 
   return (
     <HeroUIProvider navigate={router.push}>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="dark"
-        forcedTheme="dark"
-      >
+      <ThemeProvider attribute="class">
         <PrimeReactProvider
           value={{
             unstyled: true,

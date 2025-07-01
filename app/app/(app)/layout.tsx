@@ -6,7 +6,7 @@ import NextImage from "next/image";
 import Nav from "@/components/nav";
 
 export const metadata: Metadata = {
-  title: "Workshop | Beavers Code (ACM @ CCNY)",
+  title: "Workshop | ACM @ CCNY",
 };
 
 export interface RootLayoutProps {

@@ -4,9 +4,8 @@ import { Preloaded, usePreloadedQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
 import { serializeEvent, parseEvents } from "@/lib/events";
-import useEvents from "@/lib/hooks/use-events";
 
-import { Chip, ChipProps, Link } from "@heroui/react";
+import { Chip, Link } from "@heroui/react";
 
 export interface EventChipClientProps {
   preloadedEvents: Preloaded<typeof api.events.getAllEvents>;

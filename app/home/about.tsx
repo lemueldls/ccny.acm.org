@@ -63,10 +63,10 @@ export default function HomePageAbout() {
   return (
     <Card
       id="about"
-      className="texture block w-full max-w-[75rem] bg-background/60 px-16 py-8 dark:bg-default/10"
+      className="texture block w-full max-w-[75rem] bg-background/60 p-4 dark:bg-default/40 sm:px-16 sm:py-8"
       shadow="sm"
     >
-      <CardHeader className="flex flex-col items-center justify-center gap-16 lg:flex-row">
+      <CardHeader className="flex flex-col items-center justify-center lg:flex-row lg:gap-16">
         <Image
           as={NextImage}
           width="710"
@@ -97,7 +97,7 @@ export default function HomePageAbout() {
       </CardHeader>
 
       <CardBody>
-        <p className="m-auto w-full max-w-5xl text-center text-2xl">
+        <p className="wrap-center m-auto w-full max-w-5xl text-2xl">
           We are a student-led computer science club at the City College of New
           York. The club aims to foster a community of tech enthusiasts who
           collaborate in developing the skills they need in the industry,

@@ -3,7 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
-      allowedOrigins: ["app.localhost:3000", "admin.localhost:3000"],
+      allowedOrigins: [
+        process.env.NEXT_PUBLIC_APP_URL!,
+        process.env.NEXT_PUBLIC_ADMIN_URL!,
+      ],
     },
   },
   images: {

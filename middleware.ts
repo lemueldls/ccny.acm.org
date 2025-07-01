@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import {
   convexAuthNextjsMiddleware,
   createRouteMatcher,
@@ -6,7 +6,6 @@ import {
 } from "@convex-dev/auth/nextjs/server";
 import { fetchQuery } from "convex/nextjs";
 import { api } from "./convex/_generated/api";
-import { convexAuth } from "@convex-dev/auth/server";
 
 export const config = {
   matcher: [
@@ -21,7 +20,17 @@ export const config = {
 const isLoginPage = createRouteMatcher(["/login"]);
 const isAdminPage = createRouteMatcher(["/admin"]);
 
-const publicRootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN;
+const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN;
+
+const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+const appDomain = appUrl ? new URL(appUrl).hostname : `app.${rootDomain}`;
+
+const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL;
+const adminDomain = adminUrl
+  ? new URL(adminUrl).hostname
+  : `admin.${rootDomain}`;
+
+const vercelUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
 
 export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
   const url = req.nextUrl;
@@ -30,7 +39,7 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
   let hostname = req.headers
     .get("x-forwarded-host")!
     // .get("host")!
-    .replace(".localhost:3000", `.${publicRootDomain}`);
+    .replace(".localhost:3000", `.${rootDomain}`);
 
   // special case for Vercel preview deployment URLs
   if (
@@ -40,7 +49,7 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
     hostname.includes("---") &&
     hostname.endsWith(`.${process.env.NEXT_PUBLIC_VERCEL_DEPLOYMENT_SUFFIX}`)
   ) {
-    hostname = `${hostname.split("---")[0]}.${publicRootDomain}`;
+    hostname = `${hostname.split("---")[0]}.${rootDomain}`;
   }
 
   const searchParams = req.nextUrl.searchParams.toString();
@@ -49,13 +58,12 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
     searchParams.length > 0 ? `?${searchParams}` : ""
   }`;
 
-  // console.log({ hostname, path, api: isApiRoute(req) });
   // if (isApiRoute(req)) {
   //   return NextResponse.rewrite(new URL("/", req.url));
   // }
 
   // rewrites for app pages
-  if (hostname == `app.${publicRootDomain}`) {
+  if (hostname == appDomain) {
     // if (!token && path !== "/login") {
     //   return NextResponse.redirect(new URL("/login", req.url));
     // } else if (token && path == "/login") {
@@ -90,7 +98,7 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
     );
   }
 
-  if (hostname == `admin.${publicRootDomain}`) {
+  if (hostname == adminDomain) {
     return NextResponse.redirect(
       new URL("/admin", process.env.NEXT_PUBLIC_APP_URL),
     );
@@ -98,8 +106,10 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
 
   // rewrite root application to `/home` folder
   if (
+    hostname === "ccny.acm.org" ||
     hostname === "localhost:3000" ||
-    hostname === process.env.NEXT_PUBLIC_ROOT_DOMAIN
+    hostname === rootDomain ||
+    hostname === vercelUrl
   ) {
     return NextResponse.rewrite(
       new URL(`/home${path === "/" ? "" : path}`, req.url),

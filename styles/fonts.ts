@@ -5,6 +5,9 @@ import {
   Work_Sans,
   Lato,
   Major_Mono_Display,
+  Tomorrow,
+  Chakra_Petch,
+  Play,
 } from "next/font/google";
 
 // export const inter = Inter({
@@ -41,6 +44,13 @@ import {
 
 export const lato = Lato({
   variable: "--font-lato",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
+export const brand = Chakra_Petch({
+  variable: "--font-brand",
   subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap",

@@ -25,7 +25,6 @@ export interface DeserializedEvent
   end: number | undefined;
 }
 
-
 export const eventKindColorMap = {
   workshop: "primary",
   meeting: "secondary",
@@ -39,7 +38,6 @@ export const eventKindTextMap = {
   informationSession: "Information Session",
   hackathon: "Hackathon",
 };
-
 
 export function serializeEvent(event: Doc<"events">) {
   // const timeZone = getLocalTimeZone();
@@ -95,6 +93,8 @@ export function parseEvents(events: SerializedEvent[]) {
       } else {
         upcomingEvents.push(event);
       }
+
+      // upcomingEvents.push(pastEvents.at(0)!);
 
       return [happeningToday, upcomingEvents, pastEvents];
     },
