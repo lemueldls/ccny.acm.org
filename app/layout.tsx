@@ -16,7 +16,7 @@ import { lato } from "@/styles/fonts";
 
 const title = "ACM @ CCNY";
 const description =
-  "We are a student-led computer science club at the City College of New York. The club aims to foster a community of tech enthusiasts who collaborate in developing the skills they need in the industry, expanding their network, participating in activities related to new technologies, and learning how to further their professional careers.";
+  "We are a student-led computer science club and ACM Chapter at the City College of New York. The club aims to foster a community of tech enthusiasts who collaborate in developing the skills they need in the industry, expanding their network, participating in activities related to new technologies, and learning how to further their professional careers.";
 const image = "/og-image.png";
 
 export const metadata: Metadata = {

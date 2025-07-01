@@ -63,7 +63,7 @@ export default function HomePageAbout() {
   return (
     <Card
       id="about"
-      className="texture block w-full max-w-[75rem] bg-background/60 p-4 dark:bg-default/40 sm:px-16 sm:py-8"
+      className="texture block w-full max-w-[75rem] bg-background/60 p-4 dark:bg-default/20 sm:px-16 sm:py-8"
       shadow="sm"
     >
       <CardHeader className="flex flex-col items-center justify-center lg:flex-row lg:gap-16">
@@ -98,11 +98,12 @@ export default function HomePageAbout() {
 
       <CardBody>
         <p className="wrap-center m-auto w-full max-w-5xl text-2xl">
-          We are a student-led computer science club at the City College of New
-          York. The club aims to foster a community of tech enthusiasts who
-          collaborate in developing the skills they need in the industry,
-          expanding their network, participating in activities related to new
-          technologies, and learning how to further their professional careers.
+          We are a student-led computer science club and ACM Chapter at the City
+          College of New York. The club aims to foster a community of tech
+          enthusiasts who collaborate in developing the skills they need in the
+          industry, expanding their network, participating in activities related
+          to new technologies, and learning how to further their professional
+          careers.
         </p>
       </CardBody>
     </Card>
