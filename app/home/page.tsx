@@ -21,9 +21,9 @@ export default function HomePage() {
       <HomePageHeader />
 
       <ScrollShadow visibility="both" className="circuit-board mb-8 p-4 pb-8">
-        <div className="container mx-auto flex flex-col items-center gap-8">
-          <div className="mb-32 mt-8 flex flex-col items-center gap-4 sm:mb-32 sm:mt-20">
-            <div className="min-h-26 mb-4 sm:min-h-12">
+        <div className="container mx-auto flex flex-col items-center gap-44">
+          <div className="mt-8 flex flex-col items-center gap-4 sm:mt-20">
+            <div className="mb-4 min-h-[6.5rem] sm:min-h-12">
               <EventChip />
             </div>
 

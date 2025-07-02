@@ -14,15 +14,6 @@
   .break-inside {
     break-inside: avoid;
   }
-
-  .wrap-center {
-    text-align: center;
-
-    text-wrap: wrap;
-    text-wrap: stable;
-    text-wrap: pretty;
-    /* text-wrap: balance; */
-  }
 }
 
 :root {

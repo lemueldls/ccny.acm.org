@@ -203,7 +203,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
     <Tilt className="flex-1 flex-shrink basis-full md:max-w-[22rem] lg:max-w-[30rem]">
       <Card
         isBlurred
-        className="brick-wall border-none !bg-default/20 p-2"
+        className="brick-wall border-none !bg-default/10 p-2"
         shadow="md"
       >
         <CardBody className="grid grid-cols-[fit-content(8rem)_1fr] grid-rows-[fit-content(8rem)_1fr] gap-5 overflow-visible">

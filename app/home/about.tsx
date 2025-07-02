@@ -97,7 +97,7 @@ export default function HomePageAbout() {
       </CardHeader>
 
       <CardBody>
-        <p className="wrap-center m-auto w-full max-w-5xl text-2xl">
+        <p className="m-auto w-full max-w-5xl text-pretty text-center text-2xl">
           We are a student-led computer science club and ACM Chapter at the City
           College of New York. The club aims to foster a community of tech
           enthusiasts who collaborate in developing the skills they need in the
