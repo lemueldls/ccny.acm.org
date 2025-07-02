@@ -30,13 +30,13 @@ export const metadata: Metadata = {
       },
       {
         media: "(prefers-color-scheme: light)",
-        url: "/icon-on-light.png",
-        href: "/icon-on-light.png",
+        url: "/logo-on-light.png",
+        href: "/logo-on-light.png",
       },
       {
         media: "(prefers-color-scheme: dark)",
-        url: "/icon-on-dark.png",
-        href: "/icon-on-dark.png",
+        url: "/logo-on-dark.png",
+        href: "/logo-on-dark.png",
       },
     ],
   },
