@@ -34,9 +34,11 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
             discordProfile.discriminator === "0"
               ? Number(BigInt(discordProfile.id) >> BigInt(22)) % 6
               : parseInt(discordProfile.discriminator) % 5;
-          discordProfile.image_url = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.png`;
+          discordProfile.image_url = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.webp`;
         } else {
-          const format = discordProfile.avatar.startsWith("a_") ? "gif" : "png";
+          const format = discordProfile.avatar.startsWith("a_")
+            ? "gif"
+            : "webp";
           discordProfile.image_url = `https://cdn.discordapp.com/avatars/${discordProfile.id}/${discordProfile.avatar}.${format}`;
         }
 

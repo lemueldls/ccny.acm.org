@@ -69,7 +69,7 @@ export default function Nav({ children }: { children: ReactNode }) {
             <Link href={process.env.NEXT_PUBLIC_ROOT_URL}>
               <Image
                 as={NextImage}
-                src={`/logo-on-${resolvedTheme}.png`}
+                src={`/logo-on-${resolvedTheme}.webp`}
                 width={44}
                 height={44}
                 alt="Logo"
@@ -77,10 +77,10 @@ export default function Nav({ children }: { children: ReactNode }) {
             </Link>
 
             {/* <div className="mx-4 h-11 rotate-30 border-l border-foreground-400" /> */}
-            <span className="px-2 text-medium text-foreground/50">/</span>
+            <span className="text-medium text-foreground/50 px-2">/</span>
 
             <Link href="/">
-              <h1 className="font-mono text-2xl font-bold text-foreground dark:shadow-primary dark:text-shadow">
+              <h1 className="text-foreground dark:shadow-primary dark:text-shadow font-mono text-2xl font-bold">
                 [app]
               </h1>
             </Link>

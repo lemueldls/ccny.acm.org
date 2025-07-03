@@ -21,7 +21,7 @@ export default function ThemedLogo() {
       as={NextImage}
       width={44}
       height={44}
-      src={`/logo-on-${resolvedTheme}.png`}
+      src={`/logo-on-${resolvedTheme}.webp`}
       alt="Logo"
       suppressHydrationWarning
     />

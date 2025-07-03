@@ -13,7 +13,7 @@ export default function GradientBackground() {
           width={1266}
           height={1211}
           alt="left background"
-          src="/gradients/docs-left.png"
+          src="/gradients/docs-left.webp"
           disableSkeleton
           priority
         />
@@ -28,7 +28,7 @@ export default function GradientBackground() {
           width={1833}
           height={1822}
           alt="right background"
-          src="/gradients/docs-right.png"
+          src="/gradients/docs-right.webp"
           disableSkeleton
           priority
         />

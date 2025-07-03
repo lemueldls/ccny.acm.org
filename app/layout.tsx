@@ -9,9 +9,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Providers } from "./providers";
 
-import { cn, Image } from "@heroui/react";
-// import NextImage from "next/image";
-
 import { lato } from "@/styles/fonts";
 
 const title = "ACM @ CCNY";

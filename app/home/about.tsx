@@ -42,11 +42,11 @@ function BrandTemplate(brand: Brand) {
 }
 
 const values = [
-  { name: "ACM", image: "/acm.svg" },
+  { name: "ACM", image: "/acm.webp" },
   // { name: "GDSC", image: "/gdsc.svg" },
-  // { name: "Notion", image: "/notion.png" },
+  // { name: "Notion", image: "/notion.webp" },
   // { name: "GitHub", image: "/github-light.svg" },
-  // { name: "BYTE", image: "/byte.png" },
+  // { name: "BYTE", image: "/byte.webp" },
 ];
 
 export default function HomePageAbout() {
@@ -63,7 +63,7 @@ export default function HomePageAbout() {
   return (
     <Card
       id="about"
-      className="texture block w-full max-w-300 bg-background/60 p-4 dark:bg-default/20 sm:px-16 sm:py-8"
+      className="texture bg-background/60 dark:bg-default/20 block w-full max-w-300 p-4 sm:px-16 sm:py-8"
       shadow="sm"
     >
       <CardHeader className="flex flex-col items-center justify-center lg:flex-row lg:gap-16">
@@ -97,7 +97,7 @@ export default function HomePageAbout() {
       </CardHeader>
 
       <CardBody>
-        <p className="m-auto w-full max-w-5xl text-pretty text-center text-2xl">
+        <p className="m-auto w-full max-w-5xl text-center text-2xl text-pretty">
           We are a student-led computer science club and ACM Chapter at the City
           College of New York. The club aims to foster a community of tech
           enthusiasts who collaborate in developing the skills they need in the

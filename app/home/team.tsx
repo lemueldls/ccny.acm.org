@@ -24,21 +24,21 @@ const executiveBoard = [
   {
     name: "Srewashi Mondal",
     position: "President",
-    image: "/team/srewashi-mondal.jpg",
+    image: "/team/srewashi-mondal.webp",
     email: "smondal002@citymail.cuny.edu",
     linkedin: "srewashi-mondal",
   },
   {
     name: "Evan Haque",
     position: "Vice President",
-    image: "/team/evan-haque.jpg",
+    image: "/team/evan-haque.webp",
     email: "ehaque002@citymail.cuny.edu",
     linkedin: "evanhaque1738",
   },
   {
     name: "Lemuel De Los Santos",
     position: "Secretary",
-    image: "/team/lemuel-de-los-santos.jpg",
+    image: "/team/lemuel-de-los-santos.webp",
     email: "ldeloss002@citymail.cuny.edu",
     linkedin: "lemueldls",
     github: "lemueldls",
@@ -47,7 +47,7 @@ const executiveBoard = [
   {
     name: "Axyl Fredrick",
     position: "Treasurer",
-    image: "/team/axyl-fredrick.jpg",
+    image: "/team/axyl-fredrick.webp",
     email: "afredri000@citymail.cuny.edu",
     linkedin: "axyl-fredrick",
   },
@@ -57,63 +57,63 @@ const extendedBoard: TeamMember[] = [
   {
     name: "Diana Lucero",
     position: "Social Media Chair",
-    image: "/team/diana-lucero.jpg",
+    image: "/team/diana-lucero.webp",
     email: "dlucero000@citymail.cuny.edu",
     linkedin: "dianalucero15",
   },
   {
     name: "Debasree Sen",
     position: "Social Media Chair",
-    image: "/team/debasree-sen.jpg",
+    image: "/team/debasree-sen.webp",
     email: "dsen000@citymail.cuny.edu",
     linkedin: "debasree-sen",
   },
   {
     name: "Yumi Cheng",
     position: "Marketing Chair",
-    image: "/team/yumi-cheng.jpg",
+    image: "/team/yumi-cheng.webp",
     email: "ycheng004@citymail.cuny.edu",
     linkedin: "yumicheng",
   },
   {
     name: "Addina Rahaman",
     position: "Sponsoring Chair",
-    image: "/team/addina-rahaman.jpg",
+    image: "/team/addina-rahaman.webp",
     email: "arahama003@citymail.cuny.edu",
     linkedin: "addina-rahaman-00049a2a2",
   },
   {
     name: "Timson Tan",
     position: "Community Manager",
-    image: "/team/timson-tan.jpg",
+    image: "/team/timson-tan.webp",
     email: "ttan001@citymail.cuny.edu",
     linkedin: "timsontan",
   },
   {
     name: "Arnav Deepaware",
     position: "Workshop Manager",
-    image: "/team/arnav-deepaware.jpg",
+    image: "/team/arnav-deepaware.webp",
     email: "adeepaw000@citymail.cuny.edu",
     linkedin: "arnavdeepaware",
   },
   {
     name: "Krista Singh",
     position: "Graphics Chair",
-    image: "/team/krista-singh.jpg",
+    image: "/team/krista-singh.webp",
     email: "ksingh020@citymail.cuny.edu",
     linkedin: "kristausingh",
   },
   {
     name: "Maryam Ilyas",
     position: "Newsletter Chair",
-    image: "/team/maryam-ilyas.jpg",
+    image: "/team/maryam-ilyas.webp",
     email: "milyas001@citymail.cuny.edu",
     linkedin: "maryamilyas",
   },
   {
     name: "Aditya Jha",
     position: "Outreach Chair",
-    image: "/team/aditya-jha.jpg",
+    image: "/team/aditya-jha.webp",
     email: "ajha001@citymail.cuny.edu",
     linkedin: "aditya-jha777",
   },
@@ -125,28 +125,28 @@ const extendedBoard: TeamMember[] = [
   // {
   //   name: "Jawad Chowdhury",
   //   position: "Treasurer",
-  //   image: "/team/jawad-chowdhury.jpg",
+  //   image: "/team/jawad-chowdhury.webp",
   //   email: "jchowdh002@citymail.cuny.edu",
   //   linkedin: "jawad-chy",
   // },
   // {
   //   name: "Lily Minchala",
   //   position: "Marketing Designer",
-  //   // image: "/team/lily-minchala.jpg",
+  //   // image: "/team/lily-minchala.webp",
   //   email: "lmincha000@citymail.cuny.edu",
   //   linkedin: "lilyminchala",
   // },
   {
     name: "Sehr Abrar",
     position: "Student Advisor",
-    image: "/team/sehr-abrar.jpg",
+    image: "/team/sehr-abrar.webp",
     email: "sabrar000@citymail.cuny.edu",
     linkedin: "sehr-abrar",
   },
   {
     name: "Daniel Chen",
     position: "Student Advisor",
-    image: "/team/daniel-chen.jpg",
+    image: "/team/daniel-chen.webp",
     email: "dchen024@citymail.cuny.edu",
     linkedin: "daniel-chen297",
   },
@@ -156,7 +156,7 @@ const staff: TeamMember[] = [
   {
     name: "Sam Fenster",
     position: "ACM Club Advisor",
-    image: "/team/sam-fenster.jpg",
+    image: "/team/sam-fenster.webp",
     email: "fenster@ccny.cuny.edu",
     linkedin: "samfenster",
   },
@@ -203,7 +203,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
     <Tilt className="flex-1 shrink basis-full md:max-w-88 lg:max-w-120">
       <Card
         isBlurred
-        className="brick-wall border-none !bg-default/10 p-2"
+        className="brick-wall !bg-default/10 border-none p-2"
         shadow="md"
       >
         <CardBody className="grid grid-cols-[fit-content(8rem)_1fr] grid-rows-[fit-content(8rem)_1fr] gap-5 overflow-visible">
@@ -213,9 +213,9 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
             // isBlurred
             width={128 * zoom}
             height={128 * zoom}
-            // src={member.image || `/logo-on-${theme || "dark"}.png`}
-            src={member.image || "/logo-on-dark.png"}
-            fallbackSrc="/logo-on-dark.png"
+            // src={member.image || `/logo-on-${theme || "dark"}.webp`}
+            src={member.image || "/logo-on-dark.webp"}
+            fallbackSrc="/logo-on-dark.webp"
             alt={member.name}
             classNames={{
               wrapper: "row-span-1 lg:row-span-2",
@@ -224,7 +224,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
           />
 
           <div className="flex flex-1 flex-col items-start justify-start">
-            <h3 className="text-foreground-800 text-3xl font-semibold leading-none">
+            <h3 className="text-foreground-800 text-3xl leading-none font-semibold">
               {member.name}
             </h3>
             <span className="text-foreground-500 text-xl">
