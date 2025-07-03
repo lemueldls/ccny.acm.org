@@ -197,8 +197,6 @@ export default function HomePageTeam() {
 }
 
 function TeamMemberCard({ member }: { member: TeamMember }) {
-  const zoom = 1.1;
-
   return (
     <Tilt className="flex-1 shrink basis-full md:max-w-88 lg:max-w-120">
       <Card
@@ -211,15 +209,15 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
             as={NextImage}
             isZoomed
             // isBlurred
-            width={128 * zoom}
-            height={128 * zoom}
+            width={128}
+            height={128}
             // src={member.image || `/logo-on-${theme || "dark"}.webp`}
             src={member.image || "/logo-on-dark.webp"}
             fallbackSrc="/logo-on-dark.webp"
             alt={member.name}
             classNames={{
               wrapper: "row-span-1 lg:row-span-2",
-              img: "object-cover object-center size-32! hover:scale-110 hover:translate-y-1.5",
+              img: "object-cover object-center size-32! hover:scale-110 transition-transform hover:translate-y-1.5",
             }}
           />
 
