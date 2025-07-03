@@ -23,12 +23,10 @@ const isAdminPage = createRouteMatcher(["/admin"]);
 const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN;
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL;
-const appDomain = appUrl ? new URL(appUrl).hostname : `app.${rootDomain}`;
+const appDomain = appUrl ? new URL(appUrl).host : `app.${rootDomain}`;
 
 const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL;
-const adminDomain = adminUrl
-  ? new URL(adminUrl).hostname
-  : `admin.${rootDomain}`;
+const adminDomain = adminUrl ? new URL(adminUrl).host : `admin.${rootDomain}`;
 
 const vercelUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
 
