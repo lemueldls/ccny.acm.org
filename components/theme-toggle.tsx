@@ -21,9 +21,9 @@ export default function ThemeToggle() {
   return (
     <Button onPress={toggleTheme} color="default" variant="light" isIconOnly>
       {resolvedTheme === "dark" ? (
-        <SunIcon className="size-5" aria-label="Light Theme" />
+        <SunIcon className="size-5" title="Light Theme" />
       ) : (
-        <MoonIcon className="size-5" aria-label="Dark Theme" />
+        <MoonIcon className="size-5" title="Dark Theme" />
       )}
     </Button>
   );
