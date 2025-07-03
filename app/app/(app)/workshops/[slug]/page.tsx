@@ -294,16 +294,18 @@ export default function WorkshopPage(props: WorkshopPageProps) {
 
   return (
     <div className="flex h-full w-full gap-4 overflow-hidden">
-      <div className="texture flex w-full flex-col gap-4 bg-background/25 sm:w-120">
+      <div className="texture bg-background/25 flex w-full flex-col gap-4 sm:w-120">
         <ScrollShadow className="flex-1 overflow-auto p-4">
           {activeSlideSegments
             // ?.filter(({ kind }) => kind === "markdown")
             ?.map((slideSegment, i) =>
               slideSegment.kind === "markdown" ? (
                 <BoxReveal key={i}>
-                  <MarkdownRenderer className="mb-4">
-                    {(slideSegment as { content: string }).content}
-                  </MarkdownRenderer>
+                  <div className="mb-4">
+                    <MarkdownRenderer>
+                      {(slideSegment as { content: string }).content}
+                    </MarkdownRenderer>
+                  </div>
                 </BoxReveal>
               ) : i === activeSlideSegments.length - 1 ? null : (
                 <BoxReveal key={i}>
@@ -330,7 +332,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
             if (showDrawer && info.offset.y > 80) setShowDrawer(false);
             if (!showDrawer && info.offset.y < -80) setShowDrawer(true);
           }}
-          className="formal-invitation bg-default/25 p-4 transition-height"
+          className="formal-invitation bg-default/25 transition-height p-4"
         >
           {activeQuicktime ? (
             <Quicktime
@@ -341,7 +343,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
           ) : (
             <div className="flex flex-col gap-4">
               <div className="flex justify-center">
-                <div className="h-2 w-12 rounded-full bg-foreground/50" />
+                <div className="bg-foreground/50 h-2 w-12 rounded-full" />
               </div>
 
               <div className="flex items-start justify-between gap-4 p-4 font-bold">
@@ -384,7 +386,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
 
         <div className="flex flex-1 flex-row gap-4 lg:flex-col">
           <div className="flex flex-1 flex-col overflow-hidden rounded-lg">
-            <div className="flex gap-2 bg-default-50 p-2">
+            <div className="bg-default-50 flex gap-2 p-2">
               <Button
                 size="sm"
                 variant="light"

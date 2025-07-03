@@ -2,12 +2,7 @@
 
 import { useRef, useEffect, useReducer, useState, useCallback } from "react";
 
-import {
-  Avatar,
-  AvatarGroup,
-  Button,
-  CircularProgress,
-} from "@heroui/react";
+import { Avatar, AvatarGroup, Button, CircularProgress } from "@heroui/react";
 import MarkdownRenderer from "@/components/markdown-renderer";
 import { slideSegment } from "@/convex/schema";
 import { useMutation } from "convex/react";
@@ -72,9 +67,9 @@ export default function Quicktime(props: QuicktimeProps) {
           {/* <h2 className="text-4xl font-bold">🅱️ahoot</h2> */}
           {/* <h2 className="font-mono text-4xl font-bold italic">QUICKTIME</h2> */}
 
-          <MarkdownRenderer className="text-[2em] font-semibold">
-            {prompt.question}
-          </MarkdownRenderer>
+          <div className="text-[2em] font-semibold">
+            <MarkdownRenderer>{prompt.question}</MarkdownRenderer>
+          </div>
         </div>
 
         <CircularProgress

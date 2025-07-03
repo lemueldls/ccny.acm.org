@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import Nav from "@/components/nav";
+import GradientBackground from "@/components/gradient-background";
 
 export const metadata: Metadata = {
   title: "Workshop | ACM @ CCNY",
@@ -10,10 +10,12 @@ export interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default function AppGroupLayout({ children }: RootLayoutProps) {
+export default function AppLayout({ children }: RootLayoutProps) {
   return (
-    <div className="relative z-10 h-screen">
-      <Nav>{children}</Nav>
-    </div>
+    <>
+      {children}
+
+      <GradientBackground />
+    </>
   );
 }

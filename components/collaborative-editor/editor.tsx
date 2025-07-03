@@ -119,6 +119,7 @@ export function CollaborativeEditor(props: EditorProps) {
             tabSize: 2,
             padding: { top: 20 },
             readOnly: !props.website,
+            minimap: { enabled: false },
           }}
         />
       </ShineBorder>

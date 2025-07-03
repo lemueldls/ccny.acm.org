@@ -76,39 +76,7 @@ export default function RootLayout({
 
         <body>
           <Providers>
-            <main
-              className={cn(
-                "bg-background text-foreground min-h-screen",
-                lato.className,
-              )}
-            >
-              {children}
-            </main>
-
-            <div
-              aria-hidden="true"
-              className="fixed -bottom-[40%] -left-[20%] z-0 hidden dark:opacity-70 dark:md:block"
-            >
-              <Image
-                // as={NextImage}
-                width={1266}
-                height={1211}
-                alt="left background"
-                src="/gradients/docs-left.png"
-              />
-            </div>
-            <div
-              aria-hidden="true"
-              className="fixed -top-[80%] -right-[60%] z-0 hidden rotate-12 2xl:-top-[60%] 2xl:-right-[45%] dark:opacity-70 dark:md:block"
-            >
-              <Image
-                // as={NextImage}
-                width={1833}
-                height={1822}
-                alt="right background"
-                src="/gradients/docs-right.png"
-              />
-            </div>
+            <main className={lato.className}>{children}</main>
           </Providers>
         </body>
       </html>
