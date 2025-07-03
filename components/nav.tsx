@@ -76,7 +76,7 @@ export default function Nav({ children }: { children: ReactNode }) {
               />
             </Link>
 
-            {/* <div className="mx-4 h-11 rotate-[30deg] border-l border-foreground-400" /> */}
+            {/* <div className="mx-4 h-11 rotate-30 border-l border-foreground-400" /> */}
             <span className="px-2 text-medium text-foreground/50">/</span>
 
             <Link href="/">

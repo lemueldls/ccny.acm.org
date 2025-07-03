@@ -24,7 +24,7 @@ export default function HomePageHeader() {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent justify="center">
+      <NavbarContent className="sm:gap-8" justify="center">
         <NavbarItem>
           <Link color="foreground" href="#about">
             About

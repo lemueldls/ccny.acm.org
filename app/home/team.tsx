@@ -200,7 +200,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
   const zoom = 1.1;
 
   return (
-    <Tilt className="flex-1 flex-shrink basis-full md:max-w-[22rem] lg:max-w-[30rem]">
+    <Tilt className="flex-1 shrink basis-full md:max-w-88 lg:max-w-120">
       <Card
         isBlurred
         className="brick-wall border-none !bg-default/10 p-2"
@@ -219,7 +219,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
             alt={member.name}
             classNames={{
               wrapper: "row-span-1 lg:row-span-2",
-              img: "object-cover object-center !size-32 hover:scale-110 hover:translate-y-1.5",
+              img: "object-cover object-center size-32! hover:scale-110 hover:translate-y-1.5",
             }}
           />
 

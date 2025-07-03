@@ -233,7 +233,7 @@ export default function EditEventPage(props: EditEventPageProps) {
 
             <Divider orientation="vertical" />
 
-            <div className="flex w-full flex-col gap-4 lg:w-[28rem]">
+            <div className="flex w-full flex-col gap-4 lg:w-md">
               <div className="flex-1">
                 {event ? <EventCard event={event} /> : null}
               </div>

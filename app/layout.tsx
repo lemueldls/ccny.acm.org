@@ -9,7 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Providers } from "./providers";
 
-import { Image } from "@heroui/react";
+import { cn, Image } from "@heroui/react";
 // import NextImage from "next/image";
 
 import { lato } from "@/styles/fonts";
@@ -77,7 +77,10 @@ export default function RootLayout({
         <body>
           <Providers>
             <main
-              className={`min-h-screen bg-background text-foreground ${lato.className}`}
+              className={cn(
+                "bg-background text-foreground min-h-screen",
+                lato.className,
+              )}
             >
               {children}
             </main>
@@ -96,7 +99,7 @@ export default function RootLayout({
             </div>
             <div
               aria-hidden="true"
-              className="fixed -right-[60%] -top-[80%] z-0 hidden rotate-12 dark:opacity-70 dark:md:block 2xl:-right-[45%] 2xl:-top-[60%]"
+              className="fixed -top-[80%] -right-[60%] z-0 hidden rotate-12 2xl:-top-[60%] 2xl:-right-[45%] dark:opacity-70 dark:md:block"
             >
               <Image
                 // as={NextImage}

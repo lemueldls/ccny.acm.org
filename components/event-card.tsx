@@ -10,6 +10,7 @@ import {
   CardHeader,
   type CardProps,
   Chip,
+  cn,
   Link,
   Skeleton,
 } from "@heroui/react";
@@ -31,7 +32,6 @@ import {
   SerializedEvent,
 } from "@/lib/events";
 import MarkdownRenderer from "./markdown-renderer";
-import { cn } from "../lib/utils";
 
 // const timeZone = getLocalTimeZone();
 const timeZone = "America/New_York";

@@ -294,7 +294,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
 
   return (
     <div className="flex h-full w-full gap-4 overflow-hidden">
-      <div className="texture flex w-full flex-col gap-4 bg-background/25 sm:w-[30rem]">
+      <div className="texture flex w-full flex-col gap-4 bg-background/25 sm:w-120">
         <ScrollShadow className="flex-1 overflow-auto p-4">
           {activeSlideSegments
             // ?.filter(({ kind }) => kind === "markdown")

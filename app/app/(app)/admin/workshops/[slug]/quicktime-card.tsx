@@ -96,7 +96,7 @@ export default function AdminWorkshopQuicktimePromptCard(
             </RadioGroup>
           </div>
         ) : (
-          <div className="grid h-[20rem] grid-cols-2 gap-4">
+          <div className="grid h-80 grid-cols-2 gap-4">
             <Button
               className="h-full"
               color="danger"

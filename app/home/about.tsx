@@ -63,7 +63,7 @@ export default function HomePageAbout() {
   return (
     <Card
       id="about"
-      className="texture block w-full max-w-[75rem] bg-background/60 p-4 dark:bg-default/20 sm:px-16 sm:py-8"
+      className="texture block w-full max-w-300 bg-background/60 p-4 dark:bg-default/20 sm:px-16 sm:py-8"
       shadow="sm"
     >
       <CardHeader className="flex flex-col items-center justify-center lg:flex-row lg:gap-16">
