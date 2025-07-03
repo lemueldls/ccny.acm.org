@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 
 import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+// import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Providers } from "./providers";
 
@@ -69,7 +69,7 @@ export default function RootLayout({
     <ConvexAuthNextjsServerProvider>
       <html lang="en" suppressHydrationWarning>
         <Analytics />
-        <SpeedInsights />
+        {/* <SpeedInsights /> */}
 
         <body>
           <Providers>
