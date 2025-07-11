@@ -34,19 +34,14 @@ import {
   ArrowTopRightOnSquareIcon,
 } from "@heroicons/react/16/solid";
 
-import Drawer from "react-bottom-drawer";
-
-import { prompts, slides, workshops } from "@/lib/workshops";
 import Quicktime from "./quicktime";
 import MarkdownRenderer from "@/components/markdown-renderer";
-import { ConvexClientProvider } from "@/components/convex-client-provider";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Doc } from "@/convex/_generated/dataModel";
 import NumberTicker from "@/components/ui/number-ticker";
 import HyperText from "@/components/ui/hyper-text";
 import { motion } from "framer-motion";
-import { segments } from "../../../../../lib/workshops";
 import BoxReveal from "@/components/ui/box-reveal";
 
 import confetti from "canvas-confetti";
