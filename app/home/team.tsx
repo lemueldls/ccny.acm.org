@@ -91,7 +91,7 @@ const extendedBoard: TeamMember[] = [
   },
   {
     name: "Arnav Deepaware",
-    position: "Workshop Manager",
+    position: "Workshop Manager\nClass Representative 2027",
     image: "/team/arnav-deepaware.webp",
     email: "adeepaw000@citymail.cuny.edu",
     linkedin: "arnavdeepaware",
@@ -119,8 +119,14 @@ const extendedBoard: TeamMember[] = [
   },
   {
     name: "Areeba Ali",
-    position: "Class Representative",
+    position: "Class Representative 2028",
     email: "aali064@citymail.cuny.edu",
+  },
+  {
+    name: "Ayesha Ilyas",
+    position: "Class Representative 2028",
+    email: "ailyas000@citymail.cuny.edu",
+    linkedin: "a-ilyas",
   },
   // {
   //   name: "Jawad Chowdhury",
@@ -143,13 +149,13 @@ const extendedBoard: TeamMember[] = [
     email: "sabrar000@citymail.cuny.edu",
     linkedin: "sehr-abrar",
   },
-  {
-    name: "Daniel Chen",
-    position: "Student Advisor",
-    image: "/team/daniel-chen.webp",
-    email: "dchen024@citymail.cuny.edu",
-    linkedin: "daniel-chen297",
-  },
+  // {
+  //   name: "Daniel Chen",
+  //   position: "Student Advisor",
+  //   image: "/team/daniel-chen.webp",
+  //   email: "dchen024@citymail.cuny.edu",
+  //   linkedin: "daniel-chen297",
+  // },
 ];
 
 const staff: TeamMember[] = [
@@ -200,13 +206,13 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
   const zoom = 1.1;
 
   return (
-    <Tilt className="flex-1 shrink basis-full md:max-w-88 lg:max-w-120">
+    <Tilt className="flex-1 shrink basis-full md:basis-106 lg:max-w-120">
       <Card
         isBlurred
         className="brick-wall !bg-default/10 border-none p-2"
         shadow="md"
       >
-        <CardBody className="grid grid-cols-[fit-content(8rem)_1fr] grid-rows-[fit-content(8rem)_1fr] gap-5 overflow-visible">
+        <CardBody className="grid grid-cols-[fit-content(8rem)_1fr] grid-rows-[fit-content(8rem)_1fr] gap-x-5 overflow-visible">
           <Image
             as={NextImage}
             isZoomed
@@ -218,7 +224,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
             fallbackSrc="/logo-on-dark.webp"
             alt={member.name}
             classNames={{
-              wrapper: "row-span-1 lg:row-span-2",
+              wrapper: "row-span-1 sm:row-span-2",
               img: "object-cover object-center size-32! hover:scale-110 transition-transform hover:translate-y-1.5",
             }}
           />
@@ -227,12 +233,12 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
             <h3 className="text-foreground-800 text-3xl leading-none font-semibold">
               {member.name}
             </h3>
-            <span className="text-foreground-500 text-xl">
+            <span className="text-foreground-500 text-xl whitespace-pre">
               {member.position}
             </span>
           </div>
 
-          <div className="col-span-2 flex items-end justify-end gap-2 lg:col-span-1">
+          <div className="col-span-2 flex items-end justify-end gap-2 sm:col-span-1">
             {/* {member.website && (
           <Button
             as={Link}
