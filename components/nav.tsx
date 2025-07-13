@@ -81,7 +81,7 @@ export default function Nav({ children }: { children: ReactNode }) {
 
             <Link href="/">
               <h1 className="text-foreground dark:shadow-primary dark:text-shadow font-mono text-2xl font-bold">
-                [app]
+                [code]
               </h1>
             </Link>
 

@@ -6,7 +6,7 @@ export default function GradientBackground() {
     <>
       <div
         aria-hidden="true"
-        className="fixed -bottom-[40%] -left-[20%] z-[-2] hidden dark:opacity-70 dark:md:block"
+        className="fixed -bottom-[40%] -left-[20%] z-[-2] hidden select-none dark:opacity-70 dark:md:block"
       >
         <Image
           as={NextImage}
@@ -21,7 +21,7 @@ export default function GradientBackground() {
 
       <div
         aria-hidden="true"
-        className="fixed -top-[80%] -right-[60%] z-[-2] hidden rotate-12 2xl:-top-[60%] 2xl:-right-[45%] dark:opacity-70 dark:md:block"
+        className="fixed -top-[80%] -right-[60%] z-[-2] hidden rotate-12 select-none 2xl:-top-[60%] 2xl:-right-[45%] dark:opacity-70 dark:md:block"
       >
         <Image
           as={NextImage}

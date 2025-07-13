@@ -23,7 +23,7 @@ const isAdminPage = createRouteMatcher(["/admin"]);
 const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN;
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL;
-const appDomain = appUrl ? new URL(appUrl).host : `app.${rootDomain}`;
+const appDomain = appUrl ? new URL(appUrl).host : `code.${rootDomain}`;
 
 const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL;
 const adminDomain = adminUrl ? new URL(adminUrl).host : `admin.${rootDomain}`;

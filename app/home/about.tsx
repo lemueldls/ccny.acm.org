@@ -71,11 +71,11 @@ export default function HomePageAbout() {
           as={NextImage}
           width="710"
           height="224"
-          className="size-auto flex-1"
+          className="transition-width size-auto flex-1"
           src="/ccny-collab.svg"
           alt="CCNY Collab"
         />
-        <Divider orientation="vertical" className="hidden h-64 w-1 lg:block" />
+        <Divider orientation="vertical" className="hidden h-64 lg:block" />
         <Divider orientation="horizontal" className="mt-4 block lg:hidden" />
         <Carousel
           value={values}

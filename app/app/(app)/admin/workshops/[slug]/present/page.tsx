@@ -46,7 +46,7 @@ export default function AdminWorkshopPresentPage(
 
   slideSegments?.unshift({
     kind: "markdown",
-    content: "# <https://app.beaverscode.club>",
+    content: "# <https://code.ccny.acm.org>",
   });
   slideSegments?.push({ kind: "markdown", content: "# kthxbye." });
 
@@ -144,7 +144,7 @@ function SlideSegment({
   activeQuicktime: QuicktimePrompt | undefined;
 }) {
   return (
-    <div className="flex aspect-video h-[80vh] flex-col gap-4 bg-background p-4 font-bold text-foreground">
+    <div className="bg-background text-foreground flex aspect-video h-[80vh] flex-col gap-4 p-4 font-bold">
       <div className="h-full p-[2em] text-3xl">
         {segment.kind === "markdown" ? (
           <MarkdownRenderer>{segment.content}</MarkdownRenderer>

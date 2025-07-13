@@ -1,15 +1,11 @@
 import "@/styles/globals.css";
 
-import type { Metadata } from "next";
+import { lato } from "@/styles/fonts";
 
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
-
-import { Analytics } from "@vercel/analytics/react";
-// import { SpeedInsights } from "@vercel/speed-insights/next";
-
 import { Providers } from "./providers";
 
-import { lato } from "@/styles/fonts";
+import type { Metadata } from "next";
 
 const title = "ACM @ CCNY";
 const description =
@@ -68,9 +64,6 @@ export default function RootLayout({
   return (
     <ConvexAuthNextjsServerProvider>
       <html lang="en" suppressHydrationWarning>
-        <Analytics />
-        {/* <SpeedInsights /> */}
-
         <body>
           <Providers>
             <main className={lato.className}>{children}</main>

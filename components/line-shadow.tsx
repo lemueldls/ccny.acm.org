@@ -34,7 +34,7 @@ export function LineShadowText({
         "after:bg-[linear-gradient(45deg,transparent_45%,var(--shadow-color)_45%,var(--shadow-color)_55%,transparent_0)]",
         "after:-z-10 after:bg-size-[0.06em_0.06em] after:bg-clip-text after:text-transparent",
         "after:animate-line-shadow",
-        "after:paused hover:after:running hover:text-foreground/90 after:transition-[top,left] hover:after:top-[0.04em] hover:after:left-[0.04em]",
+        "after:paused hover:after:running after:transition-[top,left] hover:after:top-[0.04em] hover:after:left-[0.04em]",
         className,
       )}
       data-text={content}
