@@ -3,18 +3,18 @@
     "light": {
       "colors": {
         "default": {
-          "50": "#fafafa",
-          "100": "#f2f2f3",
-          "200": "#ebebec",
-          "300": "#e3e3e6",
-          "400": "#dcdcdf",
-          "500": "#d4d4d8",
-          "600": "#afafb2",
-          "700": "#8a8a8c",
-          "800": "#656567",
-          "900": "#404041",
+          "50": "#f1f2f9",
+          "100": "#dedff0",
+          "200": "#cacce8",
+          "300": "#b7b9df",
+          "400": "#a3a6d7",
+          "500": "#9093ce",
+          "600": "#7779aa",
+          "700": "#5e6086",
+          "800": "#444662",
+          "900": "#2b2c3e",
           "foreground": "#000",
-          "DEFAULT": "#d4d4d8"
+          "DEFAULT": "#9093ce"
         },
         "primary": {
           "50": "#efeaf8",
@@ -86,43 +86,43 @@
           "foreground": "#fff",
           "DEFAULT": "#9e3039"
         },
-        "background": "#ffffff",
-        "foreground": "#000000",
+        "background": "#f8f6ea",
+        "foreground": "#4a3d77",
         "content1": {
-          "DEFAULT": "#ffffff",
+          "DEFAULT": "#f2e8ff",
           "foreground": "#000"
         },
         "content2": {
-          "DEFAULT": "#f4f4f5",
+          "DEFAULT": "#e8daff",
           "foreground": "#000"
         },
         "content3": {
-          "DEFAULT": "#e4e4e7",
+          "DEFAULT": "#dccbff",
           "foreground": "#000"
         },
         "content4": {
-          "DEFAULT": "#d4d4d8",
+          "DEFAULT": "#cfbcff",
           "foreground": "#000"
         },
-        "focus": "#006FEE",
+        "focus": "#9093ce",
         "overlay": "#000000"
       }
     },
     "dark": {
       "colors": {
         "default": {
-          "50": "#0d0d0e",
-          "100": "#19191c",
-          "200": "#26262a",
-          "300": "#323238",
-          "400": "#3f3f46",
-          "500": "#65656b",
-          "600": "#8c8c90",
-          "700": "#b2b2b5",
-          "800": "#d9d9da",
+          "50": "#13131b",
+          "100": "#262636",
+          "200": "#383a50",
+          "300": "#4b4d6b",
+          "400": "#5e6086",
+          "500": "#7e809e",
+          "600": "#9ea0b6",
+          "700": "#bfbfcf",
+          "800": "#dfdfe7",
           "900": "#ffffff",
           "foreground": "#fff",
-          "DEFAULT": "#3f3f46"
+          "DEFAULT": "#5e6086"
         },
         "primary": {
           "50": "#261a3c",
@@ -194,30 +194,30 @@
           "foreground": "#fff",
           "DEFAULT": "#9e3039"
         },
-        "background": "#000000",
-        "foreground": "#ffffff",
+        "background": "#1b1526",
+        "foreground": "#d0aaff",
         "content1": {
-          "DEFAULT": "#18181b",
+          "DEFAULT": "#392a4a",
           "foreground": "#fff"
         },
         "content2": {
-          "DEFAULT": "#27272a",
+          "DEFAULT": "#4c3560",
           "foreground": "#fff"
         },
         "content3": {
-          "DEFAULT": "#3f3f46",
+          "DEFAULT": "#5e4180",
           "foreground": "#fff"
         },
         "content4": {
-          "DEFAULT": "#52525b",
+          "DEFAULT": "#704ea0",
           "foreground": "#fff"
         },
-        "focus": "#006FEE",
+        "focus": "#9093ce",
         "overlay": "#ffffff"
       }
     }
   },
   "layout": {
-    "disabledOpacity": "0.5"
+    "disabledOpacity": "0.4"
   }
 }
