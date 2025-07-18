@@ -194,7 +194,7 @@
           "foreground": "#fff",
           "DEFAULT": "#9e3039"
         },
-        "background": "#1b1526",
+        "background": "#000000",
         "foreground": "#d0aaff",
         "content1": {
           "DEFAULT": "#392a4a",
