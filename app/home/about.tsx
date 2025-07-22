@@ -1,98 +1,32 @@
-"use client";
-
-import { useState, useEffect } from "react";
-
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Button,
-  Divider,
-  Link,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  Image,
-  ScrollShadow,
-} from "@heroui/react";
+import { Card, CardBody, CardHeader, Divider, Image } from "@heroui/react";
 import NextImage from "next/image";
-import { Carousel } from "primereact/carousel";
-
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
-
-interface Brand {
-  name: string;
-  image: string;
-}
-
-function BrandTemplate(brand: Brand) {
-  return (
-    <div className="flex h-full w-full items-center justify-center">
-      <Image
-        as={NextImage}
-        width="256"
-        height="256"
-        className="size-auto"
-        src={brand.image}
-        alt={brand.name}
-      />
-    </div>
-  );
-}
-
-const values = [
-  { name: "ACM", image: "/acm.webp" },
-  // { name: "GDSC", image: "/gdsc.svg" },
-  // { name: "Notion", image: "/notion.webp" },
-  // { name: "GitHub", image: "/github-light.svg" },
-  // { name: "BYTE", image: "/byte.webp" },
-];
 
 export default function HomePageAbout() {
-  const [page, setPage] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPage((prevPage) => (prevPage + 1) % values.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <Card
       id="about"
-      className="texture bg-default/20 block w-full max-w-300 p-4 sm:px-16 sm:py-8"
+      className="texture bg-default/20 block w-full max-w-300 px-4 py-8 sm:px-16"
       shadow="sm"
     >
-      <CardHeader className="flex flex-col items-center justify-center lg:flex-row lg:gap-16">
+      <CardHeader className="flex flex-col items-center justify-center gap-8 py-0 lg:flex-row">
         <Image
           as={NextImage}
           width="710"
           height="224"
-          className="transition-width size-auto flex-1"
+          className="flex-1 lg:py-8"
           src="/ccny-collab.svg"
           alt="CCNY Collab"
         />
+
         <Divider orientation="vertical" className="hidden h-64 lg:block" />
-        <Divider orientation="horizontal" className="mt-4 block lg:hidden" />
-        <Carousel
-          value={values}
-          page={page}
-          numScroll={1}
-          numVisible={1}
-          showIndicators={false}
-          showNavigators={false}
-          orientation="vertical"
-          itemTemplate={BrandTemplate}
-          pt={{
-            item: { className: "h-full items-center justify-center" },
-            itemCloned: {
-              className:
-                "flex shrink-0 grow w-full h-full items-center justify-center",
-            },
-          }}
+        <Divider orientation="horizontal" className="block lg:hidden" />
+
+        <Image
+          as={NextImage}
+          width="200"
+          height="200"
+          src="/acm.svg"
+          alt="ACM"
         />
       </CardHeader>
 
