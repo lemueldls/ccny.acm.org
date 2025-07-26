@@ -28,8 +28,6 @@ const appDomain = appUrl ? new URL(appUrl).host : `code.${rootDomain}`;
 const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL;
 const adminDomain = adminUrl ? new URL(adminUrl).host : `admin.${rootDomain}`;
 
-const vercelUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
-
 export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
   const url = req.nextUrl;
 
@@ -48,6 +46,9 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
   // if (isApiRoute(req)) {
   //   return NextResponse.rewrite(new URL("/", req.url));
   // }
+
+  console.log(1, { rootDomain, appDomain, hostname });
+  console.error(2, { rootDomain, appDomain, hostname });
 
   // rewrites for app pages
   if (hostname === appDomain) {
@@ -95,8 +96,7 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
   if (
     hostname === "ccny.acm.org" ||
     hostname === "localhost:3000" ||
-    hostname === rootDomain ||
-    hostname === vercelUrl
+    hostname === rootDomain
   ) {
     return NextResponse.rewrite(
       new URL(`/home${path === "/" ? "" : path}`, req.url),
