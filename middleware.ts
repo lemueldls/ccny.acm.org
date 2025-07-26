@@ -47,9 +47,6 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
   //   return NextResponse.rewrite(new URL("/", req.url));
   // }
 
-  console.log(1, { rootDomain, appDomain, hostname });
-  console.error(2, { rootDomain, appDomain, hostname });
-
   // rewrites for app pages
   if (hostname === appDomain) {
     // if (!token && path !== "/login") {
