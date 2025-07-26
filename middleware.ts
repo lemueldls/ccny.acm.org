@@ -35,20 +35,9 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
 
   // Get hostname of request (e.g. demo.vercel.pub, demo.localhost:3000)
   let hostname = req.headers
-    .get("x-forwarded-host")!
-    // .get("host")!
+    // .get("x-forwarded-host")!
+    .get("Host")!
     .replace(".localhost:3000", `.${rootDomain}`);
-
-  // special case for Vercel preview deployment URLs
-  if (
-    //   console.log("api route", { req });
-    //   return NextResponse.rewrite(new URL("/", req.url));
-    // }
-    hostname.includes("---") &&
-    hostname.endsWith(`.${process.env.NEXT_PUBLIC_VERCEL_DEPLOYMENT_SUFFIX}`)
-  ) {
-    hostname = `${hostname.split("---")[0]}.${rootDomain}`;
-  }
 
   const searchParams = req.nextUrl.searchParams.toString();
   // Get the pathname of the request (e.g. /, /about, /blog/first-post)
@@ -61,7 +50,7 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
   // }
 
   // rewrites for app pages
-  if (hostname == appDomain) {
+  if (hostname === appDomain) {
     // if (!token && path !== "/login") {
     //   return NextResponse.redirect(new URL("/login", req.url));
     // } else if (token && path == "/login") {
@@ -96,7 +85,7 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
     );
   }
 
-  if (hostname == adminDomain) {
+  if (hostname === adminDomain) {
     return NextResponse.redirect(
       new URL("/admin", process.env.NEXT_PUBLIC_APP_URL),
     );
