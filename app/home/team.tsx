@@ -9,6 +9,7 @@ import { SimpleIconsGithub } from "@/components/icons/github";
 import { SimpleIconsLinkedin } from "@/components/icons/linkedin";
 
 import NextImage from "next/image";
+// import { useTheme } from "next-themes";
 
 interface TeamMember {
   name: string;
@@ -205,6 +206,8 @@ export default function HomePageTeam() {
 function TeamMemberCard({ member }: { member: TeamMember }) {
   const zoom = 1.1;
 
+  // const { resolvedTheme } = useTheme();
+
   return (
     <Tilt className="flex-1 shrink basis-full md:basis-106 lg:max-w-120">
       <Card
@@ -216,10 +219,9 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
           <Image
             as={NextImage}
             isZoomed
-            // isBlurred
             width={128 * zoom}
             height={128 * zoom}
-            // src={member.image || `/logo-on-${theme || "dark"}.webp`}
+            // src={member.image || `/logo-on-${resolvedTheme || "dark"}.webp`}
             src={member.image || "/logo-on-dark.webp"}
             fallbackSrc="/logo-on-dark.webp"
             alt={member.name}
@@ -229,11 +231,11 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
             }}
           />
 
-          <div className="flex flex-1 flex-col items-start justify-start">
+          <div className="flex flex-1 flex-col items-start justify-start gap-1">
             <h3 className="text-foreground-800 text-3xl leading-none font-semibold">
               {member.name}
             </h3>
-            <span className="text-foreground-500 text-xl whitespace-pre">
+            <span className="text-foreground-500 text-xl leading-6 whitespace-pre">
               {member.position}
             </span>
           </div>
@@ -283,6 +285,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
                 as={Link}
                 href={`mailto:${member.email}`}
                 variant="flat"
+                className="text-default-foreground"
                 isExternal
                 startContent={<EnvelopeIcon className="h-5 w-5" />}
               >

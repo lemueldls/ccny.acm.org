@@ -13,7 +13,7 @@
           "700": "#5e6086",
           "800": "#444662",
           "900": "#2b2c3e",
-          "foreground": "#000",
+          "foreground": "#444662",
           "DEFAULT": "#9093ce"
         },
         "primary": {
@@ -121,7 +121,7 @@
           "700": "#bfbfcf",
           "800": "#dfdfe7",
           "900": "#ffffff",
-          "foreground": "#fff",
+          "foreground": "#dfdfe7",
           "DEFAULT": "#5e6086"
         },
         "primary": {

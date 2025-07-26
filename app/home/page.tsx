@@ -79,7 +79,7 @@ export default function HomePage() {
                   as={Link}
                   size="lg"
                   title="Discord"
-                  className="hover:text-[#5865F2]"
+                  className="text-default-foreground hover:text-[#5865F2]"
                   color="default"
                   href="https://discord.com/invite/CsntEuGJe5"
                   isExternal
@@ -92,7 +92,7 @@ export default function HomePage() {
                   as={Link}
                   size="lg"
                   title="Instagram"
-                  className="hover:text-[#E4405F]"
+                  className="text-default-foreground hover:text-[#E4405F]"
                   color="default"
                   href="https://www.instagram.com/acm.ccny/"
                   isExternal
@@ -105,7 +105,7 @@ export default function HomePage() {
                   as={Link}
                   size="lg"
                   title="LinkedIn"
-                  className="hover:text-[#0A66C2]"
+                  className="text-default-foreground hover:text-[#0A66C2]"
                   color="default"
                   href="https://www.linkedin.com/in/ccnyacm/"
                   isExternal
@@ -118,7 +118,7 @@ export default function HomePage() {
                   as={Link}
                   size="lg"
                   title="Email"
-                  className="hover:text-[#7D55C7]"
+                  className="text-default-foreground hover:text-[#7D55C7]"
                   color="default"
                   href="mailto:ccnyacm@gmail.com"
                   isExternal

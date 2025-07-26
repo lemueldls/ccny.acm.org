@@ -9,9 +9,12 @@ import { SimpleIconsGithub } from "@/components/icons/github";
 
 export default function LoginPage() {
   return (
-    <Card isBlurred className="mx-5 px-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <CardHeader className="text-center">
-        <h1 className="mt-6 text-3xl text-foreground">
+    <Card
+      isBlurred
+      className="circuit-board bg-default/20! mx-5 px-8 sm:mx-auto sm:w-full sm:max-w-md"
+    >
+      <CardHeader>
+        <h1 className="text-foreground mt-4 w-full text-center text-2xl font-bold">
           Continue with an account
         </h1>
       </CardHeader>
@@ -40,7 +43,7 @@ export default function LoginPage() {
         </LoginButton>
 
         <CardFooter>
-          <p className="text-center text-foreground-600">
+          <p className="text-foreground-600 text-center">
             If you login anonymously, your data will not be transferred when you
             link an account.
           </p>
