@@ -8,7 +8,7 @@ export default function HomePageAbout() {
       className="texture bg-default/20 block w-full max-w-300 px-4 py-8 sm:px-16"
       shadow="sm"
     >
-      <CardHeader className="flex flex-col items-center justify-center gap-8 py-0 lg:flex-row">
+      <CardHeader className="flex flex-col items-center justify-center gap-8 py-0 pb-3 lg:flex-row">
         <Image
           as={NextImage}
           width="710"
