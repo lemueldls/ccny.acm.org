@@ -27,7 +27,7 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
     Discord({
       allowDangerousEmailAccountLinking: true,
       profile(discordProfile, tokens) {
-        console.log({ discordProfile, tokens });
+        // console.log({ discordProfile, tokens });
 
         if (discordProfile.avatar === null) {
           const defaultAvatarNumber =
@@ -86,21 +86,6 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
   //   verificationTokensTable: verificationTokens,
   // }),
   // session: { strategy: "jwt" },
-  // cookies: {
-  //   sessionToken: {
-  //     name: `${VERCEL_DEPLOYMENT ? "__Secure-" : ""}authjs.session-token`,
-  //     options: {
-  //       httpOnly: true,
-  //       sameSite: "lax",
-  //       path: "/",
-  //       // When working on localhost, the cookie domain must be omitted entirely (https://stackoverflow.com/a/1188145)
-  //       domain: VERCEL_DEPLOYMENT
-  //         ? `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
-  //         : undefined,
-  //       secure: VERCEL_DEPLOYMENT,
-  //     },
-  //   },
-  // },
   callbacks: {
     // `args.provider` is the currently used provider config
     async createOrUpdateUser(ctx: MutationCtx, args) {

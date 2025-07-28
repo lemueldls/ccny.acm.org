@@ -15,15 +15,14 @@ const nextConfig: NextConfig = {
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
-      { hostname: "public.blob.vercel-storage.com" },
       { hostname: "res.cloudinary.com" },
       { hostname: "abs.twimg.com" },
       { hostname: "pbs.twimg.com" },
-      { hostname: "avatar.vercel.sh" },
       { hostname: "avatars.githubusercontent.com" },
       { hostname: "www.google.com" },
-      { hostname: "flag.vercel.app" },
       { hostname: "illustrations.popsy.co" },
+      { hostname: "cdn.discordapp.com" },
+      { hostname: "github.com" },
     ],
   },
 };

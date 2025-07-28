@@ -10,9 +10,6 @@ import { api } from "./convex/_generated/api";
 export const config = {
   matcher: [
     "/((?!api/|_next/|_static/|gradients|team|vendor|_icons|_vercel|[\\w-]+\\.\\w+).*)",
-    // "/((?!.*\\..*|_next).*)",
-    // "/",
-    // "/(api|trpc)(.*)",
     "/api/auth(.*)",
   ],
 };

@@ -38,13 +38,6 @@ export const metadata: Metadata = {
     description,
     images: [image],
   },
-  // twitter: {
-  //   card: "summary_large_image",
-  //   title,
-  //   description,
-  //   images: [image],
-  //   creator: "@vercel",
-  // },
   metadataBase: new URL(process.env.NEXT_PUBLIC_ROOT_URL!),
 };
 
