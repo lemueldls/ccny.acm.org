@@ -115,7 +115,7 @@ export const update = mutation({
     javascript: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const patch: { [key: string]: any } = {};
+    const patch: { [key: string]: string } = {};
     if (args.html !== undefined) patch.html = args.html;
     if (args.css !== undefined) patch.css = args.css;
     if (args.javascript !== undefined) patch.javascript = args.javascript;

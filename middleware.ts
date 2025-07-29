@@ -29,7 +29,7 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
   const url = req.nextUrl;
 
   // Get hostname of request (e.g. demo.vercel.pub, demo.localhost:3000)
-  let hostname = req.headers
+  const hostname = req.headers
     // .get("x-forwarded-host")!
     .get("Host")!
     .replace(".localhost:3000", `.${rootDomain}`);
