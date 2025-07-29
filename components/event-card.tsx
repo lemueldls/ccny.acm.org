@@ -83,6 +83,7 @@ export default function EventCard(props: EventCardProps) {
               isExternal
               showAnchorIcon
               size="sm"
+              className="text-default-foreground"
               isDisabled={rsvpIsDisabled}
               anchorIcon={<ArrowTopRightOnSquareIcon className="size-4" />}
               variant="flat"

@@ -74,8 +74,7 @@ export default function EventsAccordionClient(
           )
         }
         id="happening-today"
-        className="flex flex-col gap-8"
-        classNames={{ title: "text-4xl font-bold" }}
+        classNames={{ title: "text-4xl font-bold leading-none" }}
       >
         <EventGrid
           events={happeningToday.toReversed()}
@@ -93,8 +92,7 @@ export default function EventsAccordionClient(
           )
         }
         id="upcoming-events"
-        className="flex flex-col gap-8"
-        classNames={{ title: "text-4xl font-bold" }}
+        classNames={{ title: "text-4xl font-bold leading-none" }}
       >
         <EventGrid
           events={upcomingEvents.toReversed()}
@@ -112,7 +110,7 @@ export default function EventsAccordionClient(
           )
         }
         id="past-events"
-        classNames={{ title: "text-4xl font-bold" }}
+        classNames={{ title: "text-4xl font-bold leading-none" }}
       >
         <EventGrid
           events={pastEvents}
