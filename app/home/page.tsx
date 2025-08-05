@@ -65,7 +65,7 @@ export default function HomePage() {
                 href="https://groups.ccny.cuny.edu/ACM/club_signup"
                 isExternal
               >
-                Join Us on Campus Groups!
+                Join Us on Campus Groups
               </Button>
 
               <Divider
@@ -150,21 +150,71 @@ export default function HomePage() {
 
       <HomePageEvents />
 
-      <footer className="texture bg-background/60 dark:bg-default/10 p-8">
-        <div className="flex flex-col justify-center gap-16 md:flex-row">
-          <span>&copy; 2025 ACM @ CCNY</span>
+      <footer className="texture bg-background/60 dark:bg-default/10 flex flex-col gap-8 p-4">
+        <div className="flex flex-col justify-center gap-4 sm:flex-row sm:gap-16">
+          <div>
+            <strong className="mb-2 block text-lg">Connect</strong>
+
+            <ul>
+              <li>
+                <Link
+                  isExternal
+                  color="foreground"
+                  href="https://forms.gle/ABKCKQmQmzvZWbCo8"
+                >
+                  Club Team Applications
+                </Link>
+              </li>
+              <li>
+                <Link
+                  isExternal
+                  color="foreground"
+                  href="https://groups.ccny.cuny.edu/ACM/club_signup"
+                >
+                  Join Us on Campus Groups
+                </Link>
+              </li>
+              <li>
+                <Link
+                  isExternal
+                  color="foreground"
+                  href="https://forms.gle/ntqFUAX7TERrq3oe8"
+                >
+                  Our Club Interest Form
+                </Link>
+              </li>
+            </ul>
+          </div>
 
           <div>
             <strong className="mb-2 block text-lg">Socials</strong>
             <ul>
               <li>
-                <a href="https://discord.com/invite/CsntEuGJe5">Discord</a>
+                <Link
+                  isExternal
+                  color="foreground"
+                  href="https://discord.com/invite/CsntEuGJe5"
+                >
+                  Discord
+                </Link>
               </li>
               <li>
-                <a href="https://www.instagram.com/acm.ccny/">Instagram</a>
+                <Link
+                  isExternal
+                  color="foreground"
+                  href="https://www.instagram.com/acm.ccny/"
+                >
+                  Instagram
+                </Link>
               </li>
               <li>
-                <a href="https://www.linkedin.com/in/ccnyacm/">LinkedIn</a>
+                <Link
+                  isExternal
+                  color="foreground"
+                  href="https://www.linkedin.com/in/ccnyacm/"
+                >
+                  LinkedIn
+                </Link>
               </li>
             </ul>
           </div>
@@ -174,11 +224,19 @@ export default function HomePage() {
 
             <ul>
               <li>
-                <a href="mailto:ccnyacm@gmail.com">ccnyacm@gmail.com</a>
+                <Link
+                  isExternal
+                  color="foreground"
+                  href="mailto:ccnyacm@gmail.com"
+                >
+                  ccnyacm@gmail.com
+                </Link>
               </li>
             </ul>
           </div>
         </div>
+
+        <span className="text-center">&copy; 2025 ACM @ CCNY</span>
       </footer>
     </div>
   );
