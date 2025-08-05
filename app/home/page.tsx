@@ -150,8 +150,8 @@ export default function HomePage() {
 
       <HomePageEvents />
 
-      <footer className="texture bg-background/60 dark:bg-default/10 flex flex-col gap-8 p-4">
-        <div className="flex flex-col justify-center gap-4 sm:flex-row sm:gap-16">
+      <footer className="texture bg-background/60 dark:bg-default/10 flex flex-col gap-4 p-4">
+        <div className="m-4 flex flex-col justify-center gap-4 sm:flex-row sm:gap-16">
           <div>
             <strong className="mb-2 block text-lg">Connect</strong>
 
