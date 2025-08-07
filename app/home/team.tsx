@@ -60,7 +60,7 @@ const extendedBoard: TeamMember[] = [
     position: "Social Media Chair",
     image: "/team/diana-lucero.webp",
     email: "dlucero000@citymail.cuny.edu",
-    linkedin: "dianalucero15",
+    linkedin: "diana-lucero-b5a713221",
   },
   {
     name: "Debasree Sen",
