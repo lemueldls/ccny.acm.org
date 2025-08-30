@@ -121,6 +121,7 @@ const extendedBoard: TeamMember[] = [
   {
     name: "Areeba Ali",
     position: "Class Representative 2028",
+    image: "/team/areeba-ali.webp",
     email: "aali064@citymail.cuny.edu",
   },
   {
