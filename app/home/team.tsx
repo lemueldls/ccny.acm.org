@@ -128,6 +128,7 @@ const extendedBoard: TeamMember[] = [
     name: "Ayesha Ilyas",
     position: "Class Representative 2028",
     email: "ailyas000@citymail.cuny.edu",
+    image: "/team/ayesha-ilyas.webp",
     linkedin: "a-ilyas",
   },
   // {
