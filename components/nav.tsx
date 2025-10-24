@@ -37,6 +37,7 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { SimpleIconsGithub } from "./icons/github";
+import ThemeToggle from "./theme-toggle";
 
 export default function Nav({ children }: { children: ReactNode }) {
   const { signOut, signIn } = useAuthActions();
@@ -213,6 +214,10 @@ export default function Nav({ children }: { children: ReactNode }) {
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
+          </NavbarItem>
+
+          <NavbarItem>
+            <ThemeToggle />
           </NavbarItem>
         </NavbarContent>
       </Navbar>

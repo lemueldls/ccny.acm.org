@@ -16,6 +16,7 @@ import { QuicktimePrompt, Workshop } from "@/lib/workshops";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import ShineBorder from "../ui/shine-border";
+import { useTheme } from "next-themes";
 
 export type RoomType = "personal" | "host";
 export type Language = "html" | "css" | "javascript";
@@ -39,6 +40,8 @@ export function CollaborativeEditor(props: EditorProps) {
   const [editorRef, setEditorRef] = useState<editor.IStandaloneCodeEditor>();
 
   const [language, setLanguage] = useState<Language>("html");
+
+  const { resolvedTheme } = useTheme();
 
   const handleOnMount = useCallback((e: editor.IStandaloneCodeEditor) => {
     setEditorRef(e);
@@ -111,7 +114,7 @@ export function CollaborativeEditor(props: EditorProps) {
           onChange={handleOnChange}
           height="100%"
           width="100%"
-          theme="vs-dark"
+          theme={resolvedTheme === "dark" ? "vs-dark" : "vs-light"}
           path={files[language]}
           language={language}
           defaultValue={props.website?.[language]}

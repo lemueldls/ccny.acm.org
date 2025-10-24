@@ -327,7 +327,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
             if (showDrawer && info.offset.y > 80) setShowDrawer(false);
             if (!showDrawer && info.offset.y < -80) setShowDrawer(true);
           }}
-          className="formal-invitation bg-default/25 transition-height p-4"
+          className="signal bg-default/25 transition-height p-4"
         >
           {activeQuicktime ? (
             <Quicktime
@@ -416,7 +416,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
               />
             </div>
 
-            <iframe className="flex-1" ref={iframe} />
+            <iframe title="Website" className="flex-1 bg-white" ref={iframe} />
           </div>
 
           <VisSingleContainer className="flex-1" data={graph}>
