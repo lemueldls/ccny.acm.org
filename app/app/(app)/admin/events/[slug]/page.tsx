@@ -141,17 +141,6 @@ export default function EditEventPage(props: EditEventPageProps) {
               />
 
               <Input
-                label="Host"
-                labelPlacement="outside"
-                isDisabled={!event}
-                value={event?.location || ""}
-                onValueChange={(value) => updateEvent("host", value)}
-                startContent={
-                  <UserIcon className="text-foreground-400 h-5 w-5" />
-                }
-              />
-
-              <Input
                 label="Location"
                 labelPlacement="outside"
                 isDisabled={!event}
@@ -159,6 +148,17 @@ export default function EditEventPage(props: EditEventPageProps) {
                 onValueChange={(value) => updateEvent("location", value)}
                 startContent={
                   <MapPinIcon className="text-foreground-400 h-5 w-5" />
+                }
+              />
+
+              <Input
+                label="Host"
+                labelPlacement="outside"
+                isDisabled={!event}
+                value={event?.host || ""}
+                onValueChange={(value) => updateEvent("host", value)}
+                startContent={
+                  <UserIcon className="text-foreground-400 h-5 w-5" />
                 }
               />
 
