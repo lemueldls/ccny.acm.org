@@ -18,19 +18,19 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/favicon.ico",
-        href: "/favicon.ico",
+        url: "/logo.svg",
+        href: "/logo.svg",
       },
-      {
-        media: "(prefers-color-scheme: light)",
-        url: "/logo-on-light.png",
-        href: "/logo-on-light.png",
-      },
-      {
-        media: "(prefers-color-scheme: dark)",
-        url: "/logo-on-dark.png",
-        href: "/logo-on-dark.png",
-      },
+      // {
+      //   media: "(prefers-color-scheme: light)",
+      //   url: "/logo-on-light.png",
+      //   href: "/logo-on-light.png",
+      // },
+      // {
+      //   media: "(prefers-color-scheme: dark)",
+      //   url: "/logo-on-dark.png",
+      //   href: "/logo-on-dark.png",
+      // },
     ],
   },
   openGraph: {

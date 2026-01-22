@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Image,
   Link,
   Navbar,
   NavbarBrand,
@@ -8,8 +9,9 @@ import {
   NavbarItem,
 } from "@heroui/react";
 
-import ThemedLogo from "@/components/themed-logo";
+// import ThemedLogo from "@/components/themed-logo";
 import ThemeToggle from "@/components/theme-toggle";
+import NextImage from "next/image";
 
 export default function HomePageHeader() {
   return (
@@ -18,7 +20,14 @@ export default function HomePageHeader() {
         <NavbarItem>
           <NavbarBrand>
             <Link href="/">
-              <ThemedLogo />
+              <Image
+                as={NextImage}
+                width={44}
+                height={44}
+                src={`/logo.svg`}
+                alt="Logo"
+                suppressHydrationWarning
+              />
             </Link>
           </NavbarBrand>
         </NavbarItem>
