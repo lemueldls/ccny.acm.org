@@ -52,7 +52,7 @@ jobs:
           cp -r .next/static .next/standalone/.next/
 
       - name: Deploy with rsync
-        uses: burnett01/rsync-deployments@8
+        uses: burnett01/rsync-deployments@v8
         with:
           switches: -avzr --exclude=node_modules
           path: .next/standalone/
