@@ -11,7 +11,7 @@ import { SimpleIconsLinkedin } from "@/components/icons/linkedin";
 import NextImage from "next/image";
 // import { useTheme } from "next-themes";
 
-interface TeamMember {
+export interface TeamMember {
   name: string;
   position: string;
   image?: string;
@@ -21,7 +21,7 @@ interface TeamMember {
   website?: string;
 }
 
-const executiveBoard = [
+export const executiveBoard: TeamMember[] = [
   {
     name: "Srewashi Mondal",
     position: "President",
@@ -54,7 +54,7 @@ const executiveBoard = [
   },
 ];
 
-const extendedBoard: TeamMember[] = [
+export const extendedBoard: TeamMember[] = [
   {
     name: "Diana Lucero",
     position: "Social Media Chair",
@@ -161,7 +161,7 @@ const extendedBoard: TeamMember[] = [
   // },
 ];
 
-const staff: TeamMember[] = [
+export const staff: TeamMember[] = [
   {
     name: "Sam Fenster",
     position: "ACM Club Advisor",
