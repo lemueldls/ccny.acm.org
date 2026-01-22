@@ -52,15 +52,11 @@ export default function EventsAccordionClient(
             : undefined,
           endDate: event.end ? event.end.toDate().toISOString() : undefined,
           location: event.location
-            ? {
-                "@type": "Place",
-                name: event.location,
-              }
+            ? { "@type": "Place", name: event.location }
             : undefined,
-          organizer: {
-            "@type": "Organization",
-            name: event.host || "ACM @ CCNY",
-          },
+          organizer: event.host
+            ? { "@type": "Person", name: event.host }
+            : { "@type": "Organization", name: "ACM @ CCNY" },
           eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
           url: event.rsvp,
         }) satisfies Event,

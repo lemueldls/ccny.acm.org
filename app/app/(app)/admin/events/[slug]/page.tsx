@@ -28,7 +28,7 @@ import EventCard from "@/components/event-card";
 import { parseDateTime } from "@internationalized/date";
 import {
   CalendarDaysIcon,
-  CalendarIcon,
+  UserIcon,
   MapPinIcon,
 } from "@heroicons/react/20/solid";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid";
@@ -79,15 +79,17 @@ export default function EditEventPage(props: EditEventPageProps) {
   async function saveEvent() {
     if (!event) throw new Error("Event not found");
 
-    const deserializedEvent = deserializeEvent(Object.assign(event, { end: eventEnd }));
+    const deserializedEvent = deserializeEvent(
+      Object.assign(event, { end: eventEnd }),
+    );
     deserializedEvent.public = true;
 
     await setRawEvent({ id, event: deserializedEvent });
 
     const eventKind = event?.kind;
     addToast({
-      title: `${eventKind ? eventKindTextMap[eventKind] : 'Event'} ${published ? "published" : "saved"}!`,
-      color: "success"
+      title: `${eventKind ? eventKindTextMap[eventKind] : "Event"} ${published ? "published" : "saved"}!`,
+      color: "success",
     });
   }
 
@@ -139,13 +141,24 @@ export default function EditEventPage(props: EditEventPageProps) {
               />
 
               <Input
+                label="Host"
+                labelPlacement="outside"
+                isDisabled={!event}
+                value={event?.location || ""}
+                onValueChange={(value) => updateEvent("host", value)}
+                startContent={
+                  <UserIcon className="text-foreground-400 h-5 w-5" />
+                }
+              />
+
+              <Input
                 label="Location"
                 labelPlacement="outside"
                 isDisabled={!event}
                 value={event?.location || ""}
                 onValueChange={(value) => updateEvent("location", value)}
                 startContent={
-                  <MapPinIcon className="h-5 w-5 text-foreground-400" />
+                  <MapPinIcon className="text-foreground-400 h-5 w-5" />
                 }
               />
 
