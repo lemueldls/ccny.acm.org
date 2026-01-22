@@ -181,7 +181,9 @@ export default function HomePageTeam() {
         "@type": "Person",
         name: member.name,
         jobTitle: member.position,
-        image: member.image ? `https://ccny.acm.org${member.image}` : undefined,
+        image: member.image
+          ? `${process.env.NEXT_PUBLIC_ROOT_URL}${member.image}`
+          : undefined,
         email: member.email,
         sameAs: [
           member.linkedin

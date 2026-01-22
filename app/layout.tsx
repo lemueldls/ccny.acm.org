@@ -6,6 +6,7 @@ import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { Providers } from "./providers";
 
 import type { Metadata } from "next";
+import { Organization, WithContext } from "schema-dts";
 
 const title = "ACM @ CCNY";
 const description =
@@ -31,7 +32,7 @@ const jsonLd = {
     name: "Association for Computing Machinery",
     url: "https://www.acm.org/",
   },
-};
+} satisfies WithContext<Organization>;
 
 export const metadata: Metadata = {
   title,
