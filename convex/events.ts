@@ -39,6 +39,7 @@ export const updateById = mutation({
     if (event.title !== undefined) patch.title = event.title;
     if (event.kind !== undefined) patch.kind = event.kind;
     if (event.location !== undefined) patch.location = event.location;
+    if (event.host !== undefined) patch.host = event.host;
     if (event.start !== undefined) patch.start = event.start;
     if (event.end !== undefined) patch.end = event.end;
     if (event.description !== undefined) patch.description = event.description;
