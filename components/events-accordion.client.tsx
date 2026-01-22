@@ -1,7 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
-
 import {
   Accordion,
   AccordionItem,
@@ -13,10 +11,13 @@ import EventGrid from "./event-grid";
 import { Preloaded, usePreloadedQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
-import { SerializedEvent, parseEvents, serializeEvent } from "@/lib/events";
+import { parseEvents, serializeEvent } from "@/lib/events";
+import { Event } from "schema-dts";
 
-export interface EventsAccordionClientProps
-  extends Omit<AccordionProps, "children"> {
+export interface EventsAccordionClientProps extends Omit<
+  AccordionProps,
+  "children"
+> {
   preloadedEvents: Preloaded<typeof api.events.getAllEvents>;
   showEditLink?: boolean;
 }
@@ -38,6 +39,39 @@ export default function EventsAccordionClient(
 
   if (!events) return <EventsAccordionSkeleton />;
 
+  const eventsJsonLd = events
+    .filter((event) => event.public)
+    .map(
+      (event) =>
+        ({
+          "@type": "Event",
+          name: event.title,
+          description: event.description,
+          startDate: event.start
+            ? event.start.toDate().toISOString()
+            : undefined,
+          endDate: event.end ? event.end.toDate().toISOString() : undefined,
+          location: event.location
+            ? {
+                "@type": "Place",
+                name: event.location,
+              }
+            : undefined,
+          organizer: {
+            "@type": "Organization",
+            name: event.host || "ACM @ CCNY",
+          },
+          eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+          url: event.rsvp,
+        }) satisfies Event,
+    )
+    .filter((event) => event.startDate); // only include events with start date
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": eventsJsonLd,
+  };
+
   const {
     happeningToday,
     upcomingEvents,
@@ -58,67 +92,76 @@ export default function EventsAccordionClient(
   if (!areHappeningToday && !areUpcomingEvents) defaultExpandedKeys.push("3");
 
   return (
-    <Accordion
-      variant="bordered"
-      selectionMode="multiple"
-      disabledKeys={disabledKeys}
-      defaultExpandedKeys={defaultExpandedKeys}
-    >
-      <AccordionItem
-        key="1"
-        aria-label="Happening Today"
-        title="Happening Today"
-        subtitle={
-          areHappeningToday ? null : (
-            <span className="text-xl">There are no events happening today</span>
-          )
-        }
-        id="happening-today"
-        classNames={{ title: "text-4xl font-bold leading-none" }}
-      >
-        <EventGrid
-          events={happeningToday.toReversed()}
-          showEditLink={props.showEditLink}
-        />
-      </AccordionItem>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-      <AccordionItem
-        key="2"
-        aria-label="Upcoming Events"
-        title="Upcoming Events"
-        subtitle={
-          areUpcomingEvents ? null : (
-            <span className="text-xl">There are no upcoming events</span>
-          )
-        }
-        id="upcoming-events"
-        classNames={{ title: "text-4xl font-bold leading-none" }}
+      <Accordion
+        variant="bordered"
+        selectionMode="multiple"
+        disabledKeys={disabledKeys}
+        defaultExpandedKeys={defaultExpandedKeys}
       >
-        <EventGrid
-          events={upcomingEvents.toReversed()}
-          showEditLink={props.showEditLink}
-        />
-      </AccordionItem>
+        <AccordionItem
+          key="1"
+          aria-label="Happening Today"
+          title="Happening Today"
+          subtitle={
+            areHappeningToday ? null : (
+              <span className="text-xl">
+                There are no events happening today
+              </span>
+            )
+          }
+          id="happening-today"
+          classNames={{ title: "text-4xl font-bold leading-none" }}
+        >
+          <EventGrid
+            events={happeningToday.toReversed()}
+            showEditLink={props.showEditLink}
+          />
+        </AccordionItem>
 
-      <AccordionItem
-        key="3"
-        aria-label="Past Events"
-        title="Past Events"
-        subtitle={
-          pastEvents.length > 0 ? null : (
-            <span className="text-xl">There were no events in the past</span>
-          )
-        }
-        id="past-events"
-        classNames={{ title: "text-4xl font-bold leading-none" }}
-      >
-        <EventGrid
-          events={pastEvents}
-          showEditLink={props.showEditLink}
-          rsvpIsDisabled
-        />
-      </AccordionItem>
-    </Accordion>
+        <AccordionItem
+          key="2"
+          aria-label="Upcoming Events"
+          title="Upcoming Events"
+          subtitle={
+            areUpcomingEvents ? null : (
+              <span className="text-xl">There are no upcoming events</span>
+            )
+          }
+          id="upcoming-events"
+          classNames={{ title: "text-4xl font-bold leading-none" }}
+        >
+          <EventGrid
+            events={upcomingEvents.toReversed()}
+            showEditLink={props.showEditLink}
+          />
+        </AccordionItem>
+
+        <AccordionItem
+          key="3"
+          aria-label="Past Events"
+          title="Past Events"
+          subtitle={
+            pastEvents.length > 0 ? null : (
+              <span className="text-xl">There were no events in the past</span>
+            )
+          }
+          id="past-events"
+          classNames={{ title: "text-4xl font-bold leading-none" }}
+        >
+          <EventGrid
+            events={pastEvents}
+            showEditLink={props.showEditLink}
+            rsvpIsDisabled
+          />
+        </AccordionItem>
+      </Accordion>
+    </>
   );
 }
 

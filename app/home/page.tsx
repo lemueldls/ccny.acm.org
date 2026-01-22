@@ -14,71 +14,8 @@ import { SimpleIconsLinkedin } from "@/components/icons/linkedin";
 import { EnvelopeIcon as EnvelopeIcon24 } from "@heroicons/react/24/solid";
 import { LineShadowText } from "@/components/line-shadow";
 
-import { ConvexHttpClient } from "convex/browser";
-import { api } from "@/convex/_generated/api";
-
-import { executiveBoard, extendedBoard, staff, type TeamMember } from "./team";
-
-export default async function HomePage() {
-  const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
-  const events = await convex.query(api.events.getAllEvents);
-
-  const eventsJsonLd = events
-    .filter((event) => event.public)
-    .map((event) => ({
-      "@type": "Event",
-      name: event.title,
-      description: event.description,
-      startDate: event.start ? new Date(event.start).toISOString() : undefined,
-      endDate: event.end ? new Date(event.end).toISOString() : undefined,
-      location: event.location
-        ? {
-            "@type": "Place",
-            name: event.location,
-          }
-        : undefined,
-      organizer: {
-        "@type": "Organization",
-        name: "ACM @ CCNY",
-      },
-      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-      url: event.rsvp,
-    }))
-    .filter((event) => event.startDate); // only include events with start date
-
-  const allTeamMembers = [...executiveBoard, ...extendedBoard, ...staff];
-
-  const teamJsonLd = allTeamMembers.map((member) => ({
-    "@type": "Person",
-    name: member.name,
-    jobTitle: member.position,
-    image: member.image ? `${process.env.NEXT_PUBLIC_ROOT_URL}${member.image}` : undefined,
-    email: member.email,
-    sameAs: [
-      member.linkedin ? `https://www.linkedin.com/in/${member.linkedin}` : undefined,
-      member.github ? `https://github.com/${member.github}` : undefined,
-      member.website,
-    ].filter(Boolean),
-    worksFor: {
-      "@type": "Organization",
-      name: "ACM @ CCNY",
-    },
-  }));
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [...eventsJsonLd, ...teamJsonLd],
-  };
-
+export default function HomePage() {
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd),
-        }}
-      />
-
       <div className="flex min-h-screen flex-col">
         <HomePageHeader />
 
@@ -302,6 +239,5 @@ export default async function HomePage() {
           <span className="text-center">&copy; 2025 ACM @ CCNY</span>
         </footer>
       </div>
-    </>
   );
 }

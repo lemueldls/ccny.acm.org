@@ -4,6 +4,7 @@ import Tilt from "react-parallax-tilt";
 import { Button, Card, CardBody, Image, Link } from "@heroui/react";
 
 import { EnvelopeIcon } from "@heroicons/react/20/solid";
+import { Graph, Person, Product, WithContext } from "schema-dts";
 
 import { SimpleIconsGithub } from "@/components/icons/github";
 import { SimpleIconsLinkedin } from "@/components/icons/linkedin";
@@ -172,36 +173,72 @@ export const staff: TeamMember[] = [
 ];
 
 export default function HomePageTeam() {
+  const allTeamMembers = [...executiveBoard, ...extendedBoard, ...staff];
+
+  const teamJsonLd = allTeamMembers.map(
+    (member) =>
+      ({
+        "@type": "Person",
+        name: member.name,
+        jobTitle: member.position,
+        image: member.image ? `https://ccny.acm.org${member.image}` : undefined,
+        email: member.email,
+        sameAs: [
+          member.linkedin
+            ? `https://www.linkedin.com/in/${member.linkedin}`
+            : undefined,
+          member.github ? `https://github.com/${member.github}` : undefined,
+          member.website,
+        ].filter(Boolean) as string[],
+        worksFor: {
+          "@type": "Organization",
+          name: "ACM @ CCNY",
+        },
+      }) satisfies Person,
+  );
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": teamJsonLd,
+  };
+
   return (
-    <div className="container mx-auto my-8 flex flex-col gap-6 p-4">
-      <h2 id="team" className="text-3xl font-bold">
-        Meet the Team
-      </h2>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-      <h3 className="mt-4 text-center text-2xl font-bold">Executive Board</h3>
+      <div className="container mx-auto my-8 flex flex-col gap-6 p-4">
+        <h2 id="team" className="text-3xl font-bold">
+          Meet the Team
+        </h2>
 
-      <div className="mx-auto flex w-full max-w-5xl flex-wrap justify-center gap-6">
-        {executiveBoard.map((member, index) => (
-          <TeamMemberCard key={index} member={member} />
-        ))}
+        <h3 className="mt-4 text-center text-2xl font-bold">Executive Board</h3>
+
+        <div className="mx-auto flex w-full max-w-5xl flex-wrap justify-center gap-6">
+          {executiveBoard.map((member, index) => (
+            <TeamMemberCard key={index} member={member} />
+          ))}
+        </div>
+
+        <h3 className="mt-4 text-center text-2xl font-bold">Extended Board</h3>
+
+        <div className="mx-auto flex w-full flex-wrap justify-center gap-6">
+          {extendedBoard.map((member, index) => (
+            <TeamMemberCard key={index} member={member} />
+          ))}
+        </div>
+
+        <h3 className="mt-4 text-center text-2xl font-bold">Faculty</h3>
+
+        <div className="mx-auto flex w-full flex-wrap justify-center gap-6">
+          {staff.map((member, index) => (
+            <TeamMemberCard key={index} member={member} />
+          ))}
+        </div>
       </div>
-
-      <h3 className="mt-4 text-center text-2xl font-bold">Extended Board</h3>
-
-      <div className="mx-auto flex w-full flex-wrap justify-center gap-6">
-        {extendedBoard.map((member, index) => (
-          <TeamMemberCard key={index} member={member} />
-        ))}
-      </div>
-
-      <h3 className="mt-4 text-center text-2xl font-bold">Faculty</h3>
-
-      <div className="mx-auto flex w-full flex-wrap justify-center gap-6">
-        {staff.map((member, index) => (
-          <TeamMemberCard key={index} member={member} />
-        ))}
-      </div>
-    </div>
+    </>
   );
 }
 

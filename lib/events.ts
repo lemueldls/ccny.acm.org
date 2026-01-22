@@ -3,10 +3,6 @@ import {
   isSameDay,
   now,
   fromAbsolute,
-  toCalendarDateTime,
-  getLocalTimeZone,
-  parseDateTime,
-  fromDate,
   ZonedDateTime,
 } from "@internationalized/date";
 
@@ -48,6 +44,7 @@ export function serializeEvent(event: Doc<"events">) {
     title: event.title,
     kind: event.kind,
     location: event.location,
+    host: event.host,
     start: event.start ? fromAbsolute(event.start, timeZone) : null,
     end: event.end ? fromAbsolute(event.end, timeZone) : null,
     description: event.description,
@@ -61,6 +58,7 @@ export function deserializeEvent(event: SerializedEvent): DeserializedEvent {
     title: event.title,
     kind: event.kind,
     location: event.location,
+    host: event.host,
     start: event.start ? event.start.toDate().getTime() : undefined,
     end: event.end ? event.end.toDate().getTime() : undefined,
     description: event.description,

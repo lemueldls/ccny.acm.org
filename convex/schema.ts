@@ -49,6 +49,7 @@ export default defineSchema({
       ),
     ),
     location: v.optional(v.string()),
+    host: v.optional(v.string()),
     start: v.optional(v.number()),
     end: v.optional(v.number()),
     description: v.optional(v.string()),

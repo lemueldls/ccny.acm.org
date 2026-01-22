@@ -25,7 +25,7 @@ const jsonLd = {
     "https://www.linkedin.com/in/ccnyacm/",
   ],
   email: "ccnyacm@gmail.com",
-  foundingDate: "2020", // I need to check this, but assuming
+  foundingDate: "2024",
   parentOrganization: {
     "@type": "Organization",
     name: "Association for Computing Machinery",
