@@ -140,14 +140,14 @@ export default function EditEventPage(props: EditEventPageProps) {
               >
                 <Checkbox
                   value="public"
-                  defaultChecked={event?.public}
+                  defaultSelected={event?.public}
                   onValueChange={(value) => updateEvent("public", value)}
                 >
                   Public
                 </Checkbox>
                 <Checkbox
                   value="external"
-                  defaultChecked={event?.external}
+                  defaultSelected={event?.external}
                   onValueChange={(value) => updateEvent("external", value)}
                 >
                   External
