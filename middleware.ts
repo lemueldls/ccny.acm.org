@@ -1,10 +1,11 @@
-import { NextResponse } from "next/server";
 import {
   convexAuthNextjsMiddleware,
   createRouteMatcher,
-  // nextjsMiddlewareRedirect,
+  // NextjsMiddlewareRedirect,
 } from "@convex-dev/auth/nextjs/server";
 import { fetchQuery } from "convex/nextjs";
+import { NextResponse } from "next/server";
+
 import { api } from "./convex/_generated/api";
 
 export const config = {
@@ -36,25 +37,23 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
 
   const searchParams = req.nextUrl.searchParams.toString();
   // Get the pathname of the request (e.g. /, /about, /blog/first-post)
-  const path = `${url.pathname}${
-    searchParams.length > 0 ? `?${searchParams}` : ""
-  }`;
+  const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ""}`;
 
-  // if (isApiRoute(req)) {
-  //   return NextResponse.rewrite(new URL("/", req.url));
+  // If (isApiRoute(req)) {
+  //   Return NextResponse.rewrite(new URL("/", req.url));
   // }
 
-  // rewrites for app pages
+  // Rewrites for app pages
   if (hostname === appDomain) {
-    // if (!token && path !== "/login") {
-    //   return NextResponse.redirect(new URL("/login", req.url));
+    // If (!token && path !== "/login") {
+    //   Return NextResponse.redirect(new URL("/login", req.url));
     // } else if (token && path == "/login") {
-    //   return NextResponse.redirect(new URL("/", req.url));
+    //   Return NextResponse.redirect(new URL("/", req.url));
     // }
 
-    // console.log({
-    //   authenticated: convexAuth.isAuthenticated(),
-    //   isLoginPage: isLoginPage(req),
+    // Console.log({
+    //   Authenticated: convexAuth.isAuthenticated(),
+    //   IsLoginPage: isLoginPage(req),
     // });
 
     if (await convexAuth.isAuthenticated()) {
@@ -71,32 +70,26 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
       const token = await convexAuth.getToken();
       const user = await fetchQuery(api.users.currentUser, {}, { token });
 
-      if (!user) return NextResponse.redirect(new URL("/login", req.url));
-      if (!user.isAdmin) return new Response("Not authorized", { status: 403 });
+      if (!user) {
+        return NextResponse.redirect(new URL("/login", req.url));
+      }
+      if (!user.isAdmin) {
+        return new Response("Not authorized", { status: 403 });
+      }
     }
 
-    return NextResponse.rewrite(
-      new URL(`/app${path === "/" ? "" : path}`, req.url),
-    );
+    return NextResponse.rewrite(new URL(`/app${path === "/" ? "" : path}`, req.url));
   }
 
   if (hostname === adminDomain) {
-    return NextResponse.redirect(
-      new URL("/admin", process.env.NEXT_PUBLIC_APP_URL),
-    );
+    return NextResponse.redirect(new URL("/admin", process.env.NEXT_PUBLIC_APP_URL));
   }
 
-  // rewrite root application to `/home` folder
-  if (
-    hostname === "ccny.acm.org" ||
-    hostname === "localhost:3000" ||
-    hostname === rootDomain
-  ) {
-    return NextResponse.rewrite(
-      new URL(`/home${path === "/" ? "" : path}`, req.url),
-    );
+  // Rewrite root application to `/home` folder
+  if (hostname === "ccny.acm.org" || hostname === "localhost:3000" || hostname === rootDomain) {
+    return NextResponse.rewrite(new URL(`/home${path === "/" ? "" : path}`, req.url));
   }
 
-  // rewrite everything else to `/[domain]/[slug] dynamic route
+  // Rewrite everything else to `/[domain]/[slug] dynamic route
   return NextResponse.rewrite(new URL(`/${hostname}${path}`, req.url));
 });

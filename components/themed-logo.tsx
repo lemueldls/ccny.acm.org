@@ -1,9 +1,8 @@
 // "use client";
 
-import NextImage from "next/image";
 import { Image, ImageProps } from "@heroui/react";
-
 import { useTheme } from "next-themes";
+import NextImage from "next/image";
 import { useEffect, useState } from "react";
 
 export default function ThemedLogo(props: ImageProps) {
@@ -14,7 +13,9 @@ export default function ThemedLogo(props: ImageProps) {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <Image

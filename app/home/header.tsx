@@ -1,17 +1,10 @@
 "use client";
 
-import {
-  Image,
-  Link,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-} from "@heroui/react";
-
-import ThemedLogo from "@/components/themed-logo";
-import ThemeToggle from "@/components/theme-toggle";
+import { Image, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
 import NextImage from "next/image";
+
+import ThemeToggle from "@/components/theme-toggle";
+import ThemedLogo from "@/components/themed-logo";
 
 export default function HomePageHeader() {
   return (

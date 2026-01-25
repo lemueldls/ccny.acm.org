@@ -1,30 +1,8 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
-import { useTheme } from "next-themes";
-import { usePathname } from "next/navigation";
-import {
-  Button,
-  Link,
-  Image,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  Breadcrumbs,
-  BreadcrumbItem,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  User,
-  NavbarMenuToggle,
-  Avatar,
-} from "@heroui/react";
-import { SimpleIconsDiscord } from "./icons/discord";
-import { SimpleIconsInstagram } from "./icons/instagram";
-import { SimpleIconsLinkedin } from "./icons/linkedin";
+import { useAuthActions } from "@convex-dev/auth/react";
 import {
   ArrowLeftEndOnRectangleIcon,
   ArrowLeftStartOnRectangleIcon,
@@ -32,11 +10,36 @@ import {
   MoonIcon,
   SunIcon,
 } from "@heroicons/react/20/solid";
-import NextImage from "next/image";
-import { useAuthActions } from "@convex-dev/auth/react";
+import {
+  Avatar,
+  BreadcrumbItem,
+  Breadcrumbs,
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Image,
+  Link,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenuToggle,
+  User,
+} from "@heroui/react";
 import { useQuery } from "convex/react";
+import { useTheme } from "next-themes";
+import NextImage from "next/image";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+
 import { api } from "@/convex/_generated/api";
+
+import { SimpleIconsDiscord } from "./icons/discord";
 import { SimpleIconsGithub } from "./icons/github";
+import { SimpleIconsInstagram } from "./icons/instagram";
+import { SimpleIconsLinkedin } from "./icons/linkedin";
 import ThemeToggle from "./theme-toggle";
 
 export default function Nav({ children }: { children: ReactNode }) {
@@ -44,18 +47,20 @@ export default function Nav({ children }: { children: ReactNode }) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // const segments = useSelectedLayoutSegments();
-  // const { id } = useParams() as { id?: string };
+  // Const segments = useSelectedLayoutSegments();
+  // Const { id } = useParams() as { id?: string };
 
-  // const [siteId, setSiteId] = useState<string | null>();
-  // const [showSidebar, setShowSidebar] = useState(false);
+  // Const [siteId, setSiteId] = useState<string | null>();
+  // Const [showSidebar, setShowSidebar] = useState(false);
 
   const { resolvedTheme } = useTheme();
   const pathname = usePathname();
 
   const user = useQuery(api.users.currentUser);
 
-  if (!user) return null;
+  if (!user) {
+    return null;
+  }
 
   return (
     <>
@@ -98,12 +103,7 @@ export default function Nav({ children }: { children: ReactNode }) {
                 <div key="ellipsis" className="flex items-center">
                   <Dropdown>
                     <DropdownTrigger>
-                      <Button
-                        isIconOnly
-                        className="h-6 w-6 min-w-6"
-                        size="sm"
-                        variant="flat"
-                      >
+                      <Button isIconOnly className="h-6 w-6 min-w-6" size="sm" variant="flat">
                         {ellipsisIcon}
                       </Button>
                     </DropdownTrigger>
@@ -205,9 +205,7 @@ export default function Nav({ children }: { children: ReactNode }) {
                 <DropdownItem
                   key="logout"
                   color="danger"
-                  startContent={
-                    <ArrowLeftStartOnRectangleIcon className="h-5 w-5" />
-                  }
+                  startContent={<ArrowLeftStartOnRectangleIcon className="h-5 w-5" />}
                   onPress={() => signOut()}
                 >
                   Log Out

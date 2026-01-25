@@ -1,4 +1,5 @@
 import { preloadQuery } from "convex/nextjs";
+
 import { api } from "@/convex/_generated/api";
 
 import EventChipClient from "./event-chip.client";

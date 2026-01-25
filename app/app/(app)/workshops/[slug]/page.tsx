@@ -1,22 +1,6 @@
 "use client";
 
-import {
-  useRef,
-  useEffect,
-  useReducer,
-  useState,
-  useCallback,
-  use,
-} from "react";
-import { useGlitch } from "react-powerglitch";
-
-import { VisSingleContainer, VisGraph } from "@unovis/react";
-import {
-  CollaborativeEditor,
-  Language,
-  RoomType,
-} from "@/components/collaborative-editor/editor";
-import Markdown from "react-markdown";
+import { ArrowPathIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/16/solid";
 import {
   Button,
   CircularProgress,
@@ -27,25 +11,26 @@ import {
   Snippet,
   User,
 } from "@heroui/react";
-// import { useSession } from "next-auth/react";
+import { VisGraph, VisSingleContainer } from "@unovis/react";
+// Import { useSession } from "next-auth/react";
 import { GraphData } from "@unovis/ts/data-models/graph";
-import {
-  ArrowPathIcon,
-  ArrowTopRightOnSquareIcon,
-} from "@heroicons/react/16/solid";
-
-import Quicktime from "./quicktime";
-import MarkdownRenderer from "@/components/markdown-renderer";
+import confetti from "canvas-confetti";
 import { useMutation, useQuery } from "convex/react";
+import { motion } from "framer-motion";
+import { use, useCallback, useEffect, useReducer, useRef, useState } from "react";
+import Markdown from "react-markdown";
+import { useGlitch } from "react-powerglitch";
+
+import { CollaborativeEditor, Language, RoomType } from "@/components/collaborative-editor/editor";
+import MarkdownRenderer from "@/components/markdown-renderer";
+import BoxReveal from "@/components/ui/box-reveal";
+import HyperText from "@/components/ui/hyper-text";
+import NumberTicker from "@/components/ui/number-ticker";
 import { api } from "@/convex/_generated/api";
 import { Doc } from "@/convex/_generated/dataModel";
-import NumberTicker from "@/components/ui/number-ticker";
-import HyperText from "@/components/ui/hyper-text";
-import { motion } from "framer-motion";
-import BoxReveal from "@/components/ui/box-reveal";
 
-import confetti from "canvas-confetti";
 import { QuicktimePrompt } from "../../admin/workshops/[slug]/quicktime-card";
+import Quicktime from "./quicktime";
 
 export interface WorkshopPageProps {
   params: Promise<{ slug: string }>;
@@ -69,14 +54,14 @@ type LinkDatum = {
   target: number | string | NodeDatum;
 };
 
-// window.onload = () => {
-//   fetch("/api/workshops", {
-//     method: "POST",
-//     headers: {
+// Window.onload = () => {
+//   Fetch("/api/workshops", {
+//     Method: "POST",
+//     Headers: {
 //       "Content-Type": "application/json",
 //     },
-//     body: JSON.stringify({
-//       slug: "introduction-web",
+//     Body: JSON.stringify({
+//       Slug: "introduction-web",
 //     }),
 //   });
 // };
@@ -97,7 +82,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
     workshopId: workshop?._id,
   });
 
-  // console.log({ slug, workshop });
+  // Console.log({ slug, workshop });
 
   const iframe = useRef<HTMLIFrameElement>(null);
 
@@ -116,23 +101,25 @@ export default function WorkshopPage(props: WorkshopPageProps) {
   const toggleDrawer = useCallback(() => setShowDrawer((s) => !s), []);
 
   useEffect(() => {
-    if (!initial || !user) return;
+    if (!initial || !user) {
+      return;
+    }
 
-    createOrGetWebsite({ userId: user._id }).then((website) =>
-      setWebsite(website),
-    );
+    createOrGetWebsite({ userId: user._id }).then((website) => setWebsite(website));
 
     setInitial(false);
   }, [createOrGetWebsite, initial, user]);
 
   const [graph, setGraph] = useState<GraphData<NodeDatum, LinkDatum>>();
 
-  // useEffect(() => {
+  // UseEffect(() => {
   //   // setRoomKind();
   // }, [user]);
 
   useEffect(() => {
-    if (!workshop) return;
+    if (!workshop) {
+      return;
+    }
 
     const lastSegment = activeSlideSegments?.[activeSlideSegments.length - 1];
     if (lastSegment?.kind === "quicktime") {
@@ -149,10 +136,10 @@ export default function WorkshopPage(props: WorkshopPageProps) {
     function buildTree(node: Element): TreeNode {
       const children = Array.from(node.children).map(buildTree);
       return {
-        tag: node.tagName.toLowerCase(),
-        id: node.id,
-        class: node.className,
         children,
+        class: node.className,
+        id: node.id,
+        tag: node.tagName.toLowerCase(),
       };
     }
 
@@ -164,7 +151,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
       nodes.push({ id: parentId, node });
       node.children.forEach((child, i) => {
         const id = `${parentId}:${i}`;
-        // nodes.push({ id, node: child });
+        // Nodes.push({ id, node: child });
         links.push({ id, source: id, target: parentId });
         buildGraph(child, id);
       });
@@ -172,13 +159,15 @@ export default function WorkshopPage(props: WorkshopPageProps) {
 
     buildGraph(tree, "0");
 
-    // console.log({ tree, nodes, links });
-    setGraph({ nodes, links });
+    // Console.log({ tree, nodes, links });
+    setGraph({ links, nodes });
 
     if (iframe.current) {
       const doc = iframe.current.contentDocument;
 
-      if (!doc) return;
+      if (!doc) {
+        return;
+      }
 
       doc.open();
       doc.write(website?.html || "");
@@ -199,12 +188,14 @@ export default function WorkshopPage(props: WorkshopPageProps) {
     }
   }, [website]);
 
-  // if (status === "loading") return null;
-  // const user = session?.user;
-  // if (!user) return null;
+  // If (status === "loading") return null;
+  // Const user = session?.user;
+  // If (!user) return null;
 
   async function handleOnChange(file: { language: Language; value: string }) {
-    if (!website) throw new Error("Website not found");
+    if (!website) {
+      throw new Error("Website not found");
+    }
 
     setWebsite({ ...website, [file.language]: file.value });
 
@@ -216,15 +207,15 @@ export default function WorkshopPage(props: WorkshopPageProps) {
     }, 1000);
   }
 
-  // const roomTypeToId = useCallback(
+  // Const roomTypeToId = useCallback(
   //   (roomType: RoomType) => {
-  //     if (!workshop) throw new Error("Workshop not found");
-  //     if (!user) throw new Error("User not found");
+  //     If (!workshop) throw new Error("Workshop not found");
+  //     If (!user) throw new Error("User not found");
 
-  //     if (roomType === "host") {
-  //       return `workshop:${workshop.id}:host`;
+  //     If (roomType === "host") {
+  //       Return `workshop:${workshop.id}:host`;
   //     } else {
-  //       return `workshop:${workshop.id}:personal:${user._id}`;
+  //       Return `workshop:${workshop.id}:personal:${user._id}`;
   //     }
   //   },
   //   [workshop, user],
@@ -246,34 +237,29 @@ export default function WorkshopPage(props: WorkshopPageProps) {
 
   const handleOnEnd = () => {
     const end = Date.now() + 10 * 1000; // 3 seconds
-    // const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
-    const colors = [
-      "#7d55c7",
-      "#3db7e4",
-      "#7ab800",
-      "#f3cf45",
-      "#9e3039",
-      "#9093CE",
-    ];
+    // Const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
+    const colors = ["#7d55c7", "#3db7e4", "#7ab800", "#f3cf45", "#9e3039", "#9093CE"];
 
     const frame = () => {
-      if (Date.now() > end) return;
+      if (Date.now() > end) {
+        return;
+      }
 
       confetti({
-        particleCount: 2,
         angle: 60,
+        colors: colors,
+        origin: { x: 0, y: 0.5 },
+        particleCount: 2,
         spread: 55,
         startVelocity: 60,
-        origin: { x: 0, y: 0.5 },
-        colors: colors,
       });
       confetti({
-        particleCount: 2,
         angle: 120,
+        colors: colors,
+        origin: { x: 1, y: 0.5 },
+        particleCount: 2,
         spread: 55,
         startVelocity: 60,
-        origin: { x: 1, y: 0.5 },
-        colors: colors,
       });
 
       requestAnimationFrame(frame);
@@ -282,10 +268,14 @@ export default function WorkshopPage(props: WorkshopPageProps) {
     frame();
   };
 
-  if (!workshop) return <div>Workshop not found</div>;
-  // if (!activeSlideSegments) return null;
+  if (!workshop) {
+    return <div>Workshop not found</div>;
+  }
+  // If (!activeSlideSegments) return null;
 
-  if (!user) return <div>User not found</div>;
+  if (!user) {
+    return <div>User not found</div>;
+  }
 
   return (
     <div className="flex h-full w-full gap-4 overflow-hidden">
@@ -306,7 +296,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
                 <BoxReveal key={i}>
                   <Quicktime
                     workshopId={workshop._id}
-                    prompt={activeQuicktime!}
+                    prompt={activeQuicktime}
                     onEnd={console.log}
                     className="text-sm"
                   />
@@ -319,22 +309,20 @@ export default function WorkshopPage(props: WorkshopPageProps) {
           onClick={() => setShowDrawer(true)}
           style={{ height: showDrawer ? "fit-content" : "2.5rem" }}
           drag="y"
-          dragElastic={
-            showDrawer ? { top: 0.01, bottom: 0.2 } : { top: 0.2, bottom: 0.2 }
-          }
-          dragConstraints={{ top: 0, bottom: 0 }}
+          dragElastic={showDrawer ? { bottom: 0.2, top: 0.01 } : { bottom: 0.2, top: 0.2 }}
+          dragConstraints={{ bottom: 0, top: 0 }}
           onDragEnd={(event, info) => {
-            if (showDrawer && info.offset.y > 80) setShowDrawer(false);
-            if (!showDrawer && info.offset.y < -80) setShowDrawer(true);
+            if (showDrawer && info.offset.y > 80) {
+              setShowDrawer(false);
+            }
+            if (!showDrawer && info.offset.y < -80) {
+              setShowDrawer(true);
+            }
           }}
           className="signal bg-default/25 transition-height p-4"
         >
           {activeQuicktime ? (
-            <Quicktime
-              workshopId={workshop._id}
-              prompt={activeQuicktime}
-              onEnd={console.log}
-            />
+            <Quicktime workshopId={workshop._id} prompt={activeQuicktime} onEnd={console.log} />
           ) : (
             <div className="flex flex-col gap-4">
               <div className="flex justify-center">
@@ -346,23 +334,22 @@ export default function WorkshopPage(props: WorkshopPageProps) {
                 <User
                   onClick={handleOnEnd}
                   avatarProps={{
-                    src: user.image,
-                    name: user.name,
                     isBordered: true,
+                    name: user.name,
                     size: "lg",
+                    src: user.image,
                   }}
-                  // name={user.name}
+                  // Name={user.name}
                   name={<HyperText text={user.name} animateOnLoad={false} />}
                   description={`@${user.slug}`}
                   classNames={{
-                    wrapper: "flex-1",
                     name: "text-2xl h-[1.5em]",
+                    wrapper: "flex-1",
                   }}
                 />
 
                 <span className="text-2xl italic">
-                  {user.points ? <NumberTicker value={user.points} /> : 0}{" "}
-                  points
+                  {user.points ? <NumberTicker value={user.points} /> : 0} points
                 </span>
               </div>
             </div>
@@ -393,10 +380,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
               <Input
                 size="sm"
                 type="url"
-                value={
-                  user.slug &&
-                  `https://${user.slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
-                }
+                value={user.slug && `https://${user.slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
                 isDisabled
                 isClearable
               />
@@ -404,10 +388,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
               <Button
                 as={Link}
                 isDisabled={!user.slug}
-                href={
-                  user.slug &&
-                  `https://${user.slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
-                }
+                href={user.slug && `https://${user.slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
                 size="sm"
                 variant="light"
                 startContent={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}

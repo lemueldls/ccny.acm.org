@@ -1,4 +1,13 @@
+import type { ButtonProps, PressEvent } from "@heroui/react";
+import type {
+  GlobalOptions as ConfettiGlobalOptions,
+  CreateTypes as ConfettiInstance,
+  Options as ConfettiOptions,
+} from "canvas-confetti";
 import type { ReactNode } from "react";
+
+import { Button } from "@heroui/react";
+import confetti from "canvas-confetti";
 import React, {
   createContext,
   forwardRef,
@@ -8,13 +17,6 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import type {
-  GlobalOptions as ConfettiGlobalOptions,
-  CreateTypes as ConfettiInstance,
-  Options as ConfettiOptions,
-} from "canvas-confetti";
-import confetti from "canvas-confetti";
-import { Button, type ButtonProps, type PressEvent } from "@heroui/react";
 
 type Api = {
   fire: (options?: ConfettiOptions) => void;
@@ -39,7 +41,7 @@ const Confetti = forwardRef<ConfettiRef, Props>((props, ref) => {
     children,
     ...rest
   } = props;
-  const instanceRef = useRef<ConfettiInstance | null>(null); // confetti instance
+  const instanceRef = useRef<ConfettiInstance | null>(null); // Confetti instance
 
   const canvasRef = useCallback(
     // https://react.dev/reference/react-dom/components/common#ref-callback
@@ -47,7 +49,9 @@ const Confetti = forwardRef<ConfettiRef, Props>((props, ref) => {
     (node: HTMLCanvasElement) => {
       if (node !== null) {
         // <canvas> is mounted => create the confetti instance
-        if (instanceRef.current) return; // if not already created
+        if (instanceRef.current) {
+          return;
+        } // If not already created
         instanceRef.current = confetti.create(node, {
           ...globalOptions,
           resize: true,
@@ -93,8 +97,7 @@ const Confetti = forwardRef<ConfettiRef, Props>((props, ref) => {
 });
 
 interface ConfettiButtonProps extends ButtonProps {
-  options?: ConfettiOptions &
-  ConfettiGlobalOptions & { canvas?: HTMLCanvasElement };
+  options?: ConfettiOptions & ConfettiGlobalOptions & { canvas?: HTMLCanvasElement };
   children?: React.ReactNode;
 }
 

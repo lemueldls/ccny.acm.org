@@ -1,14 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
-  reactCompiler: true,
   experimental: {
     serverActions: {
-      allowedOrigins: [
-        process.env.NEXT_PUBLIC_APP_URL!,
-        process.env.NEXT_PUBLIC_ADMIN_URL!,
-      ],
+      allowedOrigins: [process.env.NEXT_PUBLIC_APP_URL!, process.env.NEXT_PUBLIC_ADMIN_URL!],
     },
   },
   images: {
@@ -26,6 +21,8 @@ const nextConfig: NextConfig = {
       { hostname: "github.com" },
     ],
   },
+  output: "standalone",
+  reactCompiler: true,
 };
 
 export default nextConfig;

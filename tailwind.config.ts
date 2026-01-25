@@ -1,8 +1,8 @@
 import type { Config } from "tailwindcss";
 
+import { heroui } from "@heroui/react";
 import animate from "tailwindcss-animate";
 
-import { heroui } from "@heroui/react";
 import themes from "./themes.json";
 
 const config: Config = {
@@ -12,6 +12,8 @@ const config: Config = {
     "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
     "./node_modules/primereact/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
+  plugins: [animate, heroui(themes)],
   theme: {
     extend: {
       textShadow: {
@@ -46,8 +48,6 @@ const config: Config = {
       },
     },
   },
-  darkMode: "class",
-  plugins: [animate, heroui(themes)],
 };
 
 export default config;

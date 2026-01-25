@@ -1,18 +1,18 @@
-import { v } from "convex/values";
-import { defineSchema, defineTable } from "convex/server";
 import { authTables } from "@convex-dev/auth/server";
+import { defineSchema, defineTable } from "convex/server";
+import { v } from "convex/values";
 
 export const slideSegment = v.union(
   v.object({
-    kind: v.literal("markdown"),
     content: v.string(),
+    kind: v.literal("markdown"),
   }),
   v.object({
-    kind: v.literal("quicktime"),
-    question: v.string(),
     answers: v.array(v.string()),
     correctAnswer: v.string(),
+    kind: v.literal("quicktime"),
     points: v.number(),
+    question: v.string(),
     time: v.number(),
   }),
 );
@@ -21,25 +21,28 @@ export default defineSchema({
   ...authTables,
 
   users: defineTable({
-    name: v.string(),
-    slug: v.optional(v.string()),
+    discordId: v.optional(v.string()),
     email: v.optional(v.string()),
     emailVerificationTime: v.optional(v.number()),
+    githubId: v.optional(v.string()),
+    image: v.optional(v.string()),
+    isAdmin: v.boolean(),
+    isAnonymous: v.boolean(),
+    name: v.string(),
     phone: v.optional(v.string()),
     phoneVerificationTime: v.optional(v.number()),
-    image: v.optional(v.string()),
-    githubId: v.optional(v.string()),
-    discordId: v.optional(v.string()),
-    isAnonymous: v.boolean(),
-    isAdmin: v.boolean(),
     points: v.optional(v.number()),
+    slug: v.optional(v.string()),
   })
     .index("slug", ["slug"])
     .index("email", ["email"])
     .index("phone", ["phone"]),
 
   events: defineTable({
-    title: v.string(),
+    description: v.optional(v.string()),
+    end: v.optional(v.number()),
+    external: v.optional(v.boolean()),
+    host: v.optional(v.string()),
     kind: v.optional(
       v.union(
         v.literal("workshop"),
@@ -48,33 +51,30 @@ export default defineSchema({
         v.literal("informationSession"),
       ),
     ),
-    public: v.optional(v.boolean()),
-    external: v.optional(v.boolean()),
     location: v.optional(v.string()),
-    host: v.optional(v.string()),
-    start: v.optional(v.number()),
-    end: v.optional(v.number()),
-    description: v.optional(v.string()),
+    public: v.optional(v.boolean()),
     rsvp: v.optional(v.string()),
+    start: v.optional(v.number()),
+    title: v.string(),
   }),
 
   workshops: defineTable({
-    slug: v.string(),
-    title: v.string(),
     description: v.string(),
     slideSegments: v.array(slideSegment),
+    slug: v.string(),
+    title: v.string(),
   }),
 
   activeWorkshops: defineTable({
-    workshopId: v.id("workshops"),
     slideSegments: v.array(slideSegment),
     userAnswers: v.record(v.id("users"), v.string()),
+    workshopId: v.id("workshops"),
   }),
 
   websites: defineTable({
-    userId: v.string(),
-    html: v.string(),
     css: v.string(),
+    html: v.string(),
     javascript: v.string(),
+    userId: v.string(),
   }),
 });

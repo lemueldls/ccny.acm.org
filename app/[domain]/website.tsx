@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export interface WebsiteProps {
   html: string;
@@ -15,7 +15,9 @@ export default function Website({ html, css, javascript }: WebsiteProps) {
     if (iframe.current) {
       const doc = iframe.current.contentDocument;
 
-      if (!doc) return;
+      if (!doc) {
+        return;
+      }
 
       doc.open();
       doc.write(html);

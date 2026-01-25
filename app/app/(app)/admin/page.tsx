@@ -1,7 +1,7 @@
 // "use client";
 
-import AdminUsersPage from "./users/page";
 import AdminEventsPage from "./events/page";
+import AdminUsersPage from "./users/page";
 
 export default function AdminHomePage() {
   return (

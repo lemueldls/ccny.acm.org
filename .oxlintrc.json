@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  // "categories": {
+  //   "nursery": "warn",
+  //   "correctness": "warn",
+  //   "pedantic": "warn",
+  //   "perf": "warn",
+  //   "restriction": "warn",
+  //   "style": "warn",
+  //   "suspicious": "warn"
+  // },
+  "ignorePatterns": [".vercel/", "convex/_generated/"]
+}

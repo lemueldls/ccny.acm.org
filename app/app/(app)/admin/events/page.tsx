@@ -1,4 +1,5 @@
 import { Button, Card, CardBody, CardHeader, Link } from "@heroui/react";
+
 import EventsAccordion from "@/components/events-accordion";
 
 import AdminEventsPageCreateEventButton from "./create-event";

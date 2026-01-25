@@ -1,106 +1,107 @@
-import localFont from "next/font/local";
 import {
-  Inter,
-  Lora,
-  Work_Sans,
-  Lato,
-  Major_Mono_Display,
-  Tomorrow,
   Chakra_Petch,
+  Inter,
+  Lato,
+  Lora,
+  Major_Mono_Display,
   Play,
+  Tomorrow,
+  Work_Sans,
 } from "next/font/google";
+import localFont from "next/font/local";
 
-// export const inter = Inter({
-//   variable: "--font-inter",
-//   subsets: ["latin"],
+// Export const inter = Inter({
+//   Variable: "--font-inter",
+//   Subsets: ["latin"],
 // });
-// export const cal = localFont({
-//   src: "./CalSans-SemiBold.otf",
-//   variable: "--font-cal",
-//   weight: "600",
-//   display: "swap",
-// });
-
-// export const calTitle = localFont({
-//   src: "./CalSans-SemiBold.otf",
-//   variable: "--font-title",
-//   weight: "600",
-//   display: "swap",
+// Export const cal = localFont({
+//   Src: "./CalSans-SemiBold.otf",
+//   Variable: "--font-cal",
+//   Weight: "600",
+//   Display: "swap",
 // });
 
-// export const lora = Lora({
-//   variable: "--font-lora",
-//   subsets: ["latin"],
-//   weight: "600",
-//   display: "swap",
+// Export const calTitle = localFont({
+//   Src: "./CalSans-SemiBold.otf",
+//   Variable: "--font-title",
+//   Weight: "600",
+//   Display: "swap",
 // });
 
-// export const work = Work_Sans({
-//   variable: "--font-work",
-//   subsets: ["latin"],
-//   weight: "600",
-//   display: "swap",
+// Export const lora = Lora({
+//   Variable: "--font-lora",
+//   Subsets: ["latin"],
+//   Weight: "600",
+//   Display: "swap",
+// });
+
+// Export const work = Work_Sans({
+//   Variable: "--font-work",
+//   Subsets: ["latin"],
+//   Weight: "600",
+//   Display: "swap",
 // });
 
 export const lato = Lato({
-  variable: "--font-lato",
-  subsets: ["latin"],
-  weight: ["400", "700"],
   display: "swap",
+  subsets: ["latin"],
+  variable: "--font-lato",
+  weight: ["400", "700"],
 });
 
 export const brand = Chakra_Petch({
-  variable: "--font-brand",
-  subsets: ["latin"],
-  weight: ["400", "700"],
   display: "swap",
+  subsets: ["latin"],
+  variable: "--font-brand",
+  weight: ["400", "700"],
 });
 
-// export const majorMonoDisplay = Major_Mono_Display({
-//   variable: "--font-major-mono-display",
-//   subsets: ["latin"],
-//   weight: "400",
-//   display: "swap",
+// Export const majorMonoDisplay = Major_Mono_Display({
+//   Variable: "--font-major-mono-display",
+//   Subsets: ["latin"],
+//   Weight: "400",
+//   Display: "swap",
 // });
 
-// export const ppNeueMachinaInktrack = localFont({
-//   src: [
+// Export const ppNeueMachinaInktrack = localFont({
+//   Src: [
 //     {
-//       path: "./fonts/PPNeueMachina/PPNeueMachina-InktrapLight.otf",
-//       weight: "300",
-//       style: "normal",
+//       Path: "./fonts/PPNeueMachina/PPNeueMachina-InktrapLight.otf",
+//       Weight: "300",
+//       Style: "normal",
 //     },
 //     {
-//       path: "./fonts/PPNeueMachina/PPNeueMachina-InktrapLightItalic.otf",
-//       weight: "300",
-//       style: "italic",
+//       Path: "./fonts/PPNeueMachina/PPNeueMachina-InktrapLightItalic.otf",
+//       Weight: "300",
+//       Style: "italic",
 //     },
 //     {
-//       path: "./fonts/PPNeueMachina/PPNeueMachina-InktrapRegular.otf",
-//       weight: "400",
-//       style: "normal",
+//       Path: "./fonts/PPNeueMachina/PPNeueMachina-InktrapRegular.otf",
+//       Weight: "400",
+//       Style: "normal",
 //     },
 //     {
-//       path: "./fonts/PPNeueMachina/PPNeueMachina-InktrapRegularItalic.otf",
-//       weight: "400",
-//       style: "italic",
+//       Path: "./fonts/PPNeueMachina/PPNeueMachina-InktrapRegularItalic.otf",
+//       Weight: "400",
+//       Style: "italic",
 //     },
 //     {
-//       path: "./fonts/PPNeueMachina/PPNeueMachina-InktrapUltrabold.otf",
-//       weight: "800",
-//       style: "normal",
+//       Path: "./fonts/PPNeueMachina/PPNeueMachina-InktrapUltrabold.otf",
+//       Weight: "800",
+//       Style: "normal",
 //     },
 //     {
-//       path: "./fonts/PPNeueMachina/PPNeueMachina-InktrapUltraboldItalic.otf",
-//       weight: "800",
-//       style: "italic",
+//       Path: "./fonts/PPNeueMachina/PPNeueMachina-InktrapUltraboldItalic.otf",
+//       Weight: "800",
+//       Style: "italic",
 //     },
 //   ],
-//   variable: "--font-pp-neue-machina-inktrack",
-//   display: "swap",
+//   Variable: "--font-pp-neue-machina-inktrack",
+//   Display: "swap",
 // });
 
 export const ppNeueMachinaPlain = localFont({
+  display: "swap",
   src: [
     // {
     //   path: "./fonts/PPNeueMachina/PPNeueMachina-PlainLight.otf",
@@ -134,10 +135,9 @@ export const ppNeueMachinaPlain = localFont({
     // },
   ],
   variable: "--font-brand",
-  display: "swap",
 });
 
-// export const fontMapper = {
+// Export const fontMapper = {
 //   "font-cal": calTitle.variable,
 //   "font-lora": lora.variable,
 //   "font-work": work.variable,

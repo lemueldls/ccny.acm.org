@@ -1,12 +1,11 @@
-import { convexAuth, getAuthUserId } from "@convex-dev/auth/server";
-
-import { Anonymous } from "@convex-dev/auth/providers/Anonymous";
-import GitHub from "@auth/core/providers/github";
 import Discord from "@auth/core/providers/discord";
-
+import GitHub from "@auth/core/providers/github";
+import { Anonymous } from "@convex-dev/auth/providers/Anonymous";
+import { convexAuth, getAuthUserId } from "@convex-dev/auth/server";
 import { createId } from "@paralleldrive/cuid2";
-import { MutationCtx } from "./_generated/server";
+
 import { Doc } from "./_generated/dataModel";
+import { MutationCtx } from "./_generated/server";
 
 export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
   providers: [
@@ -14,20 +13,20 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
       // @ts-expect-error
       profile(params, ctx) {
         return {
-          name: "Anonymous",
-          email: undefined,
-          image: undefined,
-          githubId: undefined,
           discordId: undefined,
-          isAnonymous: true,
+          email: undefined,
+          githubId: undefined,
+          image: undefined,
           isAdmin: false,
+          isAnonymous: true,
+          name: "Anonymous",
         };
       },
     }),
     Discord({
       allowDangerousEmailAccountLinking: true,
       profile(discordProfile, tokens) {
-        // console.log({ discordProfile, tokens });
+        // Console.log({ discordProfile, tokens });
 
         if (discordProfile.avatar === null) {
           const defaultAvatarNumber =
@@ -36,22 +35,20 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
               : parseInt(discordProfile.discriminator) % 5;
           discordProfile.image_url = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.webp`;
         } else {
-          const format = discordProfile.avatar.startsWith("a_")
-            ? "gif"
-            : "webp";
+          const format = discordProfile.avatar.startsWith("a_") ? "gif" : "webp";
           discordProfile.image_url = `https://cdn.discordapp.com/avatars/${discordProfile.id}/${discordProfile.avatar}.${format}`;
         }
 
         return {
+          discordId: discordProfile.id,
+          email: discordProfile.email,
+          githubId: undefined,
           id: discordProfile.id,
+          image: discordProfile.image_url,
+          isAdmin: false,
+          isAnonymous: false,
           name: discordProfile.global_name ?? discordProfile.username,
           slug: discordProfile.username,
-          email: discordProfile.email,
-          image: discordProfile.image_url,
-          githubId: undefined,
-          discordId: discordProfile.id,
-          isAnonymous: false,
-          isAdmin: false,
         };
       },
     }),
@@ -61,63 +58,63 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
         console.log({ githubProfile, tokens });
 
         return {
+          discordId: undefined,
+          email: githubProfile.email,
+          githubId: githubProfile.id.toString(),
           id: githubProfile.id.toString(),
+          image: githubProfile.avatar_url,
+          isAdmin: false,
+          isAnonymous: false,
           name: githubProfile.name ?? githubProfile.login,
           slug: githubProfile.login,
-          email: githubProfile.email,
-          image: githubProfile.avatar_url,
-          githubId: githubProfile.id.toString(),
-          discordId: undefined,
-          isAnonymous: false,
-          isAdmin: false,
         };
       },
     }),
   ],
-  // pages: {
-  //   signIn: `/login`,
-  //   verifyRequest: `/login`,
-  //   error: "/login", // Error code passed in query string as ?error=
+  // Pages: {
+  //   SignIn: `/login`,
+  //   VerifyRequest: `/login`,
+  //   Error: "/login", // Error code passed in query string as ?error=
   // },
-  // adapter: DrizzleAdapter(db, {
-  //   usersTable: users,
-  //   accountsTable: accounts,
-  //   sessionsTable: sessions,
-  //   verificationTokensTable: verificationTokens,
+  // Adapter: DrizzleAdapter(db, {
+  //   UsersTable: users,
+  //   AccountsTable: accounts,
+  //   SessionsTable: sessions,
+  //   VerificationTokensTable: verificationTokens,
   // }),
-  // session: { strategy: "jwt" },
+  // Session: { strategy: "jwt" },
   callbacks: {
     // `args.provider` is the currently used provider config
     async createOrUpdateUser(ctx: MutationCtx, args) {
       const profile = args.profile as Doc<"users">;
       if (args.existingUserId) {
-        // await ctx.db.patch(args.existingUserId, profile);
+        // Await ctx.db.patch(args.existingUserId, profile);
         return args.existingUserId;
       }
 
-      // const emailUser = await ctx.db
+      // Const emailUser = await ctx.db
       //   .query("users")
       //   .filter((q) => q.eq(q.field("email"), profile.email))
       //   .unique();
-      // if (emailUser) {
+      // If (emailUser) {
       //   // await ctx.db.patch(emailUser._id, profile);
-      //   return emailUser._id;
+      //   Return emailUser._id;
       // }
-      // const discordUser = await ctx.db
+      // Const discordUser = await ctx.db
       //   .query("users")
       //   .filter((q) => q.eq(q.field("discordId"), profile.discordId))
       //   .unique();
-      // if (discordUser) {
+      // If (discordUser) {
       //   // await ctx.db.patch(discordUser._id, profile);
-      //   return discordUser._id;
+      //   Return discordUser._id;
       // }
 
-      const userId = await ctx.db.insert("users", profile as Doc<"users">);
+      const userId = await ctx.db.insert("users", profile);
 
       return userId;
     },
-    // async afterUserCreatedOrUpdated(ctx, args) {
-    //   console.log("[afterUserCreatedOrUpdated]", { args });
+    // Async afterUserCreatedOrUpdated(ctx, args) {
+    //   Console.log("[afterUserCreatedOrUpdated]", { args });
     // },
   },
 });

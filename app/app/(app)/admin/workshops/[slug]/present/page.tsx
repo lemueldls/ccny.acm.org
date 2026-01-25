@@ -1,32 +1,27 @@
 "use client";
 
-import { useQuery, useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { useCallback, useEffect, useRef, useState, use } from "react";
 import { Button } from "@heroui/react";
-import MarkdownRenderer from "@/components/markdown-renderer";
+import { useMutation, useQuery } from "convex/react";
 import { Carousel, CarouselPageChangeEvent } from "primereact/carousel";
+import { use, useCallback, useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+
+import Quicktime, { QuicktimePrompt } from "@/app/app/(app)/workshops/[slug]/quicktime";
+import MarkdownRenderer from "@/components/markdown-renderer";
 import ShineBorder from "@/components/ui/shine-border";
-import Quicktime, {
-  QuicktimePrompt,
-} from "@/app/app/(app)/workshops/[slug]/quicktime";
+import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 
 export interface AdminWorkshopPresentPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default function AdminWorkshopPresentPage(
-  props: AdminWorkshopPresentPageProps,
-) {
+export default function AdminWorkshopPresentPage(props: AdminWorkshopPresentPageProps) {
   const params = use(props.params);
   const slug = decodeURIComponent(params.slug);
   const workshop = useQuery(api.workshops.getBySlug, { slug });
 
-  const setActiveSlideSegments = useMutation(
-    api.activeWorkshops.setActiveSlideSegments,
-  );
+  const setActiveSlideSegments = useMutation(api.activeWorkshops.setActiveSlideSegments);
 
   const carousel = useRef<HTMLDivElement>(null);
 
@@ -45,26 +40,36 @@ export default function AdminWorkshopPresentPage(
   const slideSegments = structuredClone(workshop?.slideSegments);
 
   slideSegments?.unshift({
-    kind: "markdown",
     content: "# <https://code.ccny.acm.org>",
+    kind: "markdown",
   });
-  slideSegments?.push({ kind: "markdown", content: "# kthxbye." });
+  slideSegments?.push({ content: "# kthxbye.", kind: "markdown" });
 
   useEffect(() => {
-    if (!slideSegments) return;
+    if (!slideSegments) {
+      return;
+    }
 
-    if (page < 0) setPage(0);
-    if (page > slideSegments.length - 1) setPage(slideSegments.length - 1);
+    if (page < 0) {
+      setPage(0);
+    }
+    if (page > slideSegments.length - 1) {
+      setPage(slideSegments.length - 1);
+    }
   }, [page, slideSegments]);
 
   useEffect(() => {
-    if (!workshop) return;
-    if (!slideSegments) return;
+    if (!workshop) {
+      return;
+    }
+    if (!slideSegments) {
+      return;
+    }
 
     const activeSegments = slideSegments.slice(1, page + 1);
     setActiveSlideSegments({
-      workshopId: workshop._id,
       slideSegments: activeSegments,
+      workshopId: workshop._id,
     });
   }, [page, setActiveSlideSegments, slideSegments, workshop]);
 
@@ -82,8 +87,12 @@ export default function AdminWorkshopPresentPage(
     [slideSegments],
   );
 
-  if (!workshop) return <span>Workshop not found</span>;
-  if (!slideSegments) return <span>Workshop slides not found</span>;
+  if (!workshop) {
+    return <span>Workshop not found</span>;
+  }
+  if (!slideSegments) {
+    return <span>Workshop slides not found</span>;
+  }
 
   return (
     <div className="flex h-full w-full items-center justify-center">
@@ -104,12 +113,12 @@ export default function AdminWorkshopPresentPage(
               />
             )}
             page={page}
-            // page={Math.max(Math.min(page, slideSegments.length - 1), 0)}
+            // Page={Math.max(Math.min(page, slideSegments.length - 1), 0)}
             onPageChange={handlePageChange}
-            // pt={{
-            //   item: { className: "h-full items-center justify-center" },
-            //   itemCloned: {
-            //     className:
+            // Pt={{
+            //   Item: { className: "h-full items-center justify-center" },
+            //   ItemCloned: {
+            //     ClassName:
             //       "flex shrink-0 grow w-full h-full items-center justify-center",
             //   },
             // }}

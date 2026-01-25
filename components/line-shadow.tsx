@@ -1,11 +1,10 @@
 "use client";
 
 import { cn } from "@heroui/react";
-import { motion, MotionProps } from "motion/react";
+import { MotionProps, motion } from "motion/react";
 
 interface LineShadowTextProps
-  extends Omit<React.HTMLAttributes<HTMLElement>, keyof MotionProps>,
-    MotionProps {
+  extends Omit<React.HTMLAttributes<HTMLElement>, keyof MotionProps>, MotionProps {
   shadowColor?: string;
   as?: React.ElementType;
   [key: string & {}]: unknown;

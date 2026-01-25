@@ -1,50 +1,43 @@
 "use client";
 
+import type { CardProps } from "@heroui/react";
 import type { ReactNode } from "react";
 
+import { ArrowTopRightOnSquareIcon, CalendarDaysIcon, MapPinIcon } from "@heroicons/react/16/solid";
 import {
   Button,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
-  type CardProps,
   Chip,
   cn,
   Link,
   Skeleton,
 } from "@heroui/react";
 import {
-  ArrowTopRightOnSquareIcon,
-  CalendarDaysIcon,
-  MapPinIcon,
-} from "@heroicons/react/16/solid";
-
-import {
-  getLocalTimeZone,
   DateFormatter,
-  parseDateTime,
   fromAbsolute,
+  getLocalTimeZone,
+  parseDateTime,
 } from "@internationalized/date";
-import {
-  eventKindColorMap,
-  eventKindTextMap,
-  SerializedEvent,
-} from "@/lib/events";
+
+import { SerializedEvent, eventKindColorMap, eventKindTextMap } from "@/lib/events";
+
 import MarkdownRenderer from "./markdown-renderer";
 
-// const timeZone = getLocalTimeZone();
+// Const timeZone = getLocalTimeZone();
 const timeZone = "America/New_York";
 
 const dateFormatter = new DateFormatter("en-US", {
-  year: "numeric",
-  month: "long",
   day: "numeric",
-  weekday: "long",
   hour: "numeric",
   minute: "numeric",
-  timeZoneName: "short",
+  month: "long",
   timeZone,
+  timeZoneName: "short",
+  weekday: "long",
+  year: "numeric",
 });
 
 export interface EventCardProps extends CardProps {
@@ -68,9 +61,7 @@ export default function EventCard(props: EventCardProps) {
         <div className="mb-2 flex h-8 w-full items-center justify-between gap-4">
           <div className="flex flex-1 items-center gap-4">
             {event.kind && (
-              <Chip color={eventKindColorMap[event.kind]}>
-                {eventKindTextMap[event.kind]}
-              </Chip>
+              <Chip color={eventKindColorMap[event.kind]}>{eventKindTextMap[event.kind]}</Chip>
             )}
 
             {event.public || <Chip color="default">Unpublished</Chip>}
@@ -109,10 +100,7 @@ export default function EventCard(props: EventCardProps) {
               <CalendarDaysIcon className="h-4 w-4" />
               <span className="flex-1" suppressHydrationWarning>
                 {event.end
-                  ? dateFormatter.formatRange(
-                      event.start.toDate(),
-                      event.end.toDate(),
-                    )
+                  ? dateFormatter.formatRange(event.start.toDate(), event.end.toDate())
                   : dateFormatter.format(event.start.toDate())}
               </span>
             </div>

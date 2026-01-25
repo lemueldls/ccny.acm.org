@@ -1,27 +1,23 @@
-import {
-  getAuthSessionId,
-  getAuthUserId,
-  signInViaProvider,
-} from "@convex-dev/auth/server";
-import { mutation, query } from "./_generated/server";
+import { getAuthSessionId, getAuthUserId, signInViaProvider } from "@convex-dev/auth/server";
 import { v } from "convex/values";
-import schema, { slideSegment } from "./schema";
+
+import { mutation, query } from "./_generated/server";
 import { signIn } from "./auth";
+import schema, { slideSegment } from "./schema";
 
 export const getSlideSegments = query({
   args: { workshopId: v.optional(v.id("workshops")) },
   handler: async (ctx, args) => {
     const slideSegments = await ctx.db.query("activeWorkshops").collect();
 
-    return slideSegments.find((s) => s.workshopId === args.workshopId)
-      ?.slideSegments;
+    return slideSegments.find((s) => s.workshopId === args.workshopId)?.slideSegments;
   },
 });
 
 export const setActiveSlideSegments = mutation({
   args: {
-    workshopId: v.id("workshops"),
     slideSegments: v.array(slideSegment),
+    workshopId: v.id("workshops"),
   },
   handler: async (ctx, args) => {
     const activeSlideSegments = await ctx.db
@@ -29,34 +25,39 @@ export const setActiveSlideSegments = mutation({
       .filter((q) => q.eq(q.field("workshopId"), args.workshopId))
       .unique();
 
-    if (activeSlideSegments)
+    if (activeSlideSegments) {
       await ctx.db.patch(activeSlideSegments._id, {
         slideSegments: args.slideSegments,
       });
-    else
+    } else {
       await ctx.db.insert("activeWorkshops", {
         workshopId: args.workshopId,
         slideSegments: args.slideSegments,
         userAnswers: {},
       });
+    }
   },
 });
 
 export const setUserAnswer = mutation({
   args: {
-    workshopId: v.id("workshops"),
     answer: v.string(),
+    workshopId: v.id("workshops"),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("User not found");
+    if (!userId) {
+      throw new Error("User not found");
+    }
 
     const activeWorkshop = await ctx.db
       .query("activeWorkshops")
       .filter((q) => q.eq(q.field("workshopId"), args.workshopId))
       .unique();
 
-    if (!activeWorkshop) throw new Error("Workshop not found");
+    if (!activeWorkshop) {
+      throw new Error("Workshop not found");
+    }
 
     await ctx.db.patch(activeWorkshop._id, {
       userAnswers: { [userId]: args.answer },
@@ -72,25 +73,35 @@ export const endQuicktime = mutation({
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("User not found");
+    if (!userId) {
+      throw new Error("User not found");
+    }
 
     const activeWorkshop = await ctx.db
       .query("activeWorkshops")
       .filter((q) => q.eq(q.field("workshopId"), args.workshopId))
       .unique();
 
-    if (!activeWorkshop) throw new Error("Workshop not found");
+    if (!activeWorkshop) {
+      throw new Error("Workshop not found");
+    }
 
     const slideSegments = activeWorkshop?.slideSegments;
     const lastSegment = slideSegments?.[slideSegments.length - 1];
 
-    if (!lastSegment) throw new Error("No active segment found");
-    if (lastSegment.kind !== "quicktime") throw new Error("Not a quicktime");
+    if (!lastSegment) {
+      throw new Error("No active segment found");
+    }
+    if (lastSegment.kind !== "quicktime") {
+      throw new Error("Not a quicktime");
+    }
 
     const userAnswers = activeWorkshop?.userAnswers;
     const userAnswer = userAnswers?.[userId];
 
-    if (!userAnswer) return lastSegment.correctAnswer;
+    if (!userAnswer) {
+      return lastSegment.correctAnswer;
+    }
 
     const correct = userAnswer === lastSegment.correctAnswer;
 

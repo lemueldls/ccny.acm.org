@@ -1,31 +1,26 @@
 "use client";
 
-import { useCallback } from "react";
-import { useRouter } from "next/navigation";
-
-import { addToast, Button, Card, CardBody, CardHeader, Link } from "@heroui/react";
-import { PlusIcon, PencilSquareIcon } from "@heroicons/react/20/solid";
-import EventsAccordion from "@/components/events-accordion";
-
-import {
-  getLocalTimeZone,
-  now,
-  toCalendarDateTime,
-} from "@internationalized/date";
+import { PencilSquareIcon, PlusIcon } from "@heroicons/react/20/solid";
+import { Button, Card, CardBody, CardHeader, Link, addToast } from "@heroui/react";
+import { getLocalTimeZone, now, toCalendarDateTime } from "@internationalized/date";
 import { useMutation } from "convex/react";
+import { useRouter } from "next/navigation";
+import { useCallback } from "react";
+
+import EventsAccordion from "@/components/events-accordion";
 import { api } from "@/convex/_generated/api";
 
-// const timeZone = getLocalTimeZone();
+// Const timeZone = getLocalTimeZone();
 const timeZone = "America/New_York";
 
 const templateEvent = {
   title: "Event Title",
   kind: undefined,
   location: undefined,
-  // start: Date.now(),
+  // Start: Date.now(),
   start: now(timeZone).set({ hour: 12, minute: 30 }).toDate().getTime(),
   end: undefined,
-  // end: now(timeZone).set({ hour: 13, minute: 45 }).toDate().getTime(),
+  // End: now(timeZone).set({ hour: 13, minute: 45 }).toDate().getTime(),
   description: "A not so brief description.",
   rsvp: undefined,
   public: false,
@@ -39,7 +34,7 @@ export default function AdminEventsPageCreateEventButton() {
   const handleCreateEvent = useCallback(async () => {
     const id = await createEvent({ event: templateEvent });
 
-    addToast({ title: "Event created!", color: "success" });
+    addToast({ color: "success", title: "Event created!" });
     router.push(`/admin/events/${id}`);
   }, [createEvent, router]);
 

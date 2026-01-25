@@ -1,6 +1,5 @@
+import { MoonIcon, SunIcon } from "@heroicons/react/20/solid";
 import { Button } from "@heroui/react";
-
-import { SunIcon, MoonIcon } from "@heroicons/react/20/solid";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useState } from "react";
 
@@ -16,7 +15,9 @@ export default function ThemeToggle() {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <Button
@@ -26,11 +27,7 @@ export default function ThemeToggle() {
       variant="light"
       isIconOnly
     >
-      {resolvedTheme === "dark" ? (
-        <SunIcon className="size-5" />
-      ) : (
-        <MoonIcon className="size-5" />
-      )}
+      {resolvedTheme === "dark" ? <SunIcon className="size-5" /> : <MoonIcon className="size-5" />}
     </Button>
   );
 }

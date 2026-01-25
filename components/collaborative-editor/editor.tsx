@@ -1,29 +1,30 @@
 "use client";
 
-import * as Y from "yjs";
-import { useCallback, useEffect, useMemo, useState } from "react";
+// Import { Toolbar } from "./toolbar";
+import { Avatar, AvatarGroup, Tab, Tabs } from "@heroui/react";
 import { Editor } from "@monaco-editor/react";
+import { useQuery } from "convex/react";
 import { editor } from "monaco-editor";
+import { useTheme } from "next-themes";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { MonacoBinding } from "y-monaco";
 import { Awareness } from "y-protocols/awareness";
-// import { Toolbar } from "./toolbar";
-import { Avatar, AvatarGroup, Tab, Tabs } from "@heroui/react";
-import { SimpleIconsHtml5 } from "../icons/html5";
-import { SimpleIconsCss3 } from "../icons/css3";
-import { SimpleIconsJavascript } from "../icons/javascript";
+import * as Y from "yjs";
+
+import { api } from "@/convex/_generated/api";
 import { QuicktimePrompt, Workshop } from "@/lib/workshops";
 
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { SimpleIconsCss3 } from "../icons/css3";
+import { SimpleIconsHtml5 } from "../icons/html5";
+import { SimpleIconsJavascript } from "../icons/javascript";
 import ShineBorder from "../ui/shine-border";
-import { useTheme } from "next-themes";
 
 export type RoomType = "personal" | "host";
 export type Language = "html" | "css" | "javascript";
 
 const files = {
-  html: "index.html",
   css: "style.css",
+  html: "index.html",
   javascript: "script.js",
 };
 
@@ -33,7 +34,7 @@ export interface EditorProps {
   onFileChange?: (value: { language: Language; value: string }) => void;
 }
 
-// const yDoc = new Y.Doc();
+// Const yDoc = new Y.Doc();
 
 // Collaborative code editor with undo/redo, live cursors, and live avatars
 export function CollaborativeEditor(props: EditorProps) {
@@ -56,13 +57,13 @@ export function CollaborativeEditor(props: EditorProps) {
   }
 
   const color = {
-    html: "#E34F26",
     css: "#1572B6",
+    html: "#E34F26",
     javascript: "#F7DF1E",
   }[language];
   const cursor = {
-    html: "bg-[#E34F26]",
     css: "bg-[#1572B6]",
+    html: "bg-[#E34F26]",
     javascript: "bg-[#F7DF1E]",
   }[language];
 
@@ -74,7 +75,7 @@ export function CollaborativeEditor(props: EditorProps) {
         fullWidth
         size="lg"
         variant="underlined"
-        // disabledKeys={["style.css", "script.js"]}
+        // DisabledKeys={["style.css", "script.js"]}
         selectedKey={language}
         onSelectionChange={handleTabChange}
         classNames={{ cursor }}
@@ -119,10 +120,10 @@ export function CollaborativeEditor(props: EditorProps) {
           language={language}
           defaultValue={props.website?.[language]}
           options={{
-            tabSize: 2,
+            minimap: { enabled: false },
             padding: { top: 20 },
             readOnly: !props.website,
-            minimap: { enabled: false },
+            tabSize: 2,
           }}
         />
       </ShineBorder>

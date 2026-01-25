@@ -1,6 +1,6 @@
-import { Metadata } from "next";
-import { Button, Link, Navbar, NavbarContent, NavbarItem } from "@heroui/react";
 import { CalendarDaysIcon, UsersIcon } from "@heroicons/react/20/solid";
+import { Button, Link, Navbar, NavbarContent, NavbarItem } from "@heroui/react";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Admin | ACM @ CCNY",
@@ -12,14 +12,14 @@ export interface RootLayoutProps {
 
 const sidebarItems = [
   {
-    title: "Events",
     href: "/admin/events",
     startContent: <CalendarDaysIcon className="size-5" />,
+    title: "Events",
   },
   {
-    title: "Users",
     href: "/admin/users",
     startContent: <UsersIcon className="size-5" />,
+    title: "Users",
   },
 ];
 

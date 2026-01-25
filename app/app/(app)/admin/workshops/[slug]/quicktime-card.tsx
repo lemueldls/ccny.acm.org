@@ -1,4 +1,3 @@
-import { useState, useCallback } from "react";
 import {
   Button,
   Card,
@@ -12,6 +11,8 @@ import {
   Textarea,
 } from "@heroui/react";
 import { useMutation, useQuery } from "convex/react";
+import { useCallback, useState } from "react";
+
 import { api } from "@/convex/_generated/api";
 import { slideSegment } from "@/convex/schema";
 
@@ -29,10 +30,7 @@ export default function AdminWorkshopQuicktimePromptCard(
   const [isEditing, setIsEditing] = useState(true);
 
   const updatePrompt = useCallback(
-    (
-      key: keyof QuicktimePrompt,
-      value: QuicktimePrompt[keyof QuicktimePrompt],
-    ) => {
+    (key: keyof QuicktimePrompt, value: QuicktimePrompt[keyof QuicktimePrompt]) => {
       setPrompt((prev) => ({ ...prev, [key]: value }));
 
       props.onChange({ ...prompt, [key]: value });
@@ -101,7 +99,7 @@ export default function AdminWorkshopQuicktimePromptCard(
               className="h-full"
               color="danger"
               variant="flat"
-            // onPress={() => setAnswer(0)}
+              // OnPress={() => setAnswer(0)}
             >
               <Snippet hideSymbol hideCopyButton color="danger" size="lg">
                 {prompt.answers[0]}
@@ -110,21 +108,21 @@ export default function AdminWorkshopQuicktimePromptCard(
             <Button
               className="h-full"
               color="secondary"
-            // onPress={() => setAnswer(1)}
+              // OnPress={() => setAnswer(1)}
             >
               {prompt.answers[1]}
             </Button>
             <Button
               className="h-full"
               color="warning"
-            // onPress={() => setAnswer(2)}
+              // OnPress={() => setAnswer(2)}
             >
               {prompt.answers[2]}
             </Button>
             <Button
               className="h-full"
               color="success"
-            // onPress={() => setAnswer(3)}
+              // OnPress={() => setAnswer(3)}
             >
               {prompt.answers[3]}
             </Button>

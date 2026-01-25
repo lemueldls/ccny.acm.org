@@ -1,5 +1,5 @@
 import { headers } from "next/headers";
-// import { getPostsForSite } from "@/lib/fetchers";
+// Import { getPostsForSite } from "@/lib/fetchers";
 
 export default async function Sitemap() {
   const headersList = await headers();
@@ -7,16 +7,16 @@ export default async function Sitemap() {
     .get("Host")
     ?.replace(".localhost:3000", `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`);
 
-  // const posts = await getPostsForSite(domain);
+  // Const posts = await getPostsForSite(domain);
 
   return [
     {
-      url: `https://${domain}`,
       lastModified: new Date(),
+      url: `https://${domain}`,
     },
     // ...posts.map(({ slug }) => ({
-    //   url: `https://${domain}/${slug}`,
-    //   lastModified: new Date(),
+    //   Url: `https://${domain}/${slug}`,
+    //   LastModified: new Date(),
     // })),
   ];
 }

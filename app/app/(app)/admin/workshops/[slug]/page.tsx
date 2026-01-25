@@ -1,23 +1,13 @@
 "use client";
 
-import { useQuery, useMutation } from "convex/react";
+import { ArrowDownIcon, ArrowUpIcon, TrashIcon } from "@heroicons/react/20/solid";
+import { Button, Card, CardBody, Input, Radio, RadioGroup, Textarea } from "@heroui/react";
+import { useMutation, useQuery } from "convex/react";
+import { use, useState } from "react";
+
 import { api } from "@/convex/_generated/api";
-import { useState, use } from "react";
-import {
-  Button,
-  Card,
-  CardBody,
-  Input,
-  Radio,
-  RadioGroup,
-  Textarea,
-} from "@heroui/react";
+
 import AdminWorkshopQuicktimePromptCard from "./quicktime-card";
-import {
-  ArrowUpIcon,
-  ArrowDownIcon,
-  TrashIcon,
-} from "@heroicons/react/20/solid";
 
 export interface AdminWorkshopPresentPageProps {
   params: Promise<{ slug: string }>;
@@ -31,7 +21,9 @@ export default function AdminWorkshopPresentPage(props: AdminWorkshopPresentPage
 
   const [newSegmentKind, setSegmentKind] = useState("markdown");
 
-  if (!workshop) return <span>Workshop not found</span>;
+  if (!workshop) {
+    return <span>Workshop not found</span>;
+  }
 
   return (
     <div className="m-4 flex flex-col gap-4">
@@ -44,10 +36,10 @@ export default function AdminWorkshopPresentPage(props: AdminWorkshopPresentPage
                 className="w-full"
                 onValueChange={(content) =>
                   setWorkshopSlideSegments({
-                    workshopId: workshop._id,
                     slideSegments: workshop.slideSegments.map((s, j) =>
                       i === j ? { kind: "markdown", content } : s,
                     ),
+                    workshopId: workshop._id,
                   })
                 }
               />
@@ -56,10 +48,8 @@ export default function AdminWorkshopPresentPage(props: AdminWorkshopPresentPage
                 prompt={segment}
                 onChange={(prompt) =>
                   setWorkshopSlideSegments({
+                    slideSegments: workshop.slideSegments.map((s, j) => (i === j ? prompt : s)),
                     workshopId: workshop._id,
-                    slideSegments: workshop.slideSegments.map((s, j) =>
-                      i === j ? prompt : s,
-                    ),
                   })
                 }
               />
@@ -78,8 +68,8 @@ export default function AdminWorkshopPresentPage(props: AdminWorkshopPresentPage
                   segments[i - 1] = temp;
 
                   setWorkshopSlideSegments({
-                    workshopId: workshop._id,
                     slideSegments: segments,
+                    workshopId: workshop._id,
                   });
                 }}
                 isIconOnly
@@ -96,8 +86,8 @@ export default function AdminWorkshopPresentPage(props: AdminWorkshopPresentPage
                   segments[i + 1] = temp;
 
                   setWorkshopSlideSegments({
-                    workshopId: workshop._id,
                     slideSegments: segments,
+                    workshopId: workshop._id,
                   });
                 }}
                 isIconOnly
@@ -111,10 +101,8 @@ export default function AdminWorkshopPresentPage(props: AdminWorkshopPresentPage
               variant="flat"
               onPress={() =>
                 setWorkshopSlideSegments({
+                  slideSegments: workshop.slideSegments.filter((_, j) => i !== j),
                   workshopId: workshop._id,
-                  slideSegments: workshop.slideSegments.filter(
-                    (_, j) => i !== j,
-                  ),
                 })
               }
               isIconOnly
@@ -140,20 +128,20 @@ export default function AdminWorkshopPresentPage(props: AdminWorkshopPresentPage
             variant="shadow"
             onPress={() =>
               setWorkshopSlideSegments({
-                workshopId: workshop._id,
                 slideSegments: [
                   ...workshop.slideSegments,
                   newSegmentKind === "markdown"
                     ? { kind: "markdown", content: "" }
                     : {
-                      kind: "quicktime",
-                      question: "",
-                      answers: ["", "", "", ""],
-                      correctAnswer: "",
-                      points: 10,
-                      time: 10,
-                    },
+                        kind: "quicktime",
+                        question: "",
+                        answers: ["", "", "", ""],
+                        correctAnswer: "",
+                        points: 10,
+                        time: 10,
+                      },
                 ],
+                workshopId: workshop._id,
               })
             }
           >

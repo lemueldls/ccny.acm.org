@@ -1,29 +1,21 @@
 "use client";
 
-import {
-  Accordion,
-  AccordionItem,
-  AccordionProps,
-  Skeleton,
-} from "@heroui/react";
-import EventGrid from "./event-grid";
-
+import { Accordion, AccordionItem, AccordionProps, Skeleton } from "@heroui/react";
 import { Preloaded, usePreloadedQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
-
-import { parseEvents, serializeEvent } from "@/lib/events";
 import { Event } from "schema-dts";
 
-export interface EventsAccordionClientProps extends Omit<
-  AccordionProps,
-  "children"
-> {
+import { api } from "@/convex/_generated/api";
+import { parseEvents, serializeEvent } from "@/lib/events";
+
+import EventGrid from "./event-grid";
+
+export interface EventsAccordionClientProps extends Omit<AccordionProps, "children"> {
   preloadedEvents: Preloaded<typeof api.events.getAllEvents>;
   showEditLink?: boolean;
 }
 
 if (![].toReversed) {
-  Array.prototype.toReversed = function () {
+  Array.prototype.toReversed = function toReversed() {
     for (var i = this.length - 1, arr = []; i >= 0; --i) {
       arr.push(this[i]);
     }
@@ -32,12 +24,12 @@ if (![].toReversed) {
   };
 }
 
-export default function EventsAccordionClient(
-  props: EventsAccordionClientProps,
-) {
+export default function EventsAccordionClient(props: EventsAccordionClientProps) {
   const events = usePreloadedQuery(props.preloadedEvents)?.map(serializeEvent);
 
-  if (!events) return <EventsAccordionSkeleton />;
+  if (!events) {
+    return <EventsAccordionSkeleton />;
+  }
 
   const eventsJsonLd = events
     .filter((event) => event.public)
@@ -45,47 +37,46 @@ export default function EventsAccordionClient(
       (event) =>
         ({
           "@type": "Event",
-          name: event.title,
           description: event.description,
-          startDate: event.start
-            ? event.start.toDate().toISOString()
-            : undefined,
           endDate: event.end ? event.end.toDate().toISOString() : undefined,
-          location: event.location
-            ? { "@type": "Place", name: event.location }
-            : undefined,
+          eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+          location: event.location ? { "@type": "Place", name: event.location } : undefined,
+          name: event.title,
           organizer: event.host
             ? { "@type": "Person", name: event.host }
             : { "@type": "Organization", name: "ACM @ CCNY" },
-          eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+          startDate: event.start ? event.start.toDate().toISOString() : undefined,
           url: event.rsvp,
         }) satisfies Event,
     )
-    .filter((event) => event.startDate); // only include events with start date
+    .filter((event) => event.startDate); // Only include events with start date
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": eventsJsonLd,
   };
 
-  const {
-    happeningToday,
-    upcomingEvents,
-    areHappeningToday,
-    areUpcomingEvents,
-    pastEvents,
-  } = parseEvents(events);
+  const { happeningToday, upcomingEvents, areHappeningToday, areUpcomingEvents, pastEvents } =
+    parseEvents(events);
 
   const disabledKeys = [];
   const defaultExpandedKeys = [];
 
-  if (areHappeningToday) defaultExpandedKeys.push("1");
-  else disabledKeys.push("1");
+  if (areHappeningToday) {
+    defaultExpandedKeys.push("1");
+  } else {
+    disabledKeys.push("1");
+  }
 
-  if (areUpcomingEvents) defaultExpandedKeys.push("2");
-  else disabledKeys.push("2");
+  if (areUpcomingEvents) {
+    defaultExpandedKeys.push("2");
+  } else {
+    disabledKeys.push("2");
+  }
 
-  if (!areHappeningToday && !areUpcomingEvents) defaultExpandedKeys.push("3");
+  if (!areHappeningToday && !areUpcomingEvents) {
+    defaultExpandedKeys.push("3");
+  }
 
   return (
     <>
@@ -106,18 +97,13 @@ export default function EventsAccordionClient(
           title="Happening Today"
           subtitle={
             areHappeningToday ? null : (
-              <span className="text-xl">
-                There are no events happening today
-              </span>
+              <span className="text-xl">There are no events happening today</span>
             )
           }
           id="happening-today"
           classNames={{ title: "text-4xl font-bold leading-none" }}
         >
-          <EventGrid
-            events={happeningToday.toReversed()}
-            showEditLink={props.showEditLink}
-          />
+          <EventGrid events={happeningToday.toReversed()} showEditLink={props.showEditLink} />
         </AccordionItem>
 
         <AccordionItem
@@ -125,17 +111,12 @@ export default function EventsAccordionClient(
           aria-label="Upcoming Events"
           title="Upcoming Events"
           subtitle={
-            areUpcomingEvents ? null : (
-              <span className="text-xl">There are no upcoming events</span>
-            )
+            areUpcomingEvents ? null : <span className="text-xl">There are no upcoming events</span>
           }
           id="upcoming-events"
           classNames={{ title: "text-4xl font-bold leading-none" }}
         >
-          <EventGrid
-            events={upcomingEvents.toReversed()}
-            showEditLink={props.showEditLink}
-          />
+          <EventGrid events={upcomingEvents.toReversed()} showEditLink={props.showEditLink} />
         </AccordionItem>
 
         <AccordionItem
@@ -150,11 +131,7 @@ export default function EventsAccordionClient(
           id="past-events"
           classNames={{ title: "text-4xl font-bold leading-none" }}
         >
-          <EventGrid
-            events={pastEvents}
-            showEditLink={props.showEditLink}
-            rsvpIsDisabled
-          />
+          <EventGrid events={pastEvents} showEditLink={props.showEditLink} rsvpIsDisabled />
         </AccordionItem>
       </Accordion>
     </>
@@ -167,7 +144,7 @@ export function EventsAccordionSkeleton() {
       variant="bordered"
       selectionMode="multiple"
       disabledKeys={["1", "2", "3"]}
-      // defaultExpandedKeys={["1", "2", "3"]}
+      // DefaultExpandedKeys={["1", "2", "3"]}
     >
       <AccordionItem
         key="1"

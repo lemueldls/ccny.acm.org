@@ -21,22 +21,15 @@ export default function HomePageAbout() {
         <Divider orientation="vertical" className="hidden h-64 lg:block" />
         <Divider orientation="horizontal" className="block lg:hidden" />
 
-        <Image
-          as={NextImage}
-          width="200"
-          height="200"
-          src="/acm.svg"
-          alt="ACM"
-        />
+        <Image as={NextImage} width="200" height="200" src="/acm.svg" alt="ACM" />
       </CardHeader>
 
       <CardBody>
         <p className="m-auto w-full max-w-5xl text-center text-2xl text-pretty">
-          We are a student-led computer science club and ACM Chapter at the City
-          College of New York. The club aims to foster a community of tech
-          enthusiasts who collaborate in developing the skills they need in the
-          industry, expanding their network, participating in activities related
-          to new technologies, and learning how to further their professional
+          We are a student-led computer science club and ACM Chapter at the City College of New
+          York. The club aims to foster a community of tech enthusiasts who collaborate in
+          developing the skills they need in the industry, expanding their network, participating in
+          activities related to new technologies, and learning how to further their professional
           careers.
         </p>
       </CardBody>

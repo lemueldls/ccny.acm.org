@@ -1,80 +1,78 @@
 "use client";
 
-import { CalendarIcon } from "@heroicons/react/20/solid";
 import { ClockIcon, MapPinIcon } from "@heroicons/react/16/solid";
+import { CalendarIcon } from "@heroicons/react/20/solid";
 import { Card, CardBody, CardHeader, cn } from "@heroui/react";
 
 const bulletinItems = [
   {
-    id: 1,
-    type: "event",
-    title: "Annual Club BBQ",
+    color: "bg-secondary border-secondary-900 text-secondary-foreground",
     date: "March 15, 2024",
-    time: "6:00 PM",
-    location: "Central Park Pavilion",
     description:
       "Join us for our annual BBQ! Food, games, and great company. Bring your family and friends!",
-    color: "bg-secondary border-secondary-900 text-secondary-foreground",
+    id: 1,
+    location: "Central Park Pavilion",
     rotation: "rotate-2",
+    time: "6:00 PM",
+    title: "Annual Club BBQ",
+    type: "event",
     urgent: false,
   },
   {
-    id: 2,
-    type: "news",
-    title: "New Member Welcome",
+    color: "bg-primary border-primary-900 text-primary-foreground",
     date: "March 10, 2024",
     description:
       "Please welcome our 5 new members who joined this month. Let's make them feel at home!",
-    color: "bg-primary border-primary-900 text-primary-foreground",
+    id: 2,
     rotation: "-rotate-1",
+    title: "New Member Welcome",
+    type: "news",
     urgent: false,
   },
   {
-    id: 3,
-    type: "event",
-    title: "Emergency Meeting",
-    date: "March 12, 2024",
-    time: "7:30 PM",
-    location: "Community Center Room B",
-    description:
-      "Important club matters to discuss. All members please attend.",
     color: "bg-success border-success-900 text-success-foreground",
+    date: "March 12, 2024",
+    description: "Important club matters to discuss. All members please attend.",
+    id: 3,
+    location: "Community Center Room B",
     rotation: "rotate-3",
+    time: "7:30 PM",
+    title: "Emergency Meeting",
+    type: "event",
     urgent: true,
   },
   {
-    id: 4,
-    type: "news",
-    title: "Fundraiser Success!",
+    color: "bg-danger border-danger-900 text-danger-foreground",
     date: "March 8, 2024",
     description:
       "Thanks to everyone who participated in our bake sale. We raised $850 for the local food bank!",
-    color: "bg-danger border-danger-900 text-danger-foreground",
+    id: 4,
     rotation: "-rotate-2",
-    urgent: false,
-  },
-  {
-    id: 5,
-    type: "event",
-    title: "Movie Night",
-    date: "March 20, 2024",
-    time: "8:00 PM",
-    location: "Johnson's Backyard",
-    description:
-      "Outdoor movie screening under the stars. Popcorn and drinks provided!",
-    color: "bg-primary border-primary-900 text-primary-foreground",
-    rotation: "rotate-1",
-    urgent: false,
-  },
-  {
-    id: 6,
+    title: "Fundraiser Success!",
     type: "news",
-    title: "Club Dues Reminder",
+    urgent: false,
+  },
+  {
+    color: "bg-primary border-primary-900 text-primary-foreground",
+    date: "March 20, 2024",
+    description: "Outdoor movie screening under the stars. Popcorn and drinks provided!",
+    id: 5,
+    location: "Johnson's Backyard",
+    rotation: "rotate-1",
+    time: "8:00 PM",
+    title: "Movie Night",
+    type: "event",
+    urgent: false,
+  },
+  {
+    color: "bg-primary border-primary-900 text-primary-foreground",
     date: "March 5, 2024",
     description:
       "Friendly reminder that quarterly dues are due by March 31st. See treasurer for payment options.",
-    color: "bg-primary border-primary-900 text-primary-foreground",
+    id: 6,
     rotation: "-rotate-3",
+    title: "Club Dues Reminder",
+    type: "news",
     urgent: false,
   },
 ];
@@ -150,9 +148,7 @@ export default function HomePageBulletin() {
                           </div>
                         )}
 
-                        <p className="mt-3 text-sm leading-relaxed">
-                          {item.description}
-                        </p>
+                        <p className="mt-3 text-sm leading-relaxed">{item.description}</p>
                       </CardBody>
                     </Card>
 
@@ -166,8 +162,8 @@ export default function HomePageBulletin() {
 
             <div className="mt-12 text-center">
               <p className="text-sm text-amber-700">
-                Have something to post? Contact the club secretary or email us
-                at bulletin@ourclub.com
+                Have something to post? Contact the club secretary or email us at
+                bulletin@ourclub.com
               </p>
             </div>
           </div>

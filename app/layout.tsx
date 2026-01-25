@@ -1,12 +1,12 @@
 import "@/styles/globals.css";
+import type { Metadata } from "next";
+
+import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
+import { Organization, WithContext } from "schema-dts";
 
 import { lato } from "@/styles/fonts";
 
-import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { Providers } from "./providers";
-
-import type { Metadata } from "next";
-import { Organization, WithContext } from "schema-dts";
 
 const title = "ACM @ CCNY";
 const description =
@@ -16,26 +16,25 @@ const image = "/og-image.png";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "ACM @ CCNY",
   description,
-  url: process.env.NEXT_PUBLIC_ROOT_URL,
-  logo: `${process.env.NEXT_PUBLIC_ROOT_URL}/logo.svg`,
-  sameAs: [
-    "https://discord.com/invite/CsntEuGJe5",
-    "https://www.instagram.com/acm.ccny/",
-    "https://www.linkedin.com/in/ccnyacm/",
-  ],
   email: "ccnyacm@gmail.com",
   foundingDate: "2024",
+  logo: `${process.env.NEXT_PUBLIC_ROOT_URL}/logo.svg`,
+  name: "ACM @ CCNY",
   parentOrganization: {
     "@type": "Organization",
     name: "Association for Computing Machinery",
     url: "https://www.acm.org/",
   },
+  sameAs: [
+    "https://discord.com/invite/CsntEuGJe5",
+    "https://www.instagram.com/acm.ccny/",
+    "https://www.linkedin.com/in/ccnyacm/",
+  ],
+  url: process.env.NEXT_PUBLIC_ROOT_URL,
 } satisfies WithContext<Organization>;
 
 export const metadata: Metadata = {
-  title,
   description,
   icons: {
     icon: [
@@ -69,30 +68,27 @@ export const metadata: Metadata = {
       },
     ],
   },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_ROOT_URL!),
   openGraph: {
     title,
     description,
     images: [image],
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_ROOT_URL!),
   other: {
     "script[type='application/ld+json']": JSON.stringify(jsonLd),
   },
+  title,
 };
 
-// export const viewport: Viewport = {
-//   width: "device-width",
+// Export const viewport: Viewport = {
+//   Width: "device-width",
 //   // height: "device-height",
-//   initialScale: 1,
+//   InitialScale: 1,
 //   // maximumScale: 1,
 //   // minimumScale: 1,
 // };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ConvexAuthNextjsServerProvider>
       <html lang="en" suppressHydrationWarning>

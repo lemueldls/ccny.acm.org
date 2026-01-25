@@ -1,13 +1,14 @@
 "use client";
 
-import { useRef, useEffect, useReducer, useState, useCallback } from "react";
-
 import { Avatar, AvatarGroup, Button, CircularProgress } from "@heroui/react";
-import MarkdownRenderer from "@/components/markdown-renderer";
-import { slideSegment } from "@/convex/schema";
 import { useMutation } from "convex/react";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
+
+import MarkdownRenderer from "@/components/markdown-renderer";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { slideSegment } from "@/convex/schema";
+
 import { endQuicktime } from "../../../../../convex/activeWorkshops";
 
 export interface QuicktimeProps {
@@ -33,8 +34,12 @@ export default function Quicktime(props: QuicktimeProps) {
   const [selectedAnswer, setSelectedAnswer] = useState<number>();
 
   useEffect(() => {
-    if (!prompt) return;
-    if (timeout) return;
+    if (!prompt) {
+      return;
+    }
+    if (timeout) {
+      return;
+    }
 
     timeout = setTimeout(() => {
       if (timer === 0) {
@@ -42,7 +47,9 @@ export default function Quicktime(props: QuicktimeProps) {
         endQuicktime({ workshopId });
         setShowAnswer(true);
         setSelectedAnswer(undefined);
-      } else setTimer((prev) => (prev === undefined ? prompt.time : prev) - 1);
+      } else {
+        setTimer((prev) => (prev === undefined ? prompt.time : prev) - 1);
+      }
 
       timeout = undefined;
     }, 1000);
@@ -50,15 +57,19 @@ export default function Quicktime(props: QuicktimeProps) {
 
   const handleSetAnswer = useCallback(
     (index: number) => {
-      if (!prompt) return;
+      if (!prompt) {
+        return;
+      }
 
       setSelectedAnswer(index);
-      setUserAnswer({ workshopId, answer: prompt.answers[index] });
+      setUserAnswer({ answer: prompt.answers[index], workshopId });
     },
     [prompt, setUserAnswer, workshopId],
   );
 
-  if (!prompt) return null;
+  if (!prompt) {
+    return null;
+  }
 
   return (
     <div className={`flex h-full flex-col gap-4 ${className}`}>

@@ -1,16 +1,14 @@
 "use client";
 
-import Tilt from "react-parallax-tilt";
-import { Button, Card, CardBody, Image, Link } from "@heroui/react";
-
 import { EnvelopeIcon } from "@heroicons/react/20/solid";
+import { Button, Card, CardBody, Image, Link } from "@heroui/react";
+import NextImage from "next/image";
+import Tilt from "react-parallax-tilt";
 import { Graph, Person, Product, WithContext } from "schema-dts";
 
 import { SimpleIconsGithub } from "@/components/icons/github";
 import { SimpleIconsLinkedin } from "@/components/icons/linkedin";
-
-import NextImage from "next/image";
-// import { useTheme } from "next-themes";
+// Import { useTheme } from "next-themes";
 
 export interface TeamMember {
   name: string;
@@ -24,151 +22,151 @@ export interface TeamMember {
 
 export const executiveBoard: TeamMember[] = [
   {
+    email: "smondal002@citymail.cuny.edu",
+    image: "/team/srewashi-mondal.webp",
+    linkedin: "srewashi-mondal",
     name: "Srewashi Mondal",
     position: "President",
-    image: "/team/srewashi-mondal.webp",
-    email: "smondal002@citymail.cuny.edu",
-    linkedin: "srewashi-mondal",
   },
   {
+    email: "ehaque002@citymail.cuny.edu",
+    image: "/team/evan-haque.webp",
+    linkedin: "evanhaque1738",
     name: "Evan Haque",
     position: "Vice President",
-    image: "/team/evan-haque.webp",
-    email: "ehaque002@citymail.cuny.edu",
-    linkedin: "evanhaque1738",
   },
   {
+    email: "ldeloss002@citymail.cuny.edu",
+    github: "lemueldls",
+    image: "/team/lemuel-de-los-santos.webp",
+    linkedin: "lemueldls",
     name: "Lemuel De Los Santos",
     position: "Secretary",
-    image: "/team/lemuel-de-los-santos.webp",
-    email: "ldeloss002@citymail.cuny.edu",
-    linkedin: "lemueldls",
-    github: "lemueldls",
     website: "https://lemueldls.dev",
   },
   {
+    email: "afredri000@citymail.cuny.edu",
+    image: "/team/axyl-fredrick.webp",
+    linkedin: "axyl-fredrick",
     name: "Axyl Fredrick",
     position: "Treasurer",
-    image: "/team/axyl-fredrick.webp",
-    email: "afredri000@citymail.cuny.edu",
-    linkedin: "axyl-fredrick",
   },
 ];
 
 export const extendedBoard: TeamMember[] = [
   {
+    email: "dlucero000@citymail.cuny.edu",
+    image: "/team/diana-lucero.webp",
+    linkedin: "diana-lucero-b5a713221",
     name: "Diana Lucero",
     position: "Social Media Chair",
-    image: "/team/diana-lucero.webp",
-    email: "dlucero000@citymail.cuny.edu",
-    linkedin: "diana-lucero-b5a713221",
   },
   {
+    email: "dsen000@citymail.cuny.edu",
+    image: "/team/debasree-sen.webp",
+    linkedin: "debasree-sen",
     name: "Debasree Sen",
     position: "Social Media Chair",
-    image: "/team/debasree-sen.webp",
-    email: "dsen000@citymail.cuny.edu",
-    linkedin: "debasree-sen",
   },
   {
+    email: "ycheng004@citymail.cuny.edu",
+    image: "/team/yumi-cheng.webp",
+    linkedin: "yumicheng",
     name: "Yumi Cheng",
     position: "Marketing Chair",
-    image: "/team/yumi-cheng.webp",
-    email: "ycheng004@citymail.cuny.edu",
-    linkedin: "yumicheng",
   },
   {
+    email: "arahama003@citymail.cuny.edu",
+    image: "/team/addina-rahaman.webp",
+    linkedin: "addina-rahaman-00049a2a2",
     name: "Addina Rahaman",
     position: "Sponsoring Chair",
-    image: "/team/addina-rahaman.webp",
-    email: "arahama003@citymail.cuny.edu",
-    linkedin: "addina-rahaman-00049a2a2",
   },
   {
+    email: "ttan001@citymail.cuny.edu",
+    image: "/team/timson-tan.webp",
+    linkedin: "timsontan",
     name: "Timson Tan",
     position: "Community Manager",
-    image: "/team/timson-tan.webp",
-    email: "ttan001@citymail.cuny.edu",
-    linkedin: "timsontan",
   },
   {
+    email: "adeepaw000@citymail.cuny.edu",
+    image: "/team/arnav-deepaware.webp",
+    linkedin: "arnavdeepaware",
     name: "Arnav Deepaware",
     position: "Workshop Manager\nClass Representative 2027",
-    image: "/team/arnav-deepaware.webp",
-    email: "adeepaw000@citymail.cuny.edu",
-    linkedin: "arnavdeepaware",
   },
   {
+    email: "ksingh020@citymail.cuny.edu",
+    image: "/team/krista-singh.webp",
+    linkedin: "kristausingh",
     name: "Krista Singh",
     position: "Graphics Chair",
-    image: "/team/krista-singh.webp",
-    email: "ksingh020@citymail.cuny.edu",
-    linkedin: "kristausingh",
   },
   {
+    email: "milyas001@citymail.cuny.edu",
+    image: "/team/maryam-ilyas.webp",
+    linkedin: "maryamilyas",
     name: "Maryam Ilyas",
     position: "Newsletter Chair",
-    image: "/team/maryam-ilyas.webp",
-    email: "milyas001@citymail.cuny.edu",
-    linkedin: "maryamilyas",
   },
   {
+    email: "ajha001@citymail.cuny.edu",
+    image: "/team/aditya-jha.webp",
+    linkedin: "aditya-jha777",
     name: "Aditya Jha",
     position: "Outreach Chair",
-    image: "/team/aditya-jha.webp",
-    email: "ajha001@citymail.cuny.edu",
-    linkedin: "aditya-jha777",
   },
   {
+    email: "aali064@citymail.cuny.edu",
+    image: "/team/areeba-ali.webp",
     name: "Areeba Ali",
     position: "Class Representative 2028",
-    image: "/team/areeba-ali.webp",
-    email: "aali064@citymail.cuny.edu",
   },
   {
-    name: "Ayesha Ilyas",
-    position: "Class Representative 2028",
     email: "ailyas000@citymail.cuny.edu",
     image: "/team/ayesha-ilyas.webp",
     linkedin: "a-ilyas",
+    name: "Ayesha Ilyas",
+    position: "Class Representative 2028",
   },
   // {
-  //   name: "Jawad Chowdhury",
-  //   position: "Treasurer",
-  //   image: "/team/jawad-chowdhury.webp",
-  //   email: "jchowdh002@citymail.cuny.edu",
-  //   linkedin: "jawad-chy",
+  //   Name: "Jawad Chowdhury",
+  //   Position: "Treasurer",
+  //   Image: "/team/jawad-chowdhury.webp",
+  //   Email: "jchowdh002@citymail.cuny.edu",
+  //   Linkedin: "jawad-chy",
   // },
   // {
-  //   name: "Lily Minchala",
-  //   position: "Marketing Designer",
+  //   Name: "Lily Minchala",
+  //   Position: "Marketing Designer",
   //   // image: "/team/lily-minchala.webp",
-  //   email: "lmincha000@citymail.cuny.edu",
-  //   linkedin: "lilyminchala",
+  //   Email: "lmincha000@citymail.cuny.edu",
+  //   Linkedin: "lilyminchala",
   // },
   {
+    email: "sabrar000@citymail.cuny.edu",
+    image: "/team/sehr-abrar.webp",
+    linkedin: "sehr-abrar",
     name: "Sehr Abrar",
     position: "Student Advisor",
-    image: "/team/sehr-abrar.webp",
-    email: "sabrar000@citymail.cuny.edu",
-    linkedin: "sehr-abrar",
   },
   // {
-  //   name: "Daniel Chen",
-  //   position: "Student Advisor",
-  //   image: "/team/daniel-chen.webp",
-  //   email: "dchen024@citymail.cuny.edu",
-  //   linkedin: "daniel-chen297",
+  //   Name: "Daniel Chen",
+  //   Position: "Student Advisor",
+  //   Image: "/team/daniel-chen.webp",
+  //   Email: "dchen024@citymail.cuny.edu",
+  //   Linkedin: "daniel-chen297",
   // },
 ];
 
 export const staff: TeamMember[] = [
   {
+    email: "fenster@ccny.cuny.edu",
+    image: "/team/sam-fenster.webp",
+    linkedin: "samfenster",
     name: "Sam Fenster",
     position: "ACM Club Advisor",
-    image: "/team/sam-fenster.webp",
-    email: "fenster@ccny.cuny.edu",
-    linkedin: "samfenster",
   },
 ];
 
@@ -179,16 +177,12 @@ export default function HomePageTeam() {
     (member) =>
       ({
         "@type": "Person",
-        name: member.name,
-        jobTitle: member.position,
-        image: member.image
-          ? `${process.env.NEXT_PUBLIC_ROOT_URL}${member.image}`
-          : undefined,
         email: member.email,
+        image: member.image ? `${process.env.NEXT_PUBLIC_ROOT_URL}${member.image}` : undefined,
+        jobTitle: member.position,
+        name: member.name,
         sameAs: [
-          member.linkedin
-            ? `https://www.linkedin.com/in/${member.linkedin}`
-            : undefined,
+          member.linkedin ? `https://www.linkedin.com/in/${member.linkedin}` : undefined,
           member.github ? `https://github.com/${member.github}` : undefined,
           member.website,
         ].filter(Boolean) as string[],
@@ -247,15 +241,11 @@ export default function HomePageTeam() {
 function TeamMemberCard({ member }: { member: TeamMember }) {
   const zoom = 1.1;
 
-  // const { resolvedTheme } = useTheme();
+  // Const { resolvedTheme } = useTheme();
 
   return (
     <Tilt className="flex-1 shrink basis-full md:basis-106 lg:max-w-120">
-      <Card
-        isBlurred
-        className="brick-wall !bg-default/15 border-none p-2"
-        shadow="md"
-      >
+      <Card isBlurred className="brick-wall !bg-default/15 border-none p-2" shadow="md">
         <CardBody className="grid grid-cols-[fit-content(8rem)_1fr] grid-rows-[fit-content(8rem)_1fr] gap-x-5 overflow-visible">
           <Image
             as={NextImage}
@@ -266,8 +256,8 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
             fallbackSrc="/icon-on-dark.webp"
             alt={member.name}
             classNames={{
-              wrapper: "row-span-1 sm:row-span-2",
               img: "object-cover object-center size-32! hover:scale-110 transition-transform hover:translate-y-1.5",
+              wrapper: "row-span-1 sm:row-span-2",
             }}
           />
 

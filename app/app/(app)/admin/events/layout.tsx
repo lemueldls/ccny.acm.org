@@ -4,12 +4,10 @@ export interface AdminEventsLayoutProps {
   children: ReactNode;
 }
 
-export default async function AdminEventsLayout({
-  children,
-}: AdminEventsLayoutProps) {
-  // const events = await fetch("/api/events").then((res) => res.json());
+export default async function AdminEventsLayout({ children }: AdminEventsLayoutProps) {
+  // Const events = await fetch("/api/events").then((res) => res.json());
 
-  // console.log({ events });
+  // Console.log({ events });
 
   return <>{children}</>;
 }

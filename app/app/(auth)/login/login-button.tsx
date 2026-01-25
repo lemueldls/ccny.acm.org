@@ -1,10 +1,11 @@
 "use client";
 
 import { useAuthActions } from "@convex-dev/auth/react";
-import LoadingDots from "@/components/icons/loading-dots";
-import { addToast, Button, ButtonProps } from "@heroui/react";
+import { Button, ButtonProps, addToast } from "@heroui/react";
 import { useSearchParams } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+import LoadingDots from "@/components/icons/loading-dots";
 
 interface LoginButtonProps extends ButtonProps {
   provider: string;
@@ -26,7 +27,7 @@ export default function LoginButton(props: LoginButtonProps) {
 
   useEffect(() => {
     const errorMessage = Array.isArray(error) ? error.pop() : error;
-    errorMessage && addToast({ title: errorMessage, color: "danger" });
+    errorMessage && addToast({ color: "danger", title: errorMessage });
   }, [error]);
 
   return (

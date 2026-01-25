@@ -1,9 +1,5 @@
 .active-two-tone-step-animation {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    transparent 0 1rem,
-    #7d5cc6 1rem 2rem
-  );
+  background-image: repeating-linear-gradient(-45deg, transparent 0 1rem, #7d5cc6 1rem 2rem);
 
   animation: active-two-tone-step-animation 2s infinite linear;
 }

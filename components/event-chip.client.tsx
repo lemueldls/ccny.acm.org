@@ -1,11 +1,10 @@
 "use client";
 
-import { Preloaded, usePreloadedQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
-
-import { serializeEvent, parseEvents } from "@/lib/events";
-
 import { Chip, Link } from "@heroui/react";
+import { Preloaded, usePreloadedQuery } from "convex/react";
+
+import { api } from "@/convex/_generated/api";
+import { parseEvents, serializeEvent } from "@/lib/events";
 
 export interface EventChipClientProps {
   preloadedEvents: Preloaded<typeof api.events.getAllEvents>;
@@ -14,21 +13,19 @@ export interface EventChipClientProps {
 export default function EventChipClient(props: EventChipClientProps) {
   const events = usePreloadedQuery(props.preloadedEvents)?.map(serializeEvent);
 
-  if (!events) return null;
+  if (!events) {
+    return null;
+  }
 
-  const {
-    happeningToday,
-    upcomingEvents,
-    areHappeningToday,
-    areUpcomingEvents,
-  } = parseEvents(events);
+  const { happeningToday, upcomingEvents, areHappeningToday, areUpcomingEvents } =
+    parseEvents(events);
 
   return areHappeningToday ? (
     <Chip
       color="danger"
       size="lg"
       variant="flat"
-      className="diagonal-lines balance flex h-auto max-w-xl flex-col gap-2 text-balance rounded-3xl p-2 text-center sm:h-8 sm:flex-row sm:py-6"
+      className="diagonal-lines balance flex h-auto max-w-xl flex-col gap-2 rounded-3xl p-2 text-center text-balance sm:h-8 sm:flex-row sm:py-6"
       as={Link}
       href="#happening-today"
       startContent={
@@ -45,7 +42,7 @@ export default function EventChipClient(props: EventChipClientProps) {
         color="secondary"
         size="lg"
         variant="flat"
-        className="diagonal-lines balance flex h-auto max-w-xl flex-col gap-2 text-balance rounded-3xl p-2 text-center sm:h-8 sm:flex-row sm:py-6"
+        className="diagonal-lines balance flex h-auto max-w-xl flex-col gap-2 rounded-3xl p-2 text-center text-balance sm:h-8 sm:flex-row sm:py-6"
         as={Link}
         href="#upcoming-events"
         startContent={

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, Variants } from "framer-motion";
 import { cn } from "@heroui/react";
+import { AnimatePresence, Variants, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 interface HyperTextProps {
   text: string;
@@ -12,7 +12,7 @@ interface HyperTextProps {
   animateOnLoad?: boolean;
 }
 
-// const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+// Const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 const alphabets = "▀▁▂▃▄▅▆▇█▉▊▋▌▍▎▏▐░▒▓▔▕▖▗▘▙▚▛▜▝▞▟";
 
 const getRandomInt = (max: number) => Math.floor(Math.random() * max);
@@ -21,9 +21,9 @@ export default function HyperText({
   text,
   duration = 800,
   framerProps = {
-    initial: { opacity: 0, y: -10 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: 3 },
+    initial: { opacity: 0, y: -10 },
   },
   className,
   animateOnLoad = true,
@@ -49,14 +49,10 @@ export default function HyperText({
         if (interations.current < text.length) {
           setDisplayText((t) =>
             t.map((l, i) =>
-              l === " "
-                ? l
-                : i <= interations.current
-                  ? text[i]
-                  : alphabets[getRandomInt(26)],
+              l === " " ? l : i <= interations.current ? text[i] : alphabets[getRandomInt(26)],
             ),
           );
-          interations.current = interations.current + 0.1;
+          interations.current += 0.1;
         } else {
           setTrigger(false);
           clearInterval(interval);
@@ -77,7 +73,7 @@ export default function HyperText({
         {displayText.map((letter, i) => (
           <motion.h1
             key={i}
-            // className={cn("font-mono", letter === " " ? "w-3" : "", className)}
+            // ClassName={cn("font-mono", letter === " " ? "w-3" : "", className)}
             className={cn(letter === " " ? "w-3" : "", className)}
             {...framerProps}
           >

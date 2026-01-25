@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-
+import { TrashIcon } from "@heroicons/react/16/solid";
+import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import {
   Button,
   Card,
@@ -9,38 +9,38 @@ import {
   CardFooter,
   CardHeader,
   Chip,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  User as HeroUIUser,
   Link,
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
   Select,
-  SelectSection,
   SelectItem,
+  SelectSection,
+  Snippet,
+  Table,
+  TableBody,
   TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
   Tooltip,
   getKeyValue,
-  User as HeroUIUser,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Snippet,
 } from "@heroui/react";
-import { TrashIcon } from "@heroicons/react/16/solid";
-import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { useMutation, useQuery } from "convex/react";
+import { useCallback, useEffect, useState } from "react";
+
 import { api } from "@/convex/_generated/api";
 import { Doc } from "@/convex/_generated/dataModel";
 
 const columns = [
-  { uid: "profile", name: "Profile" },
-  { uid: "user-id", name: "User ID" },
-  { uid: "github-id", name: "GitHub ID" },
-  { uid: "discord-id", name: "Discord ID" },
-  { uid: "account-type", name: "Account Type" },
-  { uid: "actions", name: "Actions" },
+  { name: "Profile", uid: "profile" },
+  { name: "User ID", uid: "user-id" },
+  { name: "GitHub ID", uid: "github-id" },
+  { name: "Discord ID", uid: "discord-id" },
+  { name: "Account Type", uid: "account-type" },
+  { name: "Actions", uid: "actions" },
 ];
 
 export default function AdminEventsPage() {
@@ -54,9 +54,7 @@ export default function AdminEventsPage() {
         case "profile":
           return (
             <HeroUIUser
-              avatarProps={
-                user.image ? { isBordered: true, src: user.image } : undefined
-              }
+              avatarProps={user.image ? { isBordered: true, src: user.image } : undefined}
               name={user.name}
             />
           );
@@ -71,11 +69,7 @@ export default function AdminEventsPage() {
             <Select
               variant="bordered"
               defaultSelectedKeys={[
-                user.isAnonymous
-                  ? "anonymous"
-                  : user.isAdmin
-                    ? "admin"
-                    : "user",
+                user.isAnonymous ? "anonymous" : user.isAdmin ? "admin" : "user",
               ]}
               onSelectionChange={(values) => {
                 const [value] = values;
@@ -83,17 +77,17 @@ export default function AdminEventsPage() {
                 if (value === "anonymous") {
                   patchUser({
                     id: user._id,
-                    user: { isAnonymous: true, isAdmin: false },
+                    user: { isAdmin: false, isAnonymous: true },
                   });
                 } else if (value === "user") {
                   patchUser({
                     id: user._id,
-                    user: { isAnonymous: false, isAdmin: false },
+                    user: { isAdmin: false, isAnonymous: false },
                   });
                 } else if (value === "admin") {
                   patchUser({
                     id: user._id,
-                    user: { isAnonymous: false, isAdmin: true },
+                    user: { isAdmin: true, isAnonymous: false },
                   });
                 }
               }}
@@ -130,7 +124,9 @@ export default function AdminEventsPage() {
     [deleteUser, patchUser],
   );
 
-  if (!users) return <div>Loading...</div>;
+  if (!users) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Card isBlurred>
@@ -164,10 +160,7 @@ export default function AdminEventsPage() {
         <Table aria-label="Users table" isStriped selectionMode="none">
           <TableHeader columns={columns}>
             {(column) => (
-              <TableColumn
-                key={column.uid}
-                align={column.uid === "actions" ? "center" : "start"}
-              >
+              <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
                 {column.name}
               </TableColumn>
             )}
@@ -175,9 +168,7 @@ export default function AdminEventsPage() {
           <TableBody items={users}>
             {(user) => (
               <TableRow key={user._id}>
-                {(key) => (
-                  <TableCell>{renderCell(user, key as string)}</TableCell>
-                )}
+                {(key) => <TableCell>{renderCell(user, key as string)}</TableCell>}
               </TableRow>
             )}
           </TableBody>

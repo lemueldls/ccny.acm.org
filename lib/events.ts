@@ -1,83 +1,80 @@
+import { ZonedDateTime, fromAbsolute, isSameDay, now } from "@internationalized/date";
+
 import { Doc, Id } from "@/convex/_generated/dataModel";
-import {
-  isSameDay,
-  now,
-  fromAbsolute,
-  ZonedDateTime,
-} from "@internationalized/date";
 
 export type EventDoc = Doc<"events">;
 
-export interface SerializedEvent
-  extends Omit<Doc<"events">, "_id" | "_creationTime" | "start" | "end"> {
+export interface SerializedEvent extends Omit<
+  Doc<"events">,
+  "_id" | "_creationTime" | "start" | "end"
+> {
   id: Id<"events">;
   start: ZonedDateTime | null;
   end: ZonedDateTime | null;
 }
 
-export interface DeserializedEvent
-  extends Omit<Doc<"events">, "_id" | "_creationTime"> {
+export interface DeserializedEvent extends Omit<Doc<"events">, "_id" | "_creationTime"> {
   start: number | undefined;
   end: number | undefined;
 }
 
 export const eventKindColorMap = {
-  workshop: "primary",
-  meeting: "secondary",
-  informationSession: "success",
   hackathon: "danger",
+  informationSession: "success",
+  meeting: "secondary",
+  workshop: "primary",
 } as const;
 
 export const eventKindTextMap = {
-  workshop: "Workshop",
-  meeting: "Meeting",
-  informationSession: "Information Session",
   hackathon: "Hackathon",
+  informationSession: "Information Session",
+  meeting: "Meeting",
+  workshop: "Workshop",
 };
 
 export function serializeEvent(event: Doc<"events">) {
-  // const timeZone = getLocalTimeZone();
+  // Const timeZone = getLocalTimeZone();
   const timeZone = "America/New_York";
 
   return {
-    id: event._id,
-    title: event.title,
-    kind: event.kind,
-    public: event.public,
-    external: event.external,
-    location: event.location,
-    host: event.host,
-    start: event.start ? fromAbsolute(event.start, timeZone) : null,
-    end: event.end ? fromAbsolute(event.end, timeZone) : null,
     description: event.description,
+    end: event.end ? fromAbsolute(event.end, timeZone) : null,
+    external: event.external,
+    host: event.host,
+    id: event._id,
+    kind: event.kind,
+    location: event.location,
+    public: event.public,
     rsvp: event.rsvp,
+    start: event.start ? fromAbsolute(event.start, timeZone) : null,
+    title: event.title,
   };
 }
 
 export function deserializeEvent(event: SerializedEvent): DeserializedEvent {
   return {
-    title: event.title,
+    description: event.description,
+    end: event.end ? event.end.toDate().getTime() : undefined,
+    external: event.external,
+    host: event.host,
     kind: event.kind,
     location: event.location,
     public: event.public,
-    external: event.external,
-    host: event.host,
-    start: event.start ? event.start.toDate().getTime() : undefined,
-    end: event.end ? event.end.toDate().getTime() : undefined,
-    description: event.description,
     rsvp: event.rsvp,
+    start: event.start ? event.start.toDate().getTime() : undefined,
+    title: event.title,
   };
 }
 
 export function parseEvents(events: SerializedEvent[]) {
-  // const timeZone = getLocalTimeZone();
+  // Const timeZone = getLocalTimeZone();
   const timeZone = "America/New_York";
   const localNow = now(timeZone);
 
   const [happeningToday, upcomingEvents, pastEvents] = events.reduce<
     [SerializedEvent[], SerializedEvent[], SerializedEvent[]]
   >(
-    (acc, event, _i) => {
+    (acc, event) => {
       const [happeningToday, upcomingEvents, pastEvents] = acc;
 
       if (!event.start || !event.end) {
@@ -94,13 +91,6 @@ export function parseEvents(events: SerializedEvent[]) {
         upcomingEvents.push(event);
       }
 
-      // upcomingEvents.push(
-      //   // pastEvents.reduce(
-      //   //   (a, b) => (a.title.length > b.title.length ? a : b),
-      //   pastEvents[0],
-      //   // ),
-      // );
-
       return [happeningToday, upcomingEvents, pastEvents];
     },
     [[], [], []],
@@ -110,10 +100,10 @@ export function parseEvents(events: SerializedEvent[]) {
   const areUpcomingEvents = upcomingEvents.length > 0;
 
   return {
-    happeningToday,
-    upcomingEvents,
-    pastEvents,
     areHappeningToday,
     areUpcomingEvents,
+    happeningToday,
+    pastEvents,
+    upcomingEvents,
   };
 }

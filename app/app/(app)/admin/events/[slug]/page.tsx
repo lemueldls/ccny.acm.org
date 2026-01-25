@@ -1,50 +1,35 @@
 "use client";
 
-import { useEffect, useState, use } from "react";
-import { useRouter, notFound } from "next/navigation";
+import { CalendarDaysIcon, MapPinIcon, UserIcon } from "@heroicons/react/20/solid";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid";
 import {
-  addToast,
-  useDisclosure,
+  Button,
   Card,
   CardBody,
-  CardHeader,
+  Checkbox,
+  CheckboxGroup,
   DatePicker,
   Divider,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Radio,
   RadioGroup,
-  DateValue,
-  CalendarDate,
   Textarea,
-  Button,
-  Modal,
-  DateRangePicker,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  CheckboxGroup,
-  Checkbox,
+  addToast,
+  useDisclosure,
 } from "@heroui/react";
-import EventCard from "@/components/event-card";
-import { parseDateTime } from "@internationalized/date";
-import {
-  CalendarDaysIcon,
-  UserIcon,
-  MapPinIcon,
-} from "@heroicons/react/20/solid";
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid";
-
-import {
-  DeserializedEvent,
-  SerializedEvent,
-  deserializeEvent,
-  eventKindTextMap,
-  serializeEvent,
-} from "@/lib/events";
 import { useMutation, useQuery } from "convex/react";
+import { useRouter } from "next/navigation";
+import { use, useCallback, useEffect, useState } from "react";
+
+import EventCard from "@/components/event-card";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { SerializedEvent, deserializeEvent, eventKindTextMap, serializeEvent } from "@/lib/events";
 
 interface EditEventPageProps {
   params: Promise<{ slug: string }>;
@@ -66,55 +51,58 @@ export default function EditEventPage(props: EditEventPageProps) {
   const published = event?.public;
 
   useEffect(() => {
-    if (rawEvent) setEvent(serializeEvent(rawEvent));
+    if (rawEvent) {
+      setEvent(serializeEvent(rawEvent));
+    }
   }, [rawEvent]);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  async function updateEvent<T extends keyof SerializedEvent>(
-    key: T,
-    value: SerializedEvent[T],
-  ) {
-    setEvent({ ...event!, [key]: value });
-  }
+  const updateEvent = useCallback(
+    <T extends keyof SerializedEvent>(key: T, value: SerializedEvent[T]) => {
+      setEvent({ ...event!, [key]: value });
+    },
+    [event],
+  );
 
-  async function saveEvent() {
-    if (!event) throw new Error("Event not found");
+  const saveEvent = useCallback(async () => {
+    if (!event) {
+      throw new Error("Event not found");
+    }
 
-    const deserializedEvent = deserializeEvent(
-      Object.assign(event, { end: eventEnd }),
-    );
+    const deserializedEvent = deserializeEvent(Object.assign(event, { end: eventEnd }));
     deserializedEvent.public = true;
 
-    await setRawEvent({ id, event: deserializedEvent });
+    await setRawEvent({ event: deserializedEvent, id });
 
     const eventKind = event?.kind;
     addToast({
-      title: `${eventKind ? eventKindTextMap[eventKind] : "Event"} ${published ? "published" : "saved"}!`,
       color: "success",
+      title: `${eventKind ? eventKindTextMap[eventKind] : "Event"} ${published ? "published" : "saved"}!`,
     });
-  }
+  }, [event, eventEnd, id, published, setRawEvent]);
 
-  async function handleDeleteEvent() {
+  const handleDeleteEvent = useCallback(async () => {
     onOpen();
 
     await deleteEvent({ id });
 
-    addToast({ title: "Event deleted!", color: "danger" });
+    addToast({ color: "danger", title: "Event deleted!" });
     router.push("/admin/events");
-  }
+  }, [deleteEvent, id, onOpen, router]);
 
   const eventFlags: (keyof SerializedEvent)[] = ["public", "external"];
-  const selectedFlags = eventFlags.filter((flag) =>
-    event ? event[flag] : false,
-  );
+  const selectedFlags = eventFlags.filter((flag) => (event ? event[flag] : false));
 
-  async function handleFlagChange(flags: string[]) {
-    for (const flag of eventFlags) {
-      const isSelected = flags.includes(flag);
-      updateEvent(flag, isSelected);
-    }
-  }
+  const handleFlagChange = useCallback(
+    (values: string[]) => {
+      for (const flag of eventFlags) {
+        const isSelected = values.includes(flag);
+        updateEvent(flag, isSelected);
+      }
+    },
+    [updateEvent],
+  );
 
   return (
     <>
@@ -127,9 +115,7 @@ export default function EditEventPage(props: EditEventPageProps) {
                 orientation="horizontal"
                 isDisabled={!event}
                 value={event?.kind}
-                onValueChange={(value) =>
-                  updateEvent("kind", value as SerializedEvent["kind"])
-                }
+                onValueChange={(value) => updateEvent("kind", value as SerializedEvent["kind"])}
               >
                 <Radio value="workshop" color="primary">
                   Workshop
@@ -171,9 +157,7 @@ export default function EditEventPage(props: EditEventPageProps) {
                 isDisabled={!event}
                 value={event?.location || ""}
                 onValueChange={(value) => updateEvent("location", value)}
-                startContent={
-                  <MapPinIcon className="text-foreground-400 h-5 w-5" />
-                }
+                startContent={<MapPinIcon className="text-foreground-400 h-5 w-5" />}
               />
 
               <Input
@@ -182,9 +166,7 @@ export default function EditEventPage(props: EditEventPageProps) {
                 isDisabled={!event}
                 value={event?.host || ""}
                 onValueChange={(value) => updateEvent("host", value)}
-                startContent={
-                  <UserIcon className="text-foreground-400 h-5 w-5" />
-                }
+                startContent={<UserIcon className="text-foreground-400 h-5 w-5" />}
               />
 
               <div className="flex items-center gap-2">
@@ -272,9 +254,7 @@ export default function EditEventPage(props: EditEventPageProps) {
             <Divider orientation="vertical" />
 
             <div className="flex w-full flex-col gap-4 lg:w-md">
-              <div className="flex-1">
-                {event ? <EventCard event={event} /> : null}
-              </div>
+              <div className="flex-1">{event ? <EventCard event={event} /> : null}</div>
 
               <div className="flex justify-end gap-4">
                 <Button
@@ -307,9 +287,7 @@ export default function EditEventPage(props: EditEventPageProps) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                Delete Event
-              </ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Delete Event</ModalHeader>
               <ModalBody>Are you sure you want to delete this event?</ModalBody>
               <ModalFooter>
                 <Button

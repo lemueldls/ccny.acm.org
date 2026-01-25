@@ -1,10 +1,10 @@
 import {
-  now,
-  isSameDay,
   fromDate,
-  toCalendarDateTime,
   getLocalTimeZone,
+  isSameDay,
+  now,
   parseDateTime,
+  toCalendarDateTime,
 } from "@internationalized/date";
 
 export interface Workshop {
@@ -15,10 +15,10 @@ export interface Workshop {
 
 export const workshops: Workshop[] = [
   {
-    slug: "intro-to-web",
-    title: "Introduction to Web Development Workshop",
     description:
       "Learn how to build modern web applications from start to finish. Create a personal website or portfolio, and showcase your skills to potential employers.",
+    slug: "intro-to-web",
+    title: "Introduction to Web Development Workshop",
   },
 ];
 
@@ -32,15 +32,10 @@ export interface QuicktimePrompt {
 
 export const prompts: QuicktimePrompt[] = [
   {
-    question: "Which is a valid HTML `h1` tag?",
-    answers: [
-      "`<h1>Hello<\\h1>`",
-      "`<h1>Hello<h1/>`",
-      "`<h1>Hello</h1>`",
-      "`<h1/>Hello</h1>`",
-    ],
+    answers: ["`<h1>Hello<\\h1>`", "`<h1>Hello<h1/>`", "`<h1>Hello</h1>`", "`<h1/>Hello</h1>`"],
     correctAnswer: "<h1>Hello</h1>",
     points: 10,
+    question: "Which is a valid HTML `h1` tag?",
     time: 10,
   },
 ];

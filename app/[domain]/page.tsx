@@ -1,7 +1,8 @@
-import { notFound, redirect } from "next/navigation";
-import { usePreloadedQuery, useQuery } from "convex/react";
+import { fetchQuery } from "convex/nextjs";
+import { notFound } from "next/navigation";
+
 import { api } from "@/convex/_generated/api";
-import { fetchQuery, preloadQuery } from "convex/nextjs";
+
 import Website from "./website";
 
 interface SitePageProps {
@@ -11,7 +12,7 @@ interface SitePageProps {
 export default async function SitePage({ params }: SitePageProps) {
   let { domain } = await params;
   domain = decodeURIComponent(domain);
-  // const data = await getSiteData(domain);
+  // Const data = await getSiteData(domain);
 
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
@@ -25,11 +26,5 @@ export default async function SitePage({ params }: SitePageProps) {
     notFound();
   }
 
-  return (
-    <Website
-      html={website.html}
-      css={website.css}
-      javascript={website.javascript}
-    />
-  );
+  return <Website html={website.html} css={website.css} javascript={website.javascript} />;
 }
