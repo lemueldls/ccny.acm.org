@@ -74,7 +74,7 @@ export default function EventCard(props: EventCardProps) {
             )}
 
             {event.public || <Chip color="default">Unpublished</Chip>}
-            {event.external || <Chip color="default">External</Chip>}
+            {event.external && <Chip color="default">External</Chip>}
           </div>
 
           {event.rsvp && (
