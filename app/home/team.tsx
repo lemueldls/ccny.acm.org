@@ -262,9 +262,8 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
             isZoomed
             width={128 * zoom}
             height={128 * zoom}
-            // src={member.image || `/logo-on-${resolvedTheme || "dark"}.webp`}
-            src={member.image || "/logo-on-dark.webp"}
-            fallbackSrc="/logo-on-dark.webp"
+            src={member.image || "/icon-on-dark.webp"}
+            fallbackSrc="/icon-on-dark.webp"
             alt={member.name}
             classNames={{
               wrapper: "row-span-1 sm:row-span-2",

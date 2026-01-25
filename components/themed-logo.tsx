@@ -1,12 +1,12 @@
 // "use client";
 
 import NextImage from "next/image";
-import { Image } from "@heroui/react";
+import { Image, ImageProps } from "@heroui/react";
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-export default function ThemedLogo() {
+export default function ThemedLogo(props: ImageProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -21,9 +21,10 @@ export default function ThemedLogo() {
       as={NextImage}
       width={44}
       height={44}
-      src={`/logo-on-${resolvedTheme}.webp`}
-      alt="Logo"
+      src={`/icon-on-${resolvedTheme}.webp`}
+      alt="Icon"
       suppressHydrationWarning
+      {...props}
     />
   );
 }

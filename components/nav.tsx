@@ -70,10 +70,10 @@ export default function Nav({ children }: { children: ReactNode }) {
             <Link href={process.env.NEXT_PUBLIC_ROOT_URL}>
               <Image
                 as={NextImage}
-                src={`/logo-on-${resolvedTheme}.webp`}
+                src={`/icon-on-${resolvedTheme}.webp`}
                 width={44}
                 height={44}
-                alt="Logo"
+                alt="Icon"
               />
             </Link>
 

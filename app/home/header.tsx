@@ -9,7 +9,7 @@ import {
   NavbarItem,
 } from "@heroui/react";
 
-// import ThemedLogo from "@/components/themed-logo";
+import ThemedLogo from "@/components/themed-logo";
 import ThemeToggle from "@/components/theme-toggle";
 import NextImage from "next/image";
 
@@ -20,6 +20,7 @@ export default function HomePageHeader() {
         <NavbarItem>
           <NavbarBrand>
             <Link href="/">
+              {/* <ThemedLogo width={44} height={44} /> */}
               <Image
                 as={NextImage}
                 width={44}

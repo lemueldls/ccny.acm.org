@@ -39,20 +39,34 @@ export const metadata: Metadata = {
   description,
   icons: {
     icon: [
+      { rel: "icon", type: "image/svg+xml", url: "/favicon.svg" },
       {
-        url: "/logo.svg",
-        href: "/logo.svg",
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        url: "/favicon-32x32.png",
       },
-      // {
-      //   media: "(prefers-color-scheme: light)",
-      //   url: "/logo-on-light.png",
-      //   href: "/logo-on-light.png",
-      // },
-      // {
-      //   media: "(prefers-color-scheme: dark)",
-      //   url: "/logo-on-dark.png",
-      //   href: "/logo-on-dark.png",
-      // },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        url: "/favicon-16x16.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        type: "image/png",
+        sizes: "180x180",
+        url: "/apple-touch-icon.png",
+      },
+      {
+        rel: "mask-icon",
+        url: "/safari-pinned-tab.svg",
+        color: "#000000",
+      },
+      {
+        rel: "manifest",
+        url: "/site.webmanifest",
+      },
     ],
   },
   openGraph: {
