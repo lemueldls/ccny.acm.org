@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { Organization, WithContext } from "schema-dts";
@@ -80,15 +80,15 @@ export const metadata: Metadata = {
   title,
 };
 
-// Export const viewport: Viewport = {
-//   Width: "device-width",
-//   // height: "device-height",
-//   InitialScale: 1,
-//   // maximumScale: 1,
-//   // minimumScale: 1,
-// };
+export const viewport: Viewport = {
+  themeColor: "#7d55c7",
+};
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <ConvexAuthNextjsServerProvider>
       <html lang="en" suppressHydrationWarning>
