@@ -48,13 +48,14 @@ export default defineSchema({
         v.literal("informationSession"),
       ),
     ),
+    public: v.optional(v.boolean()),
+    external: v.optional(v.boolean()),
     location: v.optional(v.string()),
     host: v.optional(v.string()),
     start: v.optional(v.number()),
     end: v.optional(v.number()),
     description: v.optional(v.string()),
     rsvp: v.optional(v.string()),
-    public: v.optional(v.boolean()),
   }),
 
   workshops: defineTable({

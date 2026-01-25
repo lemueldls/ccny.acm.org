@@ -38,13 +38,14 @@ export const updateById = mutation({
     const patch: { [key: string]: any } = {};
     if (event.title !== undefined) patch.title = event.title;
     if (event.kind !== undefined) patch.kind = event.kind;
+    if (event.public !== undefined) patch.public = event.public;
+    if (event.external !== undefined) patch.external = event.external;
     if (event.location !== undefined) patch.location = event.location;
     if (event.host !== undefined) patch.host = event.host;
     if (event.start !== undefined) patch.start = event.start;
     if (event.end !== undefined) patch.end = event.end;
     if (event.description !== undefined) patch.description = event.description;
     if (event.rsvp !== undefined) patch.rsvp = event.rsvp;
-    if (event.public !== undefined) patch.public = event.public;
 
     return await ctx.db.patch(id, patch);
   },

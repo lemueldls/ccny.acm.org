@@ -43,13 +43,14 @@ export function serializeEvent(event: Doc<"events">) {
     id: event._id,
     title: event.title,
     kind: event.kind,
+    public: event.public,
+    external: event.external,
     location: event.location,
     host: event.host,
     start: event.start ? fromAbsolute(event.start, timeZone) : null,
     end: event.end ? fromAbsolute(event.end, timeZone) : null,
     description: event.description,
     rsvp: event.rsvp,
-    public: event.public,
   };
 }
 
@@ -58,12 +59,13 @@ export function deserializeEvent(event: SerializedEvent): DeserializedEvent {
     title: event.title,
     kind: event.kind,
     location: event.location,
+    public: event.public,
+    external: event.external,
     host: event.host,
     start: event.start ? event.start.toDate().getTime() : undefined,
     end: event.end ? event.end.toDate().getTime() : undefined,
     description: event.description,
     rsvp: event.rsvp,
-    public: event.public,
   };
 }
 

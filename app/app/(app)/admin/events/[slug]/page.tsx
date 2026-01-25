@@ -23,6 +23,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  CheckboxGroup,
+  Checkbox,
 } from "@heroui/react";
 import EventCard from "@/components/event-card";
 import { parseDateTime } from "@internationalized/date";
@@ -130,6 +132,27 @@ export default function EditEventPage(props: EditEventPageProps) {
                   Hackathon
                 </Radio>
               </RadioGroup>
+
+              <CheckboxGroup
+                label="Event Flags"
+                orientation="horizontal"
+                isDisabled={!event}
+              >
+                <Checkbox
+                  value="public"
+                  checked={event?.public}
+                  onValueChange={(value) => updateEvent("public", value)}
+                >
+                  Public
+                </Checkbox>
+                <Checkbox
+                  value="external"
+                  checked={event?.external}
+                  onValueChange={(value) => updateEvent("external", value)}
+                >
+                  External
+                </Checkbox>
+              </CheckboxGroup>
 
               <Input
                 label="Title"
