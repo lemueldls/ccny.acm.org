@@ -104,6 +104,18 @@ export default function EditEventPage(props: EditEventPageProps) {
     router.push("/admin/events");
   }
 
+  const eventFlags: (keyof SerializedEvent)[] = ["public", "external"];
+  const selectedFlags = eventFlags.filter((flag) =>
+    event ? event[flag] : false,
+  );
+
+  async function handleFlagChange(flags: string[]) {
+    for (const flag of eventFlags) {
+      const isSelected = flags.includes(flag);
+      updateEvent(flag, isSelected);
+    }
+  }
+
   return (
     <>
       <div className="flex h-full w-full items-center justify-center">
@@ -137,21 +149,11 @@ export default function EditEventPage(props: EditEventPageProps) {
                 label="Event Flags"
                 orientation="horizontal"
                 isDisabled={!event}
+                value={selectedFlags}
+                onValueChange={handleFlagChange}
               >
-                <Checkbox
-                  value="public"
-                  defaultSelected={event?.public}
-                  onValueChange={(value) => updateEvent("public", value)}
-                >
-                  Public
-                </Checkbox>
-                <Checkbox
-                  value="external"
-                  defaultSelected={event?.external}
-                  onValueChange={(value) => updateEvent("external", value)}
-                >
-                  External
-                </Checkbox>
+                <Checkbox value="public">Public</Checkbox>
+                <Checkbox value="external">External</Checkbox>
               </CheckboxGroup>
 
               <Input
