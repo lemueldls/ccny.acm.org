@@ -26,7 +26,7 @@ export default function HomePageAbout() {
 
       <CardBody>
         <p className="m-auto w-full max-w-5xl text-center text-2xl text-pretty">
-          We are a student-led computer science club and ACM Chapter at the City College of New
+          We are a student-led computer science club and ACM chapter at the City College of New
           York. The club aims to foster a community of tech enthusiasts who collaborate in
           developing the skills they need in the industry, expanding their network, participating in
           activities related to new technologies, and learning how to further their professional
