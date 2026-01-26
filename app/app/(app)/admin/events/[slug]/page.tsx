@@ -91,112 +91,121 @@ export default function EditEventPage(props: EditEventPageProps) {
     router.push("/admin/events");
   }, [deleteEvent, id, onOpen, router]);
 
-  const eventFlags: (keyof SerializedEvent)[] = ["public", "external"];
+  const eventFlags: (keyof SerializedEvent)[] = ["public", "external", "virtual"];
+
   const selectedFlags = eventFlags.filter((flag) => (event ? event[flag] : false));
 
   const handleFlagChange = useCallback(
     (values: string[]) => {
       for (const flag of eventFlags) {
         const isSelected = values.includes(flag);
-        updateEvent(flag, isSelected);
+        // Only update if the flag's state has actually changed
+        if (event && event[flag] !== isSelected) {
+          updateEvent(flag, isSelected);
+        }
       }
     },
-    [updateEvent],
+    [event, eventFlags, updateEvent],
   );
 
   return (
     <>
-      <div className="flex h-full w-full items-center justify-center">
-        <Card isBlurred>
-          <CardBody className="flex flex-col gap-4 lg:flex-row">
-            <div className="flex flex-1 flex-col gap-2">
-              <RadioGroup
-                label="Event Type"
-                orientation="horizontal"
-                isDisabled={!event}
-                value={event?.kind}
-                onValueChange={(value) => updateEvent("kind", value as SerializedEvent["kind"])}
-              >
-                <Radio value="workshop" color="primary">
-                  Workshop
-                </Radio>
-                <Radio value="meeting" color="secondary">
-                  Meeting
-                </Radio>
-                <Radio value="informationSession" color="success">
-                  Information Session
-                </Radio>
-                <Radio value="hackathon" color="danger">
-                  Hackathon
-                </Radio>
-              </RadioGroup>
+      <Card isBlurred>
+        <CardBody className="flex flex-col gap-4 xl:flex-row">
+          <div className="flex flex-1 flex-col gap-2">
+            <RadioGroup
+              label="Event Type"
+              orientation="horizontal"
+              isDisabled={!event}
+              value={event?.kind}
+              onValueChange={(value) => updateEvent("kind", value as SerializedEvent["kind"])}
+              classNames={{ wrapper: "gap-4" }}
+            >
+              <Radio value="workshop" color="primary">
+                Workshop
+              </Radio>
+              <Radio value="meeting" color="secondary">
+                Meeting
+              </Radio>
+              <Radio value="informationSession" color="success">
+                Information Session
+              </Radio>
+              <Radio value="hackathon" color="danger">
+                Hackathon
+              </Radio>
+              <Radio value="projectBuilding" color="warning">
+                Project Building
+              </Radio>
+            </RadioGroup>
 
-              <CheckboxGroup
-                label="Event Flags"
-                orientation="horizontal"
-                isDisabled={!event}
-                value={selectedFlags}
-                onValueChange={handleFlagChange}
-              >
-                <Checkbox value="public">Public</Checkbox>
-                <Checkbox value="external">External</Checkbox>
-              </CheckboxGroup>
+            <CheckboxGroup
+              label="Event Flags"
+              orientation="horizontal"
+              isDisabled={!event}
+              value={selectedFlags}
+              onValueChange={handleFlagChange}
+              classNames={{ wrapper: "gap-4" }}
+            >
+              <Checkbox value="public">Public</Checkbox>
+              <Checkbox value="external">External</Checkbox>
+              <Checkbox value="virtual">Virtual</Checkbox>
+            </CheckboxGroup>
 
-              <Input
-                label="Title"
+            <Input
+              label="Title"
+              labelPlacement="outside"
+              isRequired
+              isDisabled={!event}
+              value={event?.title}
+              onValueChange={(value) => updateEvent("title", value)}
+            />
+
+            <Input
+              label="Location"
+              labelPlacement="outside"
+              isDisabled={!event}
+              value={event?.location || ""}
+              onValueChange={(value) => updateEvent("location", value)}
+              startContent={<MapPinIcon className="text-foreground-400 h-5 w-5" />}
+            />
+
+            <Input
+              label="Host"
+              labelPlacement="outside"
+              isDisabled={!event}
+              value={event?.host || ""}
+              onValueChange={(value) => updateEvent("host", value)}
+              startContent={<UserIcon className="text-foreground-400 h-5 w-5" />}
+            />
+
+            <div className="flex flex-col items-center gap-2 sm:flex-row">
+              <DatePicker
+                label="Start"
                 labelPlacement="outside"
-                isRequired
                 isDisabled={!event}
-                value={event?.title}
-                onValueChange={(value) => updateEvent("title", value)}
+                value={eventStart}
+                onChange={(value) => updateEvent("start", value)}
+                selectorIcon={
+                  <span>
+                    <CalendarDaysIcon className="h-5 w-5" />
+                  </span>
+                }
               />
 
-              <Input
-                label="Location"
+              <DatePicker
+                label="End"
                 labelPlacement="outside"
                 isDisabled={!event}
-                value={event?.location || ""}
-                onValueChange={(value) => updateEvent("location", value)}
-                startContent={<MapPinIcon className="text-foreground-400 h-5 w-5" />}
+                value={eventEnd}
+                onChange={(value) => updateEvent("end", value)}
+                selectorIcon={
+                  <span>
+                    <CalendarDaysIcon className="h-5 w-5" />
+                  </span>
+                }
               />
 
-              <Input
-                label="Host"
-                labelPlacement="outside"
-                isDisabled={!event}
-                value={event?.host || ""}
-                onValueChange={(value) => updateEvent("host", value)}
-                startContent={<UserIcon className="text-foreground-400 h-5 w-5" />}
-              />
-
-              <div className="flex items-center gap-2">
-                <DatePicker
-                  label="Start"
-                  labelPlacement="outside"
-                  isDisabled={!event}
-                  value={eventStart}
-                  onChange={(value) => updateEvent("start", value)}
-                  selectorIcon={
-                    <span>
-                      <CalendarDaysIcon className="h-5 w-5" />
-                    </span>
-                  }
-                />
-
-                <DatePicker
-                  label="End"
-                  labelPlacement="outside"
-                  isDisabled={!event}
-                  value={eventEnd}
-                  onChange={(value) => updateEvent("end", value)}
-                  selectorIcon={
-                    <span>
-                      <CalendarDaysIcon className="h-5 w-5" />
-                    </span>
-                  }
-                />
-
-                {/* <DateRangePicker
+              {/* <DateRangePicker
                   fullWidth
                   label="Date"
                   labelPlacement="outside"
@@ -230,58 +239,57 @@ export default function EditEventPage(props: EditEventPageProps) {
                     </>
                   }
                 ></DateRangePicker> */}
-              </div>
-
-              <Textarea
-                label="Description"
-                labelPlacement="outside"
-                isRequired
-                isDisabled={!event}
-                value={event?.description}
-                onValueChange={(value) => updateEvent("description", value)}
-              />
-
-              <Input
-                type="url"
-                label="RSVP"
-                labelPlacement="outside"
-                isDisabled={!event}
-                value={event?.rsvp ?? ""}
-                onValueChange={(value) => updateEvent("rsvp", value)}
-              />
             </div>
 
-            <Divider orientation="vertical" />
+            <Textarea
+              label="Description"
+              labelPlacement="outside"
+              isRequired
+              isDisabled={!event}
+              value={event?.description}
+              onValueChange={(value) => updateEvent("description", value)}
+            />
 
-            <div className="flex w-full flex-col gap-4 lg:w-md">
-              <div className="flex-1">{event ? <EventCard event={event} /> : null}</div>
+            <Input
+              type="url"
+              label="RSVP"
+              labelPlacement="outside"
+              isDisabled={!event}
+              value={event?.rsvp ?? ""}
+              onValueChange={(value) => updateEvent("rsvp", value)}
+            />
+          </div>
 
-              <div className="flex justify-end gap-4">
-                <Button
-                  variant="flat"
-                  color="danger"
-                  isDisabled={!event}
-                  startContent={<TrashIcon className="h-5 w-5" />}
-                  onPress={onOpen}
-                >
-                  Delete
-                </Button>
+          <Divider orientation="vertical" />
 
-                <Button
-                  variant="shadow"
-                  color="primary"
-                  className="flex-1"
-                  isDisabled={!event}
-                  startContent={<PencilSquareIcon className="h-5 w-5" />}
-                  onPress={saveEvent}
-                >
-                  {published ? "Save" : "Publish"}
-                </Button>
-              </div>
+          <div className="flex w-full max-w-md flex-col gap-4">
+            <div className="flex-1">{event ? <EventCard event={event} /> : null}</div>
+
+            <div className="flex justify-end gap-4">
+              <Button
+                variant="flat"
+                color="danger"
+                isDisabled={!event}
+                startContent={<TrashIcon className="h-5 w-5" />}
+                onPress={onOpen}
+              >
+                Delete
+              </Button>
+
+              <Button
+                variant="shadow"
+                color="primary"
+                className="flex-1"
+                isDisabled={!event}
+                startContent={<PencilSquareIcon className="h-5 w-5" />}
+                onPress={saveEvent}
+              >
+                {published ? "Save" : "Publish"}
+              </Button>
             </div>
-          </CardBody>
-        </Card>
-      </div>
+          </div>
+        </CardBody>
+      </Card>
 
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>

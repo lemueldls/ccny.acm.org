@@ -59,13 +59,14 @@ export default function EventCard(props: EventCardProps) {
     >
       <CardHeader className="flex flex-col items-start pb-0">
         <div className="mb-2 flex h-8 w-full items-center justify-between gap-4">
-          <div className="flex flex-1 items-center gap-4">
+          <div className="flex flex-1 items-center gap-2">
             {event.kind && (
               <Chip color={eventKindColorMap[event.kind]}>{eventKindTextMap[event.kind]}</Chip>
             )}
 
-            {event.public || <Chip color="default">Unpublished</Chip>}
-            {event.external && <Chip color="default">External</Chip>}
+            {event.public || <Chip>Unpublished</Chip>}
+            {event.external && <Chip>External</Chip>}
+            {event.virtual && <Chip>Virtual</Chip>}
           </div>
 
           {event.rsvp && (

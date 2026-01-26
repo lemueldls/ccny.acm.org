@@ -38,14 +38,21 @@ export default function EventsAccordionClient(props: EventsAccordionClientProps)
         ({
           "@type": "Event",
           description: event.description,
-          endDate: event.end ? event.end.toDate().toISOString() : undefined,
-          eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-          location: event.location ? { "@type": "Place", name: event.location } : undefined,
+          eventAttendanceMode: event.virtual
+            ? "https://schema.org/OnlineEventAttendanceMode"
+            : "https://schema.org/OfflineEventAttendanceMode",
+          location: event.location
+            ? {
+                "@type": event.virtual ? "VirtualLocation" : "Place",
+                name: event.location,
+              }
+            : undefined,
           name: event.title,
           organizer: event.host
             ? { "@type": "Person", name: event.host }
             : { "@type": "Organization", name: "ACM @ CCNY" },
           startDate: event.start ? event.start.toDate().toISOString() : undefined,
+          endDate: event.end ? event.end.toDate().toISOString() : undefined,
           url: event.rsvp,
         }) satisfies Event,
     )

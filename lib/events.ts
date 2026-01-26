@@ -23,6 +23,7 @@ export const eventKindColorMap = {
   informationSession: "success",
   meeting: "secondary",
   workshop: "primary",
+  projectBuilding: "warning",
 } as const;
 
 export const eventKindTextMap = {
@@ -30,6 +31,7 @@ export const eventKindTextMap = {
   informationSession: "Information Session",
   meeting: "Meeting",
   workshop: "Workshop",
+  projectBuilding: "Project Building",
 };
 
 export function serializeEvent(event: Doc<"events">) {
@@ -40,6 +42,7 @@ export function serializeEvent(event: Doc<"events">) {
     description: event.description,
     end: event.end ? fromAbsolute(event.end, timeZone) : null,
     external: event.external,
+    virtual: event.virtual,
     host: event.host,
     id: event._id,
     kind: event.kind,
@@ -56,6 +59,7 @@ export function deserializeEvent(event: SerializedEvent): DeserializedEvent {
     description: event.description,
     end: event.end ? event.end.toDate().getTime() : undefined,
     external: event.external,
+    virtual: event.virtual,
     host: event.host,
     kind: event.kind,
     location: event.location,

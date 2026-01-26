@@ -42,6 +42,7 @@ export default defineSchema({
     description: v.optional(v.string()),
     end: v.optional(v.number()),
     external: v.optional(v.boolean()),
+    virtual: v.optional(v.boolean()),
     host: v.optional(v.string()),
     kind: v.optional(
       v.union(
@@ -49,6 +50,7 @@ export default defineSchema({
         v.literal("hackathon"),
         v.literal("meeting"),
         v.literal("informationSession"),
+        v.literal("projectBuilding"),
       ),
     ),
     location: v.optional(v.string()),
