@@ -31,7 +31,7 @@ export const executiveBoard: TeamMember[] = [
   {
     email: "ehaque002@citymail.cuny.edu",
     image: "/team/evan-haque.webp",
-    linkedin: "evanhaque1738",
+    linkedin: "evanhaque1",
     name: "Evan Haque",
     position: "Vice President",
   },
@@ -57,7 +57,7 @@ export const extendedBoard: TeamMember[] = [
   {
     email: "dlucero000@citymail.cuny.edu",
     image: "/team/diana-lucero.webp",
-    linkedin: "diana-lucero-b5a713221",
+    linkedin: "dlucero0715",
     name: "Diana Lucero",
     position: "Social Media Chair",
   },
