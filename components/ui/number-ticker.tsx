@@ -14,7 +14,7 @@ export default function NumberTicker({
   value: number;
   direction?: "up" | "down";
   className?: string;
-  delay?: number; // Delay in s
+  delay?: number; // delay in s
   decimalPlaces?: number;
 }) {
   const ref = useRef<HTMLSpanElement>(null);

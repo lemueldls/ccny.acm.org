@@ -1,8 +1,19 @@
 "use client";
 
 import { PencilSquareIcon, PlusIcon } from "@heroicons/react/20/solid";
-import { Button, Card, CardBody, CardHeader, Link, addToast } from "@heroui/react";
-import { getLocalTimeZone, now, toCalendarDateTime } from "@internationalized/date";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Link,
+  addToast,
+} from "@heroui/react";
+import {
+  getLocalTimeZone,
+  now,
+  toCalendarDateTime,
+} from "@internationalized/date";
 import { useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
@@ -10,17 +21,17 @@ import { useCallback } from "react";
 import EventsAccordion from "@/components/events-accordion";
 import { api } from "@/convex/_generated/api";
 
-// Const timeZone = getLocalTimeZone();
+// const timeZone = getLocalTimeZone();
 const timeZone = "America/New_York";
 
 const templateEvent = {
   title: "Event Title",
   kind: undefined,
   location: undefined,
-  // Start: Date.now(),
+  // start: Date.now(),
   start: now(timeZone).set({ hour: 12, minute: 30 }).toDate().getTime(),
   end: undefined,
-  // End: now(timeZone).set({ hour: 13, minute: 45 }).toDate().getTime(),
+  // end: now(timeZone).set({ hour: 13, minute: 45 }).toDate().getTime(),
   description: "A not so brief description.",
   rsvp: undefined,
   public: false,

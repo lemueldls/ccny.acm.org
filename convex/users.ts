@@ -84,7 +84,7 @@ export const getAllUsers = query({
     await ctx.runQuery(internal.users.requireAdmin);
 
     const users = await ctx.db.query("users").collect();
-    // Users.sort((a, b) => (a.name || a.email || "").localeCompare(b.name || b.email || ""));
+    // users.sort((a, b) => (a.name || a.email || "").localeCompare(b.name || b.email || ""));
 
     return users;
   },

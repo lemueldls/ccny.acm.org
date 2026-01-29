@@ -12,7 +12,7 @@ interface SitePageProps {
 export default async function SitePage({ params }: SitePageProps) {
   let { domain } = await params;
   domain = decodeURIComponent(domain);
-  // Const data = await getSiteData(domain);
+  // const data = await getSiteData(domain);
 
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
@@ -26,5 +26,11 @@ export default async function SitePage({ params }: SitePageProps) {
     notFound();
   }
 
-  return <Website html={website.html} css={website.css} javascript={website.javascript} />;
+  return (
+    <Website
+      html={website.html}
+      css={website.css}
+      javascript={website.javascript}
+    />
+  );
 }

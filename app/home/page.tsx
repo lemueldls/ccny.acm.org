@@ -6,7 +6,7 @@ import { SimpleIconsDiscord } from "@/components/icons/discord";
 import { SimpleIconsInstagram } from "@/components/icons/instagram";
 import { SimpleIconsLinkedin } from "@/components/icons/linkedin";
 import { LineShadowText } from "@/components/line-shadow";
-// Import HomePageBulletin from "./bulletin";
+// import HomePageBulletin from "./bulletin";
 import { brand } from "@/styles/fonts";
 
 import HomePageAbout from "./about";
@@ -30,7 +30,7 @@ export default function HomePage() {
 
             <h1
               className={cn(
-                "mb-8 text-center text-7xl font-bold md:text-8xl lg:text-9xl",
+                "mb-8 text-center font-bold text-8xl lg:text-9xl",
                 brand.className,
               )}
             >
@@ -62,7 +62,7 @@ export default function HomePage() {
                 color="primary"
                 variant="shadow"
                 size="lg"
-                // StartContent={<SimpleIconsGoogleforms className="h-5 w-5" />}
+                // startContent={<SimpleIconsGoogleforms className="h-5 w-5" />}
                 as={Link}
                 href="https://groups.ccny.cuny.edu/ACM/club_signup"
                 isExternal
@@ -70,7 +70,10 @@ export default function HomePage() {
                 Join Us on Campus Groups
               </Button>
 
-              <Divider orientation="vertical" className="hidden h-12 sm:block" />
+              <Divider
+                orientation="vertical"
+                className="hidden h-12 sm:block"
+              />
               <Divider orientation="horizontal" className="block sm:hidden" />
 
               <div className="flex justify-center gap-4">
@@ -156,7 +159,11 @@ export default function HomePage() {
 
             <ul>
               <li>
-                <Link isExternal color="foreground" href="https://forms.gle/ABKCKQmQmzvZWbCo8">
+                <Link
+                  isExternal
+                  color="foreground"
+                  href="https://forms.gle/ABKCKQmQmzvZWbCo8"
+                >
                   Club Team Applications
                 </Link>
               </li>
@@ -170,7 +177,11 @@ export default function HomePage() {
                 </Link>
               </li>
               <li>
-                <Link isExternal color="foreground" href="https://forms.gle/ntqFUAX7TERrq3oe8">
+                <Link
+                  isExternal
+                  color="foreground"
+                  href="https://forms.gle/ntqFUAX7TERrq3oe8"
+                >
                   Our Club Interest Form
                 </Link>
               </li>
@@ -181,17 +192,29 @@ export default function HomePage() {
             <strong className="mb-2 block text-lg">Socials</strong>
             <ul>
               <li>
-                <Link isExternal color="foreground" href="https://discord.com/invite/CsntEuGJe5">
+                <Link
+                  isExternal
+                  color="foreground"
+                  href="https://discord.com/invite/CsntEuGJe5"
+                >
                   Discord
                 </Link>
               </li>
               <li>
-                <Link isExternal color="foreground" href="https://www.instagram.com/acm.ccny/">
+                <Link
+                  isExternal
+                  color="foreground"
+                  href="https://www.instagram.com/acm.ccny/"
+                >
                   Instagram
                 </Link>
               </li>
               <li>
-                <Link isExternal color="foreground" href="https://www.linkedin.com/in/ccnyacm/">
+                <Link
+                  isExternal
+                  color="foreground"
+                  href="https://www.linkedin.com/in/ccnyacm/"
+                >
                   LinkedIn
                 </Link>
               </li>
@@ -203,7 +226,11 @@ export default function HomePage() {
 
             <ul>
               <li>
-                <Link isExternal color="foreground" href="mailto:ccnyacm@gmail.com">
+                <Link
+                  isExternal
+                  color="foreground"
+                  href="mailto:ccnyacm@gmail.com"
+                >
                   ccnyacm@gmail.com
                 </Link>
               </li>

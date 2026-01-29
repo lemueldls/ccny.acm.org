@@ -7,7 +7,7 @@ export const get = query({
   handler: async (ctx) => await ctx.db.query("websites").collect(),
 });
 
-// Export const getById = query({
+// export const getById = query({
 //   Args: { id: v.id("websites") },
 //   Handler: async (ctx, args) => {
 //     Return await ctx.db.get(args.id);

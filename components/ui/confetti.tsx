@@ -41,7 +41,7 @@ const Confetti = forwardRef<ConfettiRef, Props>((props, ref) => {
     children,
     ...rest
   } = props;
-  const instanceRef = useRef<ConfettiInstance | null>(null); // Confetti instance
+  const instanceRef = useRef<ConfettiInstance | null>(null); // confetti instance
 
   const canvasRef = useCallback(
     // https://react.dev/reference/react-dom/components/common#ref-callback
@@ -51,7 +51,7 @@ const Confetti = forwardRef<ConfettiRef, Props>((props, ref) => {
         // <canvas> is mounted => create the confetti instance
         if (instanceRef.current) {
           return;
-        } // If not already created
+        } // if not already created
         instanceRef.current = confetti.create(node, {
           ...globalOptions,
           resize: true,
@@ -97,7 +97,8 @@ const Confetti = forwardRef<ConfettiRef, Props>((props, ref) => {
 });
 
 interface ConfettiButtonProps extends ButtonProps {
-  options?: ConfettiOptions & ConfettiGlobalOptions & { canvas?: HTMLCanvasElement };
+  options?: ConfettiOptions &
+    ConfettiGlobalOptions & { canvas?: HTMLCanvasElement };
   children?: React.ReactNode;
 }
 

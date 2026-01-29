@@ -1,5 +1,6 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "react-perf", "nextjs", "jsx-a11y"],
   // "categories": {
   //   "nursery": "warn",
   //   "correctness": "warn",

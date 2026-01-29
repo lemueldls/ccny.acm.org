@@ -1,6 +1,6 @@
 "use client";
 
-// Import { Toolbar } from "./toolbar";
+// import { Toolbar } from "./toolbar";
 import { Avatar, AvatarGroup, Tab, Tabs } from "@heroui/react";
 import { Editor } from "@monaco-editor/react";
 import { useQuery } from "convex/react";
@@ -34,9 +34,9 @@ export interface EditorProps {
   onFileChange?: (value: { language: Language; value: string }) => void;
 }
 
-// Const yDoc = new Y.Doc();
+// const yDoc = new Y.Doc();
 
-// Collaborative code editor with undo/redo, live cursors, and live avatars
+// collaborative code editor with undo/redo, live cursors, and live avatars
 export function CollaborativeEditor(props: EditorProps) {
   const [editorRef, setEditorRef] = useState<editor.IStandaloneCodeEditor>();
 
@@ -75,7 +75,7 @@ export function CollaborativeEditor(props: EditorProps) {
         fullWidth
         size="lg"
         variant="underlined"
-        // DisabledKeys={["style.css", "script.js"]}
+        // disabledKeys={["style.css", "script.js"]}
         selectedKey={language}
         onSelectionChange={handleTabChange}
         classNames={{ cursor }}

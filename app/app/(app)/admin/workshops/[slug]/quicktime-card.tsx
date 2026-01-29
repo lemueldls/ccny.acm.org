@@ -30,7 +30,10 @@ export default function AdminWorkshopQuicktimePromptCard(
   const [isEditing, setIsEditing] = useState(true);
 
   const updatePrompt = useCallback(
-    (key: keyof QuicktimePrompt, value: QuicktimePrompt[keyof QuicktimePrompt]) => {
+    (
+      key: keyof QuicktimePrompt,
+      value: QuicktimePrompt[keyof QuicktimePrompt],
+    ) => {
       setPrompt((prev) => ({ ...prev, [key]: value }));
 
       props.onChange({ ...prompt, [key]: value });
@@ -99,7 +102,7 @@ export default function AdminWorkshopQuicktimePromptCard(
               className="h-full"
               color="danger"
               variant="flat"
-              // OnPress={() => setAnswer(0)}
+              // onPress={() => setAnswer(0)}
             >
               <Snippet hideSymbol hideCopyButton color="danger" size="lg">
                 {prompt.answers[0]}
@@ -108,21 +111,21 @@ export default function AdminWorkshopQuicktimePromptCard(
             <Button
               className="h-full"
               color="secondary"
-              // OnPress={() => setAnswer(1)}
+              // onPress={() => setAnswer(1)}
             >
               {prompt.answers[1]}
             </Button>
             <Button
               className="h-full"
               color="warning"
-              // OnPress={() => setAnswer(2)}
+              // onPress={() => setAnswer(2)}
             >
               {prompt.answers[2]}
             </Button>
             <Button
               className="h-full"
               color="success"
-              // OnPress={() => setAnswer(3)}
+              // onPress={() => setAnswer(3)}
             >
               {prompt.answers[3]}
             </Button>

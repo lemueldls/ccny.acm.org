@@ -1,7 +1,7 @@
 import {
   convexAuthNextjsMiddleware,
   createRouteMatcher,
-  // NextjsMiddlewareRedirect,
+  // nextjsMiddlewareRedirect,
 } from "@convex-dev/auth/nextjs/server";
 import { fetchQuery } from "convex/nextjs";
 import { NextResponse } from "next/server";
@@ -29,29 +29,29 @@ const adminDomain = adminUrl ? new URL(adminUrl).host : `admin.${rootDomain}`;
 export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
   const url = req.nextUrl;
 
-  // Get hostname of request (e.g. demo.vercel.pub, demo.localhost:3000)
+  // get hostname of request (e.g. demo.vercel.pub, demo.localhost:3000)
   const hostname = req.headers
     // .get("x-forwarded-host")!
     .get("Host")!
     .replace(".localhost:3000", `.${rootDomain}`);
 
   const searchParams = req.nextUrl.searchParams.toString();
-  // Get the pathname of the request (e.g. /, /about, /blog/first-post)
+  // get the pathname of the request (e.g. /, /about, /blog/first-post)
   const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ""}`;
 
-  // If (isApiRoute(req)) {
+  // if (isApiRoute(req)) {
   //   Return NextResponse.rewrite(new URL("/", req.url));
   // }
 
-  // Rewrites for app pages
+  // rewrites for app pages
   if (hostname === appDomain) {
-    // If (!token && path !== "/login") {
+    // if (!token && path !== "/login") {
     //   Return NextResponse.redirect(new URL("/login", req.url));
     // } else if (token && path == "/login") {
     //   Return NextResponse.redirect(new URL("/", req.url));
     // }
 
-    // Console.log({
+    // console.log({
     //   Authenticated: convexAuth.isAuthenticated(),
     //   IsLoginPage: isLoginPage(req),
     // });
@@ -78,18 +78,28 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
       }
     }
 
-    return NextResponse.rewrite(new URL(`/app${path === "/" ? "" : path}`, req.url));
+    return NextResponse.rewrite(
+      new URL(`/app${path === "/" ? "" : path}`, req.url),
+    );
   }
 
   if (hostname === adminDomain) {
-    return NextResponse.redirect(new URL("/admin", process.env.NEXT_PUBLIC_APP_URL));
+    return NextResponse.redirect(
+      new URL("/admin", process.env.NEXT_PUBLIC_APP_URL),
+    );
   }
 
-  // Rewrite root application to `/home` folder
-  if (hostname === "ccny.acm.org" || hostname === "localhost:3000" || hostname === rootDomain) {
-    return NextResponse.rewrite(new URL(`/home${path === "/" ? "" : path}`, req.url));
+  // rewrite root application to `/home` folder
+  if (
+    hostname === "ccny.acm.org" ||
+    hostname === "localhost:3000" ||
+    hostname === rootDomain
+  ) {
+    return NextResponse.rewrite(
+      new URL(`/home${path === "/" ? "" : path}`, req.url),
+    );
   }
 
-  // Rewrite everything else to `/[domain]/[slug] dynamic route
+  // rewrite everything else to `/[domain]/[slug] dynamic route
   return NextResponse.rewrite(new URL(`/${hostname}${path}`, req.url));
 });

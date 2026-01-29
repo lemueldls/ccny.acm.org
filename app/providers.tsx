@@ -1,7 +1,7 @@
 "use client";
 
-// Import { SessionProvider } from "next-auth/react";
-// Import { ModalProvider } from "@/components/modal/provider";
+// import { SessionProvider } from "next-auth/react";
+// import { ModalProvider } from "@/components/modal/provider";
 import { HeroUIProvider } from "@heroui/react";
 import { ThemeProvider } from "next-themes";
 import { useRouter } from "next/navigation";

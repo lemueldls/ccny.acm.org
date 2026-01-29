@@ -1,6 +1,9 @@
 "use client";
 
-import { ArrowPathIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/16/solid";
+import {
+  ArrowPathIcon,
+  ArrowTopRightOnSquareIcon,
+} from "@heroicons/react/16/solid";
 import {
   Button,
   CircularProgress,
@@ -12,16 +15,27 @@ import {
   User,
 } from "@heroui/react";
 import { VisGraph, VisSingleContainer } from "@unovis/react";
-// Import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { GraphData } from "@unovis/ts/data-models/graph";
 import confetti from "canvas-confetti";
 import { useMutation, useQuery } from "convex/react";
 import { motion } from "framer-motion";
-import { use, useCallback, useEffect, useReducer, useRef, useState } from "react";
+import {
+  use,
+  useCallback,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import Markdown from "react-markdown";
 import { useGlitch } from "react-powerglitch";
 
-import { CollaborativeEditor, Language, RoomType } from "@/components/collaborative-editor/editor";
+import {
+  CollaborativeEditor,
+  Language,
+  RoomType,
+} from "@/components/collaborative-editor/editor";
 import MarkdownRenderer from "@/components/markdown-renderer";
 import BoxReveal from "@/components/ui/box-reveal";
 import HyperText from "@/components/ui/hyper-text";
@@ -54,7 +68,7 @@ type LinkDatum = {
   target: number | string | NodeDatum;
 };
 
-// Window.onload = () => {
+// window.onload = () => {
 //   Fetch("/api/workshops", {
 //     Method: "POST",
 //     Headers: {
@@ -82,7 +96,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
     workshopId: workshop?._id,
   });
 
-  // Console.log({ slug, workshop });
+  // console.log({ slug, workshop });
 
   const iframe = useRef<HTMLIFrameElement>(null);
 
@@ -105,14 +119,16 @@ export default function WorkshopPage(props: WorkshopPageProps) {
       return;
     }
 
-    createOrGetWebsite({ userId: user._id }).then((website) => setWebsite(website));
+    createOrGetWebsite({ userId: user._id }).then((website) =>
+      setWebsite(website),
+    );
 
     setInitial(false);
   }, [createOrGetWebsite, initial, user]);
 
   const [graph, setGraph] = useState<GraphData<NodeDatum, LinkDatum>>();
 
-  // UseEffect(() => {
+  // useEffect(() => {
   //   // setRoomKind();
   // }, [user]);
 
@@ -151,7 +167,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
       nodes.push({ id: parentId, node });
       node.children.forEach((child, i) => {
         const id = `${parentId}:${i}`;
-        // Nodes.push({ id, node: child });
+        // nodes.push({ id, node: child });
         links.push({ id, source: id, target: parentId });
         buildGraph(child, id);
       });
@@ -159,7 +175,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
 
     buildGraph(tree, "0");
 
-    // Console.log({ tree, nodes, links });
+    // console.log({ tree, nodes, links });
     setGraph({ links, nodes });
 
     if (iframe.current) {
@@ -188,9 +204,9 @@ export default function WorkshopPage(props: WorkshopPageProps) {
     }
   }, [website]);
 
-  // If (status === "loading") return null;
-  // Const user = session?.user;
-  // If (!user) return null;
+  // if (status === "loading") return null;
+  // const user = session?.user;
+  // if (!user) return null;
 
   async function handleOnChange(file: { language: Language; value: string }) {
     if (!website) {
@@ -207,7 +223,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
     }, 1000);
   }
 
-  // Const roomTypeToId = useCallback(
+  // const roomTypeToId = useCallback(
   //   (roomType: RoomType) => {
   //     If (!workshop) throw new Error("Workshop not found");
   //     If (!user) throw new Error("User not found");
@@ -237,8 +253,15 @@ export default function WorkshopPage(props: WorkshopPageProps) {
 
   const handleOnEnd = () => {
     const end = Date.now() + 10 * 1000; // 3 seconds
-    // Const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
-    const colors = ["#7d55c7", "#3db7e4", "#7ab800", "#f3cf45", "#9e3039", "#9093CE"];
+    // const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
+    const colors = [
+      "#7d55c7",
+      "#3db7e4",
+      "#7ab800",
+      "#f3cf45",
+      "#9e3039",
+      "#9093CE",
+    ];
 
     const frame = () => {
       if (Date.now() > end) {
@@ -271,7 +294,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
   if (!workshop) {
     return <div>Workshop not found</div>;
   }
-  // If (!activeSlideSegments) return null;
+  // if (!activeSlideSegments) return null;
 
   if (!user) {
     return <div>User not found</div>;
@@ -309,7 +332,9 @@ export default function WorkshopPage(props: WorkshopPageProps) {
           onClick={() => setShowDrawer(true)}
           style={{ height: showDrawer ? "fit-content" : "2.5rem" }}
           drag="y"
-          dragElastic={showDrawer ? { bottom: 0.2, top: 0.01 } : { bottom: 0.2, top: 0.2 }}
+          dragElastic={
+            showDrawer ? { bottom: 0.2, top: 0.01 } : { bottom: 0.2, top: 0.2 }
+          }
           dragConstraints={{ bottom: 0, top: 0 }}
           onDragEnd={(event, info) => {
             if (showDrawer && info.offset.y > 80) {
@@ -322,7 +347,11 @@ export default function WorkshopPage(props: WorkshopPageProps) {
           className="signal bg-default/25 transition-height p-4"
         >
           {activeQuicktime ? (
-            <Quicktime workshopId={workshop._id} prompt={activeQuicktime} onEnd={console.log} />
+            <Quicktime
+              workshopId={workshop._id}
+              prompt={activeQuicktime}
+              onEnd={console.log}
+            />
           ) : (
             <div className="flex flex-col gap-4">
               <div className="flex justify-center">
@@ -339,7 +368,7 @@ export default function WorkshopPage(props: WorkshopPageProps) {
                     size: "lg",
                     src: user.image,
                   }}
-                  // Name={user.name}
+                  // name={user.name}
                   name={<HyperText text={user.name} animateOnLoad={false} />}
                   description={`@${user.slug}`}
                   classNames={{
@@ -349,7 +378,8 @@ export default function WorkshopPage(props: WorkshopPageProps) {
                 />
 
                 <span className="text-2xl italic">
-                  {user.points ? <NumberTicker value={user.points} /> : 0} points
+                  {user.points ? <NumberTicker value={user.points} /> : 0}{" "}
+                  points
                 </span>
               </div>
             </div>
@@ -380,7 +410,10 @@ export default function WorkshopPage(props: WorkshopPageProps) {
               <Input
                 size="sm"
                 type="url"
-                value={user.slug && `https://${user.slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+                value={
+                  user.slug &&
+                  `https://${user.slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
+                }
                 isDisabled
                 isClearable
               />
@@ -388,7 +421,10 @@ export default function WorkshopPage(props: WorkshopPageProps) {
               <Button
                 as={Link}
                 isDisabled={!user.slug}
-                href={user.slug && `https://${user.slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+                href={
+                  user.slug &&
+                  `https://${user.slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
+                }
                 size="sm"
                 variant="light"
                 startContent={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}

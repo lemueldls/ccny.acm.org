@@ -22,7 +22,7 @@ export default function LoginPage() {
       </CardHeader>
       <CardBody className="gap-4">
         <LoginButton
-          // ClassName="hover:text-[#5865F2]"
+          // className="hover:text-[#5865F2]"
           provider="github"
           variant="faded"
           startContent={<SimpleIconsGithub className="h-5 w-5" />}
@@ -46,7 +46,8 @@ export default function LoginPage() {
 
         <CardFooter>
           <p className="text-foreground-600 text-center">
-            If you login anonymously, your data will not be transferred when you link an account.
+            If you login anonymously, your data will not be transferred when you
+            link an account.
           </p>
         </CardFooter>
       </CardBody>

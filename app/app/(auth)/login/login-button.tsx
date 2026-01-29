@@ -21,7 +21,7 @@ export default function LoginButton(props: LoginButtonProps) {
 
   const { signIn } = useAuthActions();
 
-  // Get error message added by next/auth in URL.
+  // get error message added by next/auth in URL.
   const searchParams = useSearchParams();
   const error = searchParams?.get("error");
 

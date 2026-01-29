@@ -28,19 +28,33 @@ export default function MarkdownRenderer(props: MarkdownRendererProps) {
             />
           ),
           h1: (props) => (
-            <h1 className={cn("text-[2em] font-extrabold", props.className)} {...props} />
+            <h1
+              className={cn("text-[2em] font-extrabold", props.className)}
+              {...props}
+            />
           ),
           h2: (props) => (
-            <h2 className={cn("text-[1.75em] font-bold", props.className)} {...props} />
+            <h2
+              className={cn("text-[1.75em] font-bold", props.className)}
+              {...props}
+            />
           ),
           h3: (props) => (
-            <h3 className={cn("text-[1.5em] font-semibold", props.className)} {...props} />
+            <h3
+              className={cn("text-[1.5em] font-semibold", props.className)}
+              {...props}
+            />
           ),
-          hr: (props) => <Divider className={cn("my-4", props.className)} {...props} />,
+          hr: (props) => (
+            <Divider className={cn("my-4", props.className)} {...props} />
+          ),
           li: (props) => <li {...props}>{props.children}</li>,
           p: (props) => (
             <p
-              className={cn("text-[1em] [line-height:1.25em] text-pretty", props.className)}
+              className={cn(
+                "text-[1em] [line-height:1.25em] text-pretty",
+                props.className,
+              )}
               {...props}
             />
           ),

@@ -26,7 +26,7 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
     Discord({
       allowDangerousEmailAccountLinking: true,
       profile(discordProfile, tokens) {
-        // Console.log({ discordProfile, tokens });
+        // console.log({ discordProfile, tokens });
 
         if (discordProfile.avatar === null) {
           const defaultAvatarNumber =
@@ -35,7 +35,9 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
               : parseInt(discordProfile.discriminator) % 5;
           discordProfile.image_url = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.webp`;
         } else {
-          const format = discordProfile.avatar.startsWith("a_") ? "gif" : "webp";
+          const format = discordProfile.avatar.startsWith("a_")
+            ? "gif"
+            : "webp";
           discordProfile.image_url = `https://cdn.discordapp.com/avatars/${discordProfile.id}/${discordProfile.avatar}.${format}`;
         }
 
@@ -71,40 +73,40 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
       },
     }),
   ],
-  // Pages: {
+  // pages: {
   //   SignIn: `/login`,
   //   VerifyRequest: `/login`,
-  //   Error: "/login", // Error code passed in query string as ?error=
+  //   Error: "/login", // error code passed in query string as ?error=
   // },
-  // Adapter: DrizzleAdapter(db, {
+  // adapter: DrizzleAdapter(db, {
   //   UsersTable: users,
   //   AccountsTable: accounts,
   //   SessionsTable: sessions,
   //   VerificationTokensTable: verificationTokens,
   // }),
-  // Session: { strategy: "jwt" },
+  // session: { strategy: "jwt" },
   callbacks: {
     // `args.provider` is the currently used provider config
     async createOrUpdateUser(ctx: MutationCtx, args) {
       const profile = args.profile as Doc<"users">;
       if (args.existingUserId) {
-        // Await ctx.db.patch(args.existingUserId, profile);
+        // await ctx.db.patch(args.existingUserId, profile);
         return args.existingUserId;
       }
 
-      // Const emailUser = await ctx.db
+      // const emailUser = await ctx.db
       //   .query("users")
       //   .filter((q) => q.eq(q.field("email"), profile.email))
       //   .unique();
-      // If (emailUser) {
+      // if (emailUser) {
       //   // await ctx.db.patch(emailUser._id, profile);
       //   Return emailUser._id;
       // }
-      // Const discordUser = await ctx.db
+      // const discordUser = await ctx.db
       //   .query("users")
       //   .filter((q) => q.eq(q.field("discordId"), profile.discordId))
       //   .unique();
-      // If (discordUser) {
+      // if (discordUser) {
       //   // await ctx.db.patch(discordUser._id, profile);
       //   Return discordUser._id;
       // }
@@ -113,7 +115,7 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
 
       return userId;
     },
-    // Async afterUserCreatedOrUpdated(ctx, args) {
+    // async afterUserCreatedOrUpdated(ctx, args) {
     //   Console.log("[afterUserCreatedOrUpdated]", { args });
     // },
   },

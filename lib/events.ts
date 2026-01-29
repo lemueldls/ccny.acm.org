@@ -1,4 +1,9 @@
-import { ZonedDateTime, fromAbsolute, isSameDay, now } from "@internationalized/date";
+import {
+  ZonedDateTime,
+  fromAbsolute,
+  isSameDay,
+  now,
+} from "@internationalized/date";
 
 import { Doc, Id } from "@/convex/_generated/dataModel";
 
@@ -13,7 +18,10 @@ export interface SerializedEvent extends Omit<
   end: ZonedDateTime | null;
 }
 
-export interface DeserializedEvent extends Omit<Doc<"events">, "_id" | "_creationTime"> {
+export interface DeserializedEvent extends Omit<
+  Doc<"events">,
+  "_id" | "_creationTime"
+> {
   start: number | undefined;
   end: number | undefined;
 }
@@ -35,7 +43,7 @@ export const eventKindTextMap = {
 };
 
 export function serializeEvent(event: Doc<"events">) {
-  // Const timeZone = getLocalTimeZone();
+  // const timeZone = getLocalTimeZone();
   const timeZone = "America/New_York";
 
   return {
@@ -71,7 +79,7 @@ export function deserializeEvent(event: SerializedEvent): DeserializedEvent {
 }
 
 export function parseEvents(events: SerializedEvent[]) {
-  // Const timeZone = getLocalTimeZone();
+  // const timeZone = getLocalTimeZone();
   const timeZone = "America/New_York";
   const localNow = now(timeZone);
 

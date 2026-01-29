@@ -10,27 +10,28 @@ export default function useWindowSize() {
   });
 
   useEffect(() => {
-    // Handler to call on window resize
+    // handler to call on window resize
     function handleResize() {
-      // Set window width/height to state
+      // set window width/height to state
       setWindowSize({
         height: window.innerHeight,
         width: window.innerWidth,
       });
     }
 
-    // Add event listener
+    // add event listener
     window.addEventListener("resize", handleResize);
 
-    // Call handler right away so state gets updated with initial window size
+    // call handler right away so state gets updated with initial window size
     handleResize();
 
-    // Remove event listener on cleanup
+    // remove event listener on cleanup
     return () => window.removeEventListener("resize", handleResize);
-  }, []); // Empty array ensures that effect is only run on mount
+  }, []); // empty array ensures that effect is only run on mount
 
   return {
-    isDesktop: typeof windowSize?.width === "number" && windowSize?.width >= 768,
+    isDesktop:
+      typeof windowSize?.width === "number" && windowSize?.width >= 768,
     isMobile: typeof windowSize?.width === "number" && windowSize?.width < 768,
     windowSize,
   };

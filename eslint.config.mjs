@@ -2,7 +2,7 @@ import { FlatCompat } from "@eslint/eslintrc";
 import { defineConfig, globalIgnores } from "eslint/config";
 
 const compat = new FlatCompat({
-  // Import.meta.dirname is available after Node.js v20.11.0
+  // import.meta.dirname is available after Node.js v20.11.0
   baseDirectory: import.meta.dirname,
 });
 

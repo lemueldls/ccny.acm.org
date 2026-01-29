@@ -12,7 +12,7 @@ interface HyperTextProps {
   animateOnLoad?: boolean;
 }
 
-// Const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+// const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 const alphabets = "▀▁▂▃▄▅▆▇█▉▊▋▌▍▎▏▐░▒▓▔▕▖▗▘▙▚▛▜▝▞▟";
 
 const getRandomInt = (max: number) => Math.floor(Math.random() * max);
@@ -49,7 +49,11 @@ export default function HyperText({
         if (interations.current < text.length) {
           setDisplayText((t) =>
             t.map((l, i) =>
-              l === " " ? l : i <= interations.current ? text[i] : alphabets[getRandomInt(26)],
+              l === " "
+                ? l
+                : i <= interations.current
+                  ? text[i]
+                  : alphabets[getRandomInt(26)],
             ),
           );
           interations.current += 0.1;
@@ -60,7 +64,7 @@ export default function HyperText({
       },
       duration / (text.length * 10),
     );
-    // Clean up interval on unmount
+    // clean up interval on unmount
     return () => clearInterval(interval);
   }, [text, duration, trigger, animateOnLoad]);
 
@@ -73,7 +77,7 @@ export default function HyperText({
         {displayText.map((letter, i) => (
           <motion.h1
             key={i}
-            // ClassName={cn("font-mono", letter === " " ? "w-3" : "", className)}
+            // className={cn("font-mono", letter === " " ? "w-3" : "", className)}
             className={cn(letter === " " ? "w-3" : "", className)}
             {...framerProps}
           >
