@@ -2,7 +2,7 @@
 
 // import { SessionProvider } from "next-auth/react";
 // import { ModalProvider } from "@/components/modal/provider";
-import { HeroUIProvider } from "@heroui/react";
+import { HeroUIProvider, ToastProvider } from "@heroui/react";
 import { ThemeProvider } from "next-themes";
 import { useRouter } from "next/navigation";
 import { PrimeReactProvider } from "primereact/api";
@@ -16,6 +16,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <HeroUIProvider navigate={router.push}>
+      <ToastProvider />
       <ThemeProvider attribute="class">
         <PrimeReactProvider
           value={{

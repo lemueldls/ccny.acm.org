@@ -6,9 +6,7 @@ import { Carousel, CarouselPageChangeEvent } from "primereact/carousel";
 import { use, useCallback, useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import Quicktime, {
-  QuicktimePrompt,
-} from "@/app/app/(app)/workshops/[slug]/quicktime";
+import Quicktime, { QuicktimePrompt } from "@/app/app/(app)/workshops/[slug]/quicktime";
 import MarkdownRenderer from "@/components/markdown-renderer";
 import ShineBorder from "@/components/ui/shine-border";
 import { api } from "@/convex/_generated/api";
@@ -18,16 +16,12 @@ export interface AdminWorkshopPresentPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default function AdminWorkshopPresentPage(
-  props: AdminWorkshopPresentPageProps,
-) {
+export default function AdminWorkshopPresentPage(props: AdminWorkshopPresentPageProps) {
   const params = use(props.params);
   const slug = decodeURIComponent(params.slug);
   const workshop = useQuery(api.workshops.getBySlug, { slug });
 
-  const setActiveSlideSegments = useMutation(
-    api.activeWorkshops.setActiveSlideSegments,
-  );
+  const setActiveSlideSegments = useMutation(api.activeWorkshops.setActiveSlideSegments);
 
   const carousel = useRef<HTMLDivElement>(null);
 

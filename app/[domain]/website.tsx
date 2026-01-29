@@ -40,5 +40,6 @@ export default function Website({ html, css, javascript }: WebsiteProps) {
     }
   }, [html, css, javascript]);
 
+  // oxlint-disable-next-line jsx_a11y/iframe-has-title
   return <iframe ref={iframe} className="h-screen w-full" />;
 }

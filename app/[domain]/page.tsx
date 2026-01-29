@@ -26,11 +26,5 @@ export default async function SitePage({ params }: SitePageProps) {
     notFound();
   }
 
-  return (
-    <Website
-      html={website.html}
-      css={website.css}
-      javascript={website.javascript}
-    />
-  );
+  return <Website html={website.html} css={website.css} javascript={website.javascript} />;
 }

@@ -28,12 +28,7 @@ export default function HomePage() {
 
             <span className="text-xl lg:text-3xl">Welcome to</span>
 
-            <h1
-              className={cn(
-                "mb-8 text-center font-bold text-8xl lg:text-9xl",
-                brand.className,
-              )}
-            >
+            <h1 className={cn("mb-8 text-center font-bold text-8xl lg:text-9xl", brand.className)}>
               <LineShadowText
                 as={"a"}
                 href="https://www.acm.org/"
@@ -70,10 +65,7 @@ export default function HomePage() {
                 Join Us on Campus Groups
               </Button>
 
-              <Divider
-                orientation="vertical"
-                className="hidden h-12 sm:block"
-              />
+              <Divider orientation="vertical" className="hidden h-12 sm:block" />
               <Divider orientation="horizontal" className="block sm:hidden" />
 
               <div className="flex justify-center gap-4">
@@ -159,11 +151,7 @@ export default function HomePage() {
 
             <ul>
               <li>
-                <Link
-                  isExternal
-                  color="foreground"
-                  href="https://forms.gle/ABKCKQmQmzvZWbCo8"
-                >
+                <Link isExternal color="foreground" href="https://forms.gle/ABKCKQmQmzvZWbCo8">
                   Club Team Applications
                 </Link>
               </li>
@@ -177,11 +165,7 @@ export default function HomePage() {
                 </Link>
               </li>
               <li>
-                <Link
-                  isExternal
-                  color="foreground"
-                  href="https://forms.gle/ntqFUAX7TERrq3oe8"
-                >
+                <Link isExternal color="foreground" href="https://forms.gle/ntqFUAX7TERrq3oe8">
                   Our Club Interest Form
                 </Link>
               </li>
@@ -192,29 +176,17 @@ export default function HomePage() {
             <strong className="mb-2 block text-lg">Socials</strong>
             <ul>
               <li>
-                <Link
-                  isExternal
-                  color="foreground"
-                  href="https://discord.com/invite/CsntEuGJe5"
-                >
+                <Link isExternal color="foreground" href="https://discord.com/invite/CsntEuGJe5">
                   Discord
                 </Link>
               </li>
               <li>
-                <Link
-                  isExternal
-                  color="foreground"
-                  href="https://www.instagram.com/acm.ccny/"
-                >
+                <Link isExternal color="foreground" href="https://www.instagram.com/acm.ccny/">
                   Instagram
                 </Link>
               </li>
               <li>
-                <Link
-                  isExternal
-                  color="foreground"
-                  href="https://www.linkedin.com/in/ccnyacm/"
-                >
+                <Link isExternal color="foreground" href="https://www.linkedin.com/in/ccnyacm/">
                   LinkedIn
                 </Link>
               </li>
@@ -226,11 +198,7 @@ export default function HomePage() {
 
             <ul>
               <li>
-                <Link
-                  isExternal
-                  color="foreground"
-                  href="mailto:ccnyacm@gmail.com"
-                >
+                <Link isExternal color="foreground" href="mailto:ccnyacm@gmail.com">
                   ccnyacm@gmail.com
                 </Link>
               </li>

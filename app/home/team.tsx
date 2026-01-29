@@ -178,15 +178,11 @@ export default function HomePageTeam() {
       ({
         "@type": "Person",
         email: member.email,
-        image: member.image
-          ? `${process.env.NEXT_PUBLIC_ROOT_URL}${member.image}`
-          : undefined,
+        image: member.image ? `${process.env.NEXT_PUBLIC_ROOT_URL}${member.image}` : undefined,
         jobTitle: member.position,
         name: member.name,
         sameAs: [
-          member.linkedin
-            ? `https://www.linkedin.com/in/${member.linkedin}`
-            : undefined,
+          member.linkedin ? `https://www.linkedin.com/in/${member.linkedin}` : undefined,
           member.github ? `https://github.com/${member.github}` : undefined,
           member.website,
         ].filter(Boolean) as string[],
@@ -249,11 +245,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
 
   return (
     <Tilt className="flex-1 shrink basis-full md:basis-106 lg:max-w-120">
-      <Card
-        isBlurred
-        className="brick-wall !bg-default/15 border-none p-2"
-        shadow="md"
-      >
+      <Card isBlurred className="brick-wall !bg-default/15 border-none p-2" shadow="md">
         <CardBody className="grid grid-cols-[fit-content(8rem)_1fr] grid-rows-[fit-content(8rem)_1fr] gap-x-5 overflow-visible">
           <Image
             as={NextImage}

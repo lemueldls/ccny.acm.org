@@ -78,26 +78,16 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
       }
     }
 
-    return NextResponse.rewrite(
-      new URL(`/app${path === "/" ? "" : path}`, req.url),
-    );
+    return NextResponse.rewrite(new URL(`/app${path === "/" ? "" : path}`, req.url));
   }
 
   if (hostname === adminDomain) {
-    return NextResponse.redirect(
-      new URL("/admin", process.env.NEXT_PUBLIC_APP_URL),
-    );
+    return NextResponse.redirect(new URL("/admin", process.env.NEXT_PUBLIC_APP_URL));
   }
 
   // rewrite root application to `/home` folder
-  if (
-    hostname === "ccny.acm.org" ||
-    hostname === "localhost:3000" ||
-    hostname === rootDomain
-  ) {
-    return NextResponse.rewrite(
-      new URL(`/home${path === "/" ? "" : path}`, req.url),
-    );
+  if (hostname === "ccny.acm.org" || hostname === "localhost:3000" || hostname === rootDomain) {
+    return NextResponse.rewrite(new URL(`/home${path === "/" ? "" : path}`, req.url));
   }
 
   // rewrite everything else to `/[domain]/[slug] dynamic route

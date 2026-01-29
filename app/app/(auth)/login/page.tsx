@@ -46,8 +46,7 @@ export default function LoginPage() {
 
         <CardFooter>
           <p className="text-foreground-600 text-center">
-            If you login anonymously, your data will not be transferred when you
-            link an account.
+            If you login anonymously, your data will not be transferred when you link an account.
           </p>
         </CardFooter>
       </CardBody>

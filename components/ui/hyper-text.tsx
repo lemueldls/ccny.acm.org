@@ -49,11 +49,7 @@ export default function HyperText({
         if (interations.current < text.length) {
           setDisplayText((t) =>
             t.map((l, i) =>
-              l === " "
-                ? l
-                : i <= interations.current
-                  ? text[i]
-                  : alphabets[getRandomInt(26)],
+              l === " " ? l : i <= interations.current ? text[i] : alphabets[getRandomInt(26)],
             ),
           );
           interations.current += 0.1;

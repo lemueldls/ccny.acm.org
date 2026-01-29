@@ -1,9 +1,4 @@
-import {
-  ZonedDateTime,
-  fromAbsolute,
-  isSameDay,
-  now,
-} from "@internationalized/date";
+import { ZonedDateTime, fromAbsolute, isSameDay, now } from "@internationalized/date";
 
 import { Doc, Id } from "@/convex/_generated/dataModel";
 
@@ -18,10 +13,7 @@ export interface SerializedEvent extends Omit<
   end: ZonedDateTime | null;
 }
 
-export interface DeserializedEvent extends Omit<
-  Doc<"events">,
-  "_id" | "_creationTime"
-> {
+export interface DeserializedEvent extends Omit<Doc<"events">, "_id" | "_creationTime"> {
   start: number | undefined;
   end: number | undefined;
 }

@@ -27,7 +27,7 @@ export default function LoginButton(props: LoginButtonProps) {
 
   useEffect(() => {
     const errorMessage = Array.isArray(error) ? error.pop() : error;
-    errorMessage && addToast({ color: "danger", title: errorMessage });
+    if (errorMessage) addToast({ color: "danger", title: errorMessage });
   }, [error]);
 
   return (

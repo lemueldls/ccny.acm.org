@@ -103,12 +103,7 @@ export default function Nav({ children }: { children: ReactNode }) {
                 <div key="ellipsis" className="flex items-center">
                   <Dropdown>
                     <DropdownTrigger>
-                      <Button
-                        isIconOnly
-                        className="h-6 w-6 min-w-6"
-                        size="sm"
-                        variant="flat"
-                      >
+                      <Button isIconOnly className="h-6 w-6 min-w-6" size="sm" variant="flat">
                         {ellipsisIcon}
                       </Button>
                     </DropdownTrigger>
@@ -210,9 +205,7 @@ export default function Nav({ children }: { children: ReactNode }) {
                 <DropdownItem
                   key="logout"
                   color="danger"
-                  startContent={
-                    <ArrowLeftStartOnRectangleIcon className="h-5 w-5" />
-                  }
+                  startContent={<ArrowLeftStartOnRectangleIcon className="h-5 w-5" />}
                   onPress={() => signOut()}
                 >
                   Log Out

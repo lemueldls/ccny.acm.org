@@ -30,8 +30,7 @@ export default function useWindowSize() {
   }, []); // empty array ensures that effect is only run on mount
 
   return {
-    isDesktop:
-      typeof windowSize?.width === "number" && windowSize?.width >= 768,
+    isDesktop: typeof windowSize?.width === "number" && windowSize?.width >= 768,
     isMobile: typeof windowSize?.width === "number" && windowSize?.width < 768,
     windowSize,
   };

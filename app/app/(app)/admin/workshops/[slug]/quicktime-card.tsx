@@ -30,10 +30,7 @@ export default function AdminWorkshopQuicktimePromptCard(
   const [isEditing, setIsEditing] = useState(true);
 
   const updatePrompt = useCallback(
-    (
-      key: keyof QuicktimePrompt,
-      value: QuicktimePrompt[keyof QuicktimePrompt],
-    ) => {
+    (key: keyof QuicktimePrompt, value: QuicktimePrompt[keyof QuicktimePrompt]) => {
       setPrompt((prev) => ({ ...prev, [key]: value }));
 
       props.onChange({ ...prompt, [key]: value });

@@ -35,9 +35,7 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
               : parseInt(discordProfile.discriminator) % 5;
           discordProfile.image_url = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.webp`;
         } else {
-          const format = discordProfile.avatar.startsWith("a_")
-            ? "gif"
-            : "webp";
+          const format = discordProfile.avatar.startsWith("a_") ? "gif" : "webp";
           discordProfile.image_url = `https://cdn.discordapp.com/avatars/${discordProfile.id}/${discordProfile.avatar}.${format}`;
         }
 
