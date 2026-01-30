@@ -29,7 +29,7 @@ export default function EventChipClient(props: EventChipClientProps) {
       as={Link}
       href="#happening-today"
       startContent={
-        <Chip color="danger" size="lg" variant="shadow">
+        <Chip classNames={{ content: "font-semibold" }} color="danger" size="lg" variant="shadow">
           Happening Today
         </Chip>
       }
@@ -46,7 +46,12 @@ export default function EventChipClient(props: EventChipClientProps) {
         as={Link}
         href="#upcoming-events"
         startContent={
-          <Chip color="secondary" size="lg" variant="shadow">
+          <Chip
+            classNames={{ content: "font-semibold leading-none tracking-tight" }}
+            color="secondary"
+            size="lg"
+            variant="shadow"
+          >
             Upcoming Event
           </Chip>
         }

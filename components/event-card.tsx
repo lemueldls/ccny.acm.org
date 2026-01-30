@@ -54,19 +54,33 @@ export default function EventCard(props: EventCardProps) {
     <Card
       isBlurred
       shadow="sm"
-      className={cn("diagonal-lines !bg-default/20 p-2", className)}
+      className={cn("diagonal-lines bg-default/20! p-2", className)}
       {...props}
     >
       <CardHeader className="flex flex-col items-start pb-0">
         <div className="mb-2 flex h-8 w-full items-center justify-between gap-4">
           <div className="flex flex-1 items-center gap-2">
             {event.kind && (
-              <Chip color={eventKindColorMap[event.kind]}>{eventKindTextMap[event.kind]}</Chip>
+              <Chip classNames={{ content: "font-semibold" }} color={eventKindColorMap[event.kind]}>
+                {eventKindTextMap[event.kind]}
+              </Chip>
             )}
 
-            {event.public || <Chip>Unpublished</Chip>}
-            {event.external && <Chip>External</Chip>}
-            {event.virtual && <Chip>Virtual</Chip>}
+            {event.public || (
+              <Chip classNames={{ content: "font-semibold" }} variant="flat">
+                Unpublished
+              </Chip>
+            )}
+            {event.external && (
+              <Chip classNames={{ content: "font-semibold" }} variant="flat">
+                External
+              </Chip>
+            )}
+            {event.virtual && (
+              <Chip classNames={{ content: "font-semibold" }} variant="flat">
+                Virtual
+              </Chip>
+            )}
           </div>
 
           {event.rsvp && (

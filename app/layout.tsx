@@ -4,7 +4,7 @@ import type { Metadata, Viewport } from "next";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { Organization, WithContext } from "schema-dts";
 
-import { lato } from "@/styles/fonts";
+import { lato } from "@/lib/fonts";
 
 import { Providers } from "./providers";
 
@@ -18,7 +18,7 @@ const jsonLd = {
   "@type": "Organization",
   description,
   email: "ccnyacm@gmail.com",
-  foundingDate: "2024",
+  // foundingDate: "2024",
   logo: `${process.env.NEXT_PUBLIC_ROOT_URL}/logo.svg`,
   name: "ACM @ CCNY",
   parentOrganization: {
@@ -35,6 +35,7 @@ const jsonLd = {
 } satisfies WithContext<Organization>;
 
 export const metadata: Metadata = {
+  title,
   description,
   icons: {
     icon: [
@@ -77,7 +78,6 @@ export const metadata: Metadata = {
   other: {
     "script[type='application/ld+json']": JSON.stringify(jsonLd),
   },
-  title,
 };
 
 export const viewport: Viewport = {
@@ -88,6 +88,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <ConvexAuthNextjsServerProvider>
       <html lang="en" suppressHydrationWarning>
+        <head>
+          <link rel="stylesheet" href="https://use.typekit.net/jgb1xuw.css" />
+        </head>
         <body>
           <Providers>
             <main className={lato.className}>{children}</main>

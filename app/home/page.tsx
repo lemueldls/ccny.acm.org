@@ -7,7 +7,7 @@ import { SimpleIconsInstagram } from "@/components/icons/instagram";
 import { SimpleIconsLinkedin } from "@/components/icons/linkedin";
 import { LineShadowText } from "@/components/line-shadow";
 // import HomePageBulletin from "./bulletin";
-import { brand } from "@/styles/fonts";
+import { brand } from "@/lib/fonts";
 
 import HomePageAbout from "./about";
 import HomePageEvents from "./events";
@@ -34,7 +34,7 @@ export default function HomePage() {
                 href="https://www.acm.org/"
                 target="_blank"
                 rel="noopener noreferrer"
-                shadowColor="#3db7e4"
+                shadowColor="#0085CA"
                 title="Association for Computing Machinery"
               >
                 ACM

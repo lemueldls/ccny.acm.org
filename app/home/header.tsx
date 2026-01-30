@@ -18,8 +18,8 @@ export default function HomePageHeader() {
                 as={NextImage}
                 width={44}
                 height={44}
-                src={`/logo.svg`}
-                alt="Logo"
+                src={`/icon.svg`}
+                alt="ACM @ CCNY Icon"
                 suppressHydrationWarning
               />
             </Link>

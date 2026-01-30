@@ -21,10 +21,6 @@ const config: Config = {
         DEFAULT: "0 2px 4px var(--tw-shadow-color)",
         lg: "0 8px 16px var(--tw-shadow-color)",
       },
-      fontFamily: {
-        default: ["var(--font-lato)"],
-        brand: ["var(--font-brand)"],
-      },
       animation: {
         shine: "shine var(--duration) infinite linear",
         "line-shadow": "line-shadow 15s linear infinite",
