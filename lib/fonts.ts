@@ -7,6 +7,14 @@ export const lato = Lato({
   weight: ["400", "700"],
 });
 
+export const raleway = Raleway({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--tk-raleway",
+  weight: ["400", "700"],
+  style: "italic",
+});
+
 export const brand = Chakra_Petch({
   display: "swap",
   subsets: ["latin"],

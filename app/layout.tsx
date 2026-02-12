@@ -30,6 +30,7 @@ const jsonLd = {
     "https://discord.com/invite/CsntEuGJe5",
     "https://www.instagram.com/acm.ccny/",
     "https://www.linkedin.com/in/ccnyacm/",
+    "https://linktr.ee/acm.ccny",
   ],
   url: process.env.NEXT_PUBLIC_ROOT_URL,
 } satisfies WithContext<Organization>;

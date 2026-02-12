@@ -29,10 +29,10 @@ export function LineShadowText({
       style={{ "--shadow-color": shadowColor } as React.CSSProperties}
       className={cn(
         "relative z-0 inline-flex",
-        "after:absolute after:top-[0.06em] after:left-[0.06em] after:content-[attr(data-text)]",
-        "after:bg-[linear-gradient(45deg,transparent_45%,var(--shadow-color)_45%,var(--shadow-color)_55%,transparent_0)]",
-        "after:-z-10 after:bg-size-[0.06em_0.06em] after:bg-clip-text after:text-transparent",
-        "after:paused hover:after:running after:transition-[top,left] hover:after:top-[0.04em] hover:after:left-[0.04em]",
+        "after:absolute after:top-[0.05em] after:left-[0.05em] after:content-[attr(data-text)]",
+        "after:bg-[repeating-linear-gradient(45deg,var(--shadow-color),var(--shadow-color)_2.5px,transparent_2.5px,transparent_5px)]",
+        "after:-z-10 after:bg-size-[3em_3em] after:bg-clip-text after:text-transparent",
+        "after:paused hover:after:running after:transition-[top,left] hover:after:top-[0.025em] hover:after:left-[0.025em]",
         "after:animate-line-shadow",
         className,
       )}

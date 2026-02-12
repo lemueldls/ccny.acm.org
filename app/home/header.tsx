@@ -4,7 +4,6 @@ import { Image, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@he
 import NextImage from "next/image";
 
 import ThemeToggle from "@/components/theme-toggle";
-import ThemedLogo from "@/components/themed-logo";
 
 export default function HomePageHeader() {
   return (
@@ -18,9 +17,8 @@ export default function HomePageHeader() {
                 as={NextImage}
                 width={44}
                 height={44}
-                src={`/icon.svg`}
-                alt="ACM @ CCNY Icon"
-                suppressHydrationWarning
+                src={`/logo.svg`}
+                alt="ACM @ CCNY Logo"
               />
             </Link>
           </NavbarBrand>

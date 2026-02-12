@@ -5,6 +5,7 @@ import EventChip from "@/components/event-chip";
 import { SimpleIconsDiscord } from "@/components/icons/discord";
 import { SimpleIconsInstagram } from "@/components/icons/instagram";
 import { SimpleIconsLinkedin } from "@/components/icons/linkedin";
+import { SimpleIconsLinktree } from "@/components/icons/linktree";
 import { LineShadowText } from "@/components/line-shadow";
 // import HomePageBulletin from "./bulletin";
 import { brand } from "@/lib/fonts";
@@ -21,7 +22,7 @@ export default function HomePage() {
 
       <ScrollShadow visibility="both" className="circuit-board mb-8 p-4 pb-8">
         <div className="container mx-auto flex flex-col items-center gap-44">
-          <div className="mt-8 flex flex-col items-center gap-4 sm:mt-20">
+          <div className="text-default-foreground mt-8 flex flex-col items-center gap-4 sm:mt-20">
             <div className="mb-4 min-h-26 sm:min-h-12">
               <EventChip />
             </div>
@@ -34,7 +35,7 @@ export default function HomePage() {
                 href="https://www.acm.org/"
                 target="_blank"
                 rel="noopener noreferrer"
-                shadowColor="#0085CA"
+                shadowColor="#0085ca"
                 title="Association for Computing Machinery"
               >
                 ACM
@@ -73,7 +74,7 @@ export default function HomePage() {
                   as={Link}
                   size="lg"
                   title="Discord"
-                  className="text-default-foreground hover:text-[#5865F2]"
+                  className="text-default-foreground hover:text-[#5865f2]"
                   color="default"
                   href="https://discord.com/invite/CsntEuGJe5"
                   isExternal
@@ -86,7 +87,7 @@ export default function HomePage() {
                   as={Link}
                   size="lg"
                   title="Instagram"
-                  className="text-default-foreground hover:text-[#E4405F]"
+                  className="text-default-foreground hover:text-[#e4405f]"
                   color="default"
                   href="https://www.instagram.com/acm.ccny/"
                   isExternal
@@ -99,7 +100,7 @@ export default function HomePage() {
                   as={Link}
                   size="lg"
                   title="LinkedIn"
-                  className="text-default-foreground hover:text-[#0A66C2]"
+                  className="text-default-foreground hover:text-[#0a66c2]"
                   color="default"
                   href="https://www.linkedin.com/in/ccnyacm/"
                   isExternal
@@ -108,11 +109,24 @@ export default function HomePage() {
                 >
                   <SimpleIconsLinkedin className="size-6" />
                 </Button>
+                {/* <Button
+                  as={Link}
+                  size="lg"
+                  title="Linktree"
+                  className="text-default-foreground hover:text-[#43e55e]"
+                  color="default"
+                  href="https://linktr.ee/acm.ccny"
+                  isExternal
+                  variant="flat"
+                  isIconOnly
+                >
+                  <SimpleIconsLinktree className="size-6" />
+                </Button> */}
                 <Button
                   as={Link}
                   size="lg"
                   title="Email"
-                  className="text-default-foreground hover:text-[#7D55C7]"
+                  className="text-default-foreground hover:text-[#7d55c7]"
                   color="default"
                   href="mailto:ccnyacm@gmail.com"
                   isExternal
@@ -150,11 +164,11 @@ export default function HomePage() {
             <strong className="mb-2 block text-lg">Connect</strong>
 
             <ul>
-              <li>
+              {/* <li>
                 <Link isExternal color="foreground" href="https://forms.gle/ABKCKQmQmzvZWbCo8">
                   Club Team Applications
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   isExternal
@@ -167,6 +181,12 @@ export default function HomePage() {
               <li>
                 <Link isExternal color="foreground" href="https://forms.gle/ntqFUAX7TERrq3oe8">
                   Our Club Interest Form
+                </Link>
+              </li>
+
+              <li>
+                <Link isExternal color="foreground" href="https://linktr.ee/acm.ccny">
+                  Learn More on Linktree
                 </Link>
               </li>
             </ul>

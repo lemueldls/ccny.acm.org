@@ -47,7 +47,7 @@ export default function EventChipClient(props: EventChipClientProps) {
         href="#upcoming-events"
         startContent={
           <Chip
-            classNames={{ content: "font-semibold leading-none tracking-tight" }}
+            classNames={{ content: "font-semibold" }}
             color="secondary"
             size="lg"
             variant="shadow"
