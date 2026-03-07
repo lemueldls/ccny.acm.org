@@ -57,14 +57,13 @@ export default function InstagramGallery({
         className="w-full"
       >
         <ScrollShadow
-          hideScrollBar
           orientation="horizontal"
           className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto pb-8 sm:gap-6"
         >
           {images.map((image) => (
             <Card
               key={image._id}
-              className="bg-default/20 group relative h-64 shrink-0 snap-center overflow-hidden"
+              className="bg-default/20 group relative h-64 min-w-32 shrink-0 snap-center overflow-hidden"
               shadow="sm"
             >
               <CardBody className="h-full overflow-hidden p-0">
