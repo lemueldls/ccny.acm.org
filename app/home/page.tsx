@@ -12,7 +12,6 @@ import { brand } from "@/lib/fonts";
 
 import HomePageAbout from "./about";
 import HomePageEvents from "./events";
-import HomePageGallery from "./gallery";
 import HomePageHeader from "./header";
 import HomePageTeam from "./team";
 
