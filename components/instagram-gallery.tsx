@@ -174,6 +174,10 @@ function InstagramCarouselGallery({
     setIsIdle(true);
   }, []);
 
+  const handleTouchStart = useCallback(() => {
+    setIsIdle(false);
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -183,6 +187,7 @@ function InstagramCarouselGallery({
       className="relative w-full"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchStart}
     >
       <ScrollShadow
         ref={scrollRef}
@@ -226,7 +231,7 @@ function InstagramCarouselGallery({
       {showLeftButton && (
         <Button
           onPress={scrollLeft}
-          className="absolute top-1/2 left-8 z-10 -translate-y-1/2"
+          className="absolute top-1/2 left-8 z-10 hidden -translate-y-1/2 sm:flex"
           size="lg"
           isIconOnly
         >
@@ -237,7 +242,7 @@ function InstagramCarouselGallery({
       {showRightButton && (
         <Button
           onPress={scrollRight}
-          className="absolute top-1/2 right-8 z-10 -translate-y-1/2"
+          className="absolute top-1/2 right-8 z-10 hidden -translate-y-1/2 sm:flex"
           size="lg"
           isIconOnly
         >
@@ -280,7 +285,7 @@ function InstagramGridGallery({ images }: { images: GalleryImage[] }) {
               },
             }}
           >
-            <Card isFooterBlurred className="group bg-default/10 hover:z-50" shadow="lg">
+            <Card isFooterBlurred className="group bg-default/10" shadow="lg">
               <CardBody className="p-0">
                 <Image src={image.url} alt={image.caption || "Gallery Image"} />
               </CardBody>
