@@ -68,12 +68,14 @@ export default function InstagramGallery({
               shadow="sm"
             >
               <CardBody className="h-full overflow-hidden p-0">
-                <Image
-                  src={image.url}
-                  alt={image.caption || "Gallery Image"}
-                  height={256}
-                  isZoomed
-                />
+                <Link href="/gallery">
+                  <Image
+                    src={image.url}
+                    alt={image.caption || "Gallery Image"}
+                    height={256}
+                    isZoomed
+                  />
+                </Link>
               </CardBody>
             </Card>
           ))}
@@ -119,11 +121,7 @@ export default function InstagramGallery({
           transition={{ delay: index * 0.05, duration: 0.5 }}
           className="mb-4 inline-block w-full"
         >
-          <Card
-            isFooterBlurred
-            className="group bg-default/10 hover:z-50 hover:rotate-0!"
-            shadow="lg"
-          >
+          <Card isFooterBlurred className="group bg-default/10 hover:z-50" shadow="lg">
             <CardBody className="p-0">
               <Image src={image.url} alt={image.caption || "Gallery Image"} />
             </CardBody>
