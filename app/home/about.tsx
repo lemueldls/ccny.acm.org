@@ -3,8 +3,6 @@ import NextImage from "next/image";
 
 import InstagramGallery from "@/components/instagram-gallery";
 
-import HomePageGallery from "./gallery";
-
 export default function HomePageAbout() {
   return (
     <Card
