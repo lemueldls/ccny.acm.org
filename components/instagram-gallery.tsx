@@ -21,6 +21,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { api } from "@/convex/_generated/api";
 import { GalleryImage } from "@/convex/gallery";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 export interface InstagramGalleryProps {
   variant?: "slider" | "collage";
@@ -42,7 +43,7 @@ export default function InstagramGallery({
   if (allImages === undefined) {
     return (
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {[...Array(8)].map((_, i) => (
+        {[...Array(12)].map((_, i) => (
           <Skeleton key={i} className="h-80 w-full rounded-lg" />
         ))}
       </div>
@@ -175,7 +176,7 @@ function InstagramCarouselGallery({
 
     const interval = setInterval(() => {
       scrollContainer.scrollBy({ left: 512, behavior: "smooth" });
-    }, 5000);
+    }, 2500);
 
     return () => clearInterval(interval);
   }, [autoScroll, isIdle]);
@@ -274,37 +275,27 @@ function InstagramCarouselGallery({
 
 function InstagramGridGallery({ images }: { images: GalleryImage[] }) {
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      variants={{
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: { staggerChildren: 0.03 },
-        },
-      }}
+    <ResponsiveMasonry
+      columnsCountBreakPoints={{ 640: 1, 768: 2, 1024: 3, 1280: 4 }}
     >
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <Masonry gutter="1rem">
         {images.map((image, index) => (
           <motion.div
             key={image._id}
-            whileHover={{ rotate: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            variants={{
-              hidden: {
-                opacity: 0,
-                scale: 0.8,
-                rotate: ((index % 3) - 1) * 5,
-              },
-              visible: {
-                opacity: 1,
-                scale: 1,
-                rotate: ((index % 3) - 1) * 1.5,
-                transition: { duration: 0.5 },
-              },
+            viewport={{ once: true }}
+            initial={{
+              opacity: 0,
+              scale: 0.8,
+              rotate: ((index % 3) - 1) * 5,
             }}
+            whileInView={{
+              opacity: 1,
+              scale: 1,
+              rotate: ((index % 3) - 1) * 1.5,
+              transition: { duration: 0.5 },
+            }}
+            whileHover={{ rotate: 0 }}
           >
             <Card isFooterBlurred className="group bg-default/10" shadow="lg">
               <CardBody className="p-0">
@@ -330,7 +321,7 @@ function InstagramGridGallery({ images }: { images: GalleryImage[] }) {
             </Card>
           </motion.div>
         ))}
-      </div>
-    </motion.div>
+      </Masonry>
+    </ResponsiveMasonry>
   );
 }
