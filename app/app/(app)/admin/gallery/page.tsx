@@ -38,7 +38,7 @@ function GalleryCard({
 }) {
   const [localCaption, setLocalCaption] = useState(image.caption || "");
   const [localDate, setLocalDate] = useState(
-    image.date ? toCalendarDate(fromAbsolute(image.date, timeZone)) : today(timeZone),
+    image.date ? toCalendarDate(fromAbsolute(image.date, timeZone)) : null,
   );
 
   useEffect(() => {
@@ -50,7 +50,7 @@ function GalleryCard({
   }, [image.date]);
 
   const handleUpdate = () => {
-    const date = localDate.toDate(timeZone).getTime();
+    const date = localDate?.toDate(timeZone)?.getTime();
     if (localCaption !== image.caption || date !== image.date) {
       onUpdate({ id: image._id, caption: localCaption, date });
     }
@@ -107,7 +107,7 @@ function GalleryCard({
                 variant="underlined"
                 className="w-32"
                 value={localDate}
-                onValueChange={setLocalDate}
+                onChange={setLocalDate}
                 onBlur={handleUpdate}
               />
             </div>
@@ -180,7 +180,7 @@ export default function AdminGalleryPage() {
           image,
           caption: "Uploaded Image",
           active: true,
-          date: new Date().toISOString().split("T")[0],
+          date: Date.now(),
         });
         addToast({ color: "success", title: "Image added to gallery!" });
       } else {
