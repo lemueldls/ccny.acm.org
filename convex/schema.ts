@@ -64,7 +64,7 @@ export default defineSchema({
   gallery: defineTable({
     image: v.id("_storage"),
     caption: v.optional(v.string()),
-    date: v.optional(v.string()),
+    date: v.optional(v.number()),
     active: v.boolean(),
   })
     .index("active", ["active"])

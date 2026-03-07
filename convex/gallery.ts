@@ -37,7 +37,7 @@ export const addImage = mutation({
   args: {
     image: v.id("_storage"),
     caption: v.optional(v.string()),
-    date: v.optional(v.string()),
+    date: v.optional(v.number()),
     active: v.boolean(),
   },
   handler: async (ctx, args) => {
@@ -50,33 +50,11 @@ export const updateImage = mutation({
     id: v.id("gallery"),
     image: v.optional(v.id("_storage")),
     caption: v.optional(v.string()),
-    date: v.optional(v.string()),
+    date: v.optional(v.number()),
     active: v.optional(v.boolean()),
   },
   handler: async (ctx, { id, ...args }) => {
     await ctx.db.patch(id, args);
-  },
-});
-
-export const fixCaptions = mutation({
-  args: {},
-  handler: async (ctx) => {
-    const images = await ctx.db.query("gallery").collect();
-    let count = 0;
-    for (const img of images) {
-      if (!img.caption) continue;
-      try {
-        // Fix for Instagram export encoding issue (Latin1 bytes in UTF-8 string)
-        const fixed = decodeURIComponent(escape(img.caption));
-        if (fixed !== img.caption) {
-          await ctx.db.patch(img._id, { caption: fixed });
-          count++;
-        }
-      } catch (e) {
-        continue;
-      }
-    }
-    return count;
   },
 });
 
@@ -89,4 +67,36 @@ export const removeImage = mutation({
 
 export const generateUploadUrl = mutation(async (ctx) => {
   return await ctx.storage.generateUploadUrl();
+});
+
+export const importInstagram = mutation({
+  args: {
+    posts: v.array(
+      v.object({
+        storageId: v.id("_storage"),
+        caption: v.string(),
+        date: v.number(),
+      }),
+    ),
+  },
+  handler: async (ctx, args) => {
+    let count = 0;
+    for (const post of args.posts) {
+      let decodedCaption = post.caption;
+      try {
+        decodedCaption = decodeURIComponent(escape(post.caption));
+      } catch (e) {
+        // Just use original if it fails
+      }
+
+      await ctx.db.insert("gallery", {
+        image: post.storageId,
+        caption: decodedCaption,
+        date: post.date,
+        active: true,
+      });
+      count++;
+    }
+    return count;
+  },
 });

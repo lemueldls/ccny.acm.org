@@ -13,12 +13,17 @@ import {
   cn,
   addToast,
   Textarea,
+  DateInput,
 } from "@heroui/react";
+import { fromAbsolute, toCalendarDate, today } from "@internationalized/date";
 import { useMutation, useQuery } from "convex/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { api } from "@/convex/_generated/api";
 import { Doc } from "@/convex/_generated/dataModel";
+
+// const timeZone = getLocalTimeZone();
+const timeZone = "America/New_York";
 
 function GalleryCard({
   image,
@@ -32,19 +37,22 @@ function GalleryCard({
   onUpload: (id: string) => void;
 }) {
   const [localCaption, setLocalCaption] = useState(image.caption || "");
-  const [localDate, setLocalDate] = useState(image.date || "");
+  const [localDate, setLocalDate] = useState(
+    image.date ? toCalendarDate(fromAbsolute(image.date, timeZone)) : today(timeZone),
+  );
 
   useEffect(() => {
     setLocalCaption(image.caption || "");
   }, [image.caption]);
 
   useEffect(() => {
-    setLocalDate(image.date || "");
+    if (image.date) setLocalDate(toCalendarDate(fromAbsolute(image.date, timeZone)));
   }, [image.date]);
 
   const handleUpdate = () => {
-    if (localCaption !== image.caption || localDate !== image.date) {
-      onUpdate({ id: image._id, caption: localCaption, date: localDate });
+    const date = localDate.toDate(timeZone).getTime();
+    if (localCaption !== image.caption || date !== image.date) {
+      onUpdate({ id: image._id, caption: localCaption, date });
     }
   };
 
@@ -94,8 +102,7 @@ function GalleryCard({
               <span className="text-default-400 text-xs font-semibold tracking-wider uppercase">
                 Date
               </span>
-              <Input
-                type="date"
+              <DateInput
                 size="sm"
                 variant="underlined"
                 className="w-32"
