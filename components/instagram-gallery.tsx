@@ -1,14 +1,22 @@
 "use client";
 
-import { ArrowRightIcon } from "@heroicons/react/24/solid";
-import { Card, CardBody, CardFooter, Image, Link, ScrollShadow, Skeleton } from "@heroui/react";
-import { cn } from "@heroui/react";
+import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  Image,
+  Link,
+  ScrollShadow,
+  Skeleton,
+} from "@heroui/react";
 import { useQuery } from "convex/react";
 import { motion } from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { api } from "@/convex/_generated/api";
-import { Doc } from "@/convex/_generated/dataModel";
-import { brand } from "@/lib/fonts";
+import { GalleryImage } from "@/convex/gallery";
 
 export interface InstagramGalleryProps {
   variant?: "slider" | "collage";
@@ -29,8 +37,8 @@ export default function InstagramGallery({
 
   if (allImages === undefined) {
     return (
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {[...Array(6)].map((_, i) => (
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {[...Array(8)].map((_, i) => (
           <Skeleton key={i} className="h-80 w-full rounded-lg" />
         ))}
       </div>
@@ -48,98 +56,251 @@ export default function InstagramGallery({
   const images = limit ? allImages.slice(0, limit) : allImages;
 
   if (variant === "slider") {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="w-full"
-      >
-        <ScrollShadow
-          orientation="horizontal"
-          className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto pb-8 sm:gap-6"
-        >
-          {images.map((image) => (
-            <Card
-              key={image._id}
-              className="bg-default/20 group relative h-64 min-w-32 shrink-0 snap-center overflow-hidden"
-              shadow="sm"
-            >
-              <CardBody className="h-full overflow-hidden p-0">
-                <Link href="/gallery">
-                  <Image
-                    src={image.url}
-                    alt={image.caption || "Gallery Image"}
-                    height={256}
-                    isZoomed
-                  />
-                </Link>
-              </CardBody>
-            </Card>
-          ))}
-
-          <Card
-            className="group border-primary/30 bg-primary/5 relative flex h-[250px] w-[200px] shrink-0 snap-center items-center justify-center overflow-hidden rounded-3xl border-2 border-dashed transition-all duration-500"
-            shadow="none"
-          >
-            <Link
-              href="/gallery"
-              className="flex h-full w-full flex-col items-center justify-center gap-4 text-center transition-transform duration-300 group-hover:scale-105"
-            >
-              <div className="bg-primary shadow-primary/30 group-hover:shadow-primary/50 flex h-16 w-16 items-center justify-center rounded-2xl text-white shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-12">
-                <ArrowRightIcon className="h-6 w-6" />
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-primary text-xl font-bold">Full Gallery</span>
-                <span className="text-default-500 text-xs font-semibold tracking-widest uppercase">
-                  Explore More
-                </span>
-              </div>
-            </Link>
-          </Card>
-        </ScrollShadow>
-      </motion.div>
-    );
+    // return <InstagramSliderGallery images={images} />;
+    return <InstagramCarouselGallery images={images} />;
   }
 
-  // Collage / Masonry Variant
+  // return <InstagramMasonryGallery images={images} />;
+  return <InstagramGridGallery images={images} />;
+}
+
+function InstagramSliderGallery({ images }: { images: GalleryImage[] }) {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4"
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="w-full"
     >
-      {images.map((image, index) => (
-        <motion.div
-          key={image._id}
-          initial={{ opacity: 0, scale: 0.8, rotate: ((index % 3) - 1) * 5 }}
-          whileInView={{ opacity: 1, scale: 1, rotate: ((index % 3) - 1) * 1.5 }}
-          viewport={{ once: true }}
-          transition={{ delay: index * 0.05, duration: 0.5 }}
-          className="mb-4 inline-block w-full"
-        >
-          <Card isFooterBlurred className="group bg-default/10 hover:z-50" shadow="lg">
-            <CardBody className="p-0">
-              <Image src={image.url} alt={image.caption || "Gallery Image"} />
+      <ScrollShadow
+        orientation="horizontal"
+        className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto pb-8 sm:gap-6"
+      >
+        {images.map((image) => (
+          <Card
+            as={Link}
+            href="/gallery"
+            key={image._id}
+            className="bg-default/20 group relative h-64 min-w-32 shrink-0 snap-center overflow-hidden"
+            shadow="sm"
+          >
+            <CardBody className="h-full overflow-hidden p-0">
+              <Image src={image.url} alt={image.caption || "Gallery Image"} height={256} isZoomed />
             </CardBody>
-
-            <CardFooter className="bg-default/50 absolute bottom-1 z-10 ml-1 flex w-[calc(100%-0.5rem)] flex-col items-start overflow-hidden rounded-xl border-1 border-white/20 py-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              {image.caption && <p className="text-tiny mb-1 text-white/80">{image.caption}</p>}
-              {image.date && (
-                <p className="self-end text-[10px] font-medium text-white/60">
-                  {new Date(image.date).toLocaleDateString(undefined, {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </p>
-              )}
-            </CardFooter>
           </Card>
-        </motion.div>
-      ))}
+        ))}
+
+        <Card
+          className="group border-primary/30 bg-primary/5 relative flex h-[250px] w-[200px] shrink-0 snap-center items-center justify-center overflow-hidden rounded-3xl border-2 border-dashed transition-all duration-500"
+          shadow="none"
+        >
+          <Link
+            href="/gallery"
+            className="flex h-full w-full flex-col items-center justify-center gap-4 text-center transition-transform duration-300 group-hover:scale-105"
+          >
+            <div className="bg-primary shadow-primary/30 group-hover:shadow-primary/50 flex h-16 w-16 items-center justify-center rounded-2xl text-white shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-12">
+              <ArrowRightIcon className="h-6 w-6" />
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-primary text-xl font-bold">Full Gallery</span>
+              <span className="text-default-500 text-xs font-semibold tracking-widest uppercase">
+                Explore More
+              </span>
+            </div>
+          </Link>
+        </Card>
+      </ScrollShadow>
+    </motion.div>
+  );
+}
+
+// Contains arrows for moving left and right when avaliable and auto scrolls through images when idle
+function InstagramCarouselGallery({
+  images,
+  autoScroll = true,
+}: {
+  images: GalleryImage[];
+  autoScroll?: boolean;
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const [isIdle, setIsIdle] = useState(true);
+
+  const [showLeftButton, setShowLeftButton] = useState(false);
+  const [showRightButton, setShowRightButton] = useState(true);
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    const handleScroll = () => {
+      setShowLeftButton(scrollContainer.scrollLeft > 0);
+      setShowRightButton(
+        scrollContainer.scrollLeft < scrollContainer.scrollWidth - scrollContainer.clientWidth,
+      );
+    };
+
+    scrollContainer.addEventListener("scroll", handleScroll);
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollLeft = useCallback(() => {
+    scrollRef.current?.scrollBy({ left: -512, behavior: "smooth" });
+  }, []);
+
+  const scrollRight = useCallback(() => {
+    scrollRef.current?.scrollBy({ left: 512, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
+    if (!autoScroll || !isIdle) return;
+
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    const interval = setInterval(() => {
+      scrollContainer.scrollBy({ left: 512, behavior: "smooth" });
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [autoScroll, isIdle]);
+
+  const handleMouseEnter = useCallback(() => {
+    setIsIdle(false);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsIdle(true);
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="relative w-full"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <ScrollShadow
+        ref={scrollRef}
+        hideScrollBar
+        orientation="horizontal"
+        className="flex h-64 w-full snap-x snap-proximity gap-4 overflow-x-auto sm:gap-6"
+      >
+        {images.map((image) => (
+          <Card
+            as={Link}
+            href="/gallery"
+            key={image._id}
+            className="bg-default/20 group relative h-64 min-w-32 shrink-0 snap-center overflow-hidden"
+            shadow="sm"
+          >
+            <Image src={image.url} alt={image.caption || "Gallery Image"} height={256} isZoomed />
+          </Card>
+        ))}
+
+        {/* <Card
+          className="group border-primary/30 bg-primary/5 relative flex shrink-0 snap-center items-center justify-center overflow-hidden rounded-3xl border-2 border-dashed transition-all duration-500"
+          shadow="none"
+        >
+          <Link
+            href="/gallery"
+            className="flex h-full w-50 flex-col items-center justify-center gap-4 text-center transition-transform duration-300 group-hover:scale-105"
+          >
+            <div className="bg-primary shadow-primary/30 group-hover:shadow-primary/50 flex h-16 w-16 items-center justify-center rounded-2xl text-white shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-12">
+              <ArrowRightIcon className="h-6 w-6" />
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-primary text-xl font-bold">Full Gallery</span>
+              <span className="text-default-500 text-xs font-semibold tracking-widest uppercase">
+                See More
+              </span>
+            </div>
+          </Link>
+          </Card> */}
+      </ScrollShadow>
+
+      {showLeftButton && (
+        <Button
+          onPress={scrollLeft}
+          className="absolute top-1/2 left-8 z-10 -translate-y-1/2"
+          size="lg"
+          isIconOnly
+        >
+          <ChevronLeftIcon className="h-6 w-6" />
+        </Button>
+      )}
+
+      {showRightButton && (
+        <Button
+          onPress={scrollRight}
+          className="absolute top-1/2 right-8 z-10 -translate-y-1/2"
+          size="lg"
+          isIconOnly
+        >
+          <ChevronRightIcon className="h-6 w-6" />
+        </Button>
+      )}
+    </motion.div>
+  );
+}
+
+function InstagramGridGallery({ images }: { images: GalleryImage[] }) {
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      variants={{
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: { staggerChildren: 0.03 },
+        },
+      }}
+    >
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {images.map((image, index) => (
+          <motion.div
+            key={image._id}
+            variants={{
+              hidden: {
+                opacity: 0,
+                scale: 0.8,
+                rotate: ((index % 3) - 1) * 5,
+              },
+              visible: {
+                opacity: 1,
+                scale: 1,
+                rotate: ((index % 3) - 1) * 1.5,
+                transition: { duration: 0.5 },
+              },
+            }}
+          >
+            <Card isFooterBlurred className="group bg-default/10 hover:z-50" shadow="lg">
+              <CardBody className="p-0">
+                <Image src={image.url} alt={image.caption || "Gallery Image"} />
+              </CardBody>
+
+              <CardFooter className="bg-default/50 absolute bottom-1 z-10 ml-1 flex w-[calc(100%-0.5rem)] flex-col items-start overflow-hidden rounded-xl border-1 border-white/20 py-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                {image.caption && <p className="text-tiny mb-1 text-white/80">{image.caption}</p>}
+                {image.date && (
+                  <p className="self-end text-[10px] font-medium text-white/60">
+                    {new Date(image.date).toLocaleDateString(undefined, {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </p>
+                )}
+              </CardFooter>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
     </motion.div>
   );
 }

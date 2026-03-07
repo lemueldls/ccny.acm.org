@@ -1,10 +1,15 @@
 import { v } from "convex/values";
 
+import { Doc } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
+
+export interface GalleryImage extends Doc<"gallery"> {
+  url: string;
+}
 
 export const get = query({
   args: {},
-  handler: async (ctx) => {
+  handler: async (ctx): Promise<GalleryImage[]> => {
     const images = await ctx.db
       .query("gallery")
       .withIndex("by_active_date", (q) => q.eq("active", true))
