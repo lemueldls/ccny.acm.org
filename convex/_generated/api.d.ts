@@ -11,6 +11,7 @@
 import type * as activeWorkshops from "../activeWorkshops.js";
 import type * as auth from "../auth.js";
 import type * as events from "../events.js";
+import type * as gallery from "../gallery.js";
 import type * as http from "../http.js";
 import type * as users from "../users.js";
 import type * as websites from "../websites.js";
@@ -26,6 +27,7 @@ declare const fullApi: ApiFromModules<{
   activeWorkshops: typeof activeWorkshops;
   auth: typeof auth;
   events: typeof events;
+  gallery: typeof gallery;
   http: typeof http;
   users: typeof users;
   websites: typeof websites;

@@ -1,5 +1,9 @@
-import { Card, CardBody, CardHeader, Divider, Image } from "@heroui/react";
+import { Card, CardBody, CardFooter, CardHeader, Divider, Image } from "@heroui/react";
 import NextImage from "next/image";
+
+import InstagramGallery from "@/components/instagram-gallery";
+
+import HomePageGallery from "./gallery";
 
 export default function HomePageAbout() {
   return (
@@ -33,6 +37,10 @@ export default function HomePageAbout() {
           careers.
         </p>
       </CardBody>
+      <Divider className="mt-6 mb-8" />
+      <CardFooter>
+        <InstagramGallery variant="slider" shuffle limit={3} />
+      </CardFooter>
     </Card>
   );
 }

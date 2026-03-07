@@ -1,4 +1,4 @@
-import { CalendarDaysIcon, UsersIcon } from "@heroicons/react/20/solid";
+import { CalendarDaysIcon, UsersIcon, PhotoIcon } from "@heroicons/react/20/solid";
 import { Button, Link, Navbar, NavbarContent, NavbarItem } from "@heroui/react";
 import { Metadata } from "next";
 
@@ -20,6 +20,11 @@ const sidebarItems = [
     href: "/admin/users",
     startContent: <UsersIcon className="size-5" />,
     title: "Users",
+  },
+  {
+    href: "/admin/gallery",
+    startContent: <PhotoIcon className="size-5" />,
+    title: "Gallery",
   },
 ];
 

@@ -39,34 +39,34 @@ export function serializeEvent(event: Doc<"events">) {
   const timeZone = "America/New_York";
 
   return {
-    description: event.description,
-    end: event.end ? fromAbsolute(event.end, timeZone) : null,
+    id: event._id,
+    title: event.title,
+    kind: event.kind,
+    public: event.public,
     external: event.external,
     virtual: event.virtual,
-    host: event.host,
-    id: event._id,
-    kind: event.kind,
     location: event.location,
-    public: event.public,
-    rsvp: event.rsvp,
+    host: event.host,
     start: event.start ? fromAbsolute(event.start, timeZone) : null,
-    title: event.title,
+    end: event.end ? fromAbsolute(event.end, timeZone) : null,
+    description: event.description,
+    rsvp: event.rsvp,
   };
 }
 
 export function deserializeEvent(event: SerializedEvent): DeserializedEvent {
   return {
-    description: event.description,
-    end: event.end ? event.end.toDate().getTime() : undefined,
+    title: event.title,
+    kind: event.kind,
+    public: event.public,
     external: event.external,
     virtual: event.virtual,
-    host: event.host,
-    kind: event.kind,
     location: event.location,
-    public: event.public,
-    rsvp: event.rsvp,
+    host: event.host,
     start: event.start ? event.start.toDate().getTime() : undefined,
-    title: event.title,
+    end: event.end ? event.end.toDate().getTime() : undefined,
+    description: event.description,
+    rsvp: event.rsvp,
   };
 }
 
