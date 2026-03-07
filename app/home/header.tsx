@@ -1,6 +1,13 @@
 "use client";
 
-import { Image, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
+import {
+  Image,
+  Link,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+} from "@heroui/react";
 import NextImage from "next/image";
 
 import ThemeToggle from "@/components/theme-toggle";
@@ -27,25 +34,25 @@ export default function HomePageHeader() {
 
       <NavbarContent className="sm:gap-8" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="#about">
+          <Link color="foreground" href="/#about">
             About
           </Link>
         </NavbarItem>
 
         <NavbarItem>
-          <Link color="foreground" href="#team">
+          <Link color="foreground" href="/#team">
             Team
           </Link>
         </NavbarItem>
 
         {/* <NavbarItem>
-          <Link color="foreground" href="#sponsors">
+          <Link color="foreground" href="/#sponsors">
             Sponsors
           </Link>
         </NavbarItem> */}
 
         <NavbarItem>
-          <Link color="foreground" href="#events">
+          <Link color="foreground" href="/#events">
             Events
           </Link>
         </NavbarItem>
