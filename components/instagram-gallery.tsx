@@ -1,6 +1,10 @@
 "use client";
 
-import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import {
+  ArrowRightIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/solid";
 import {
   Button,
   Card,
@@ -48,7 +52,9 @@ export default function InstagramGallery({
   if (allImages.length === 0) {
     return (
       <div className="bg-default/10 border-default-300 rounded-xl border border-dashed p-12 text-center">
-        <p className="text-default-500 text-xl">No images found in the gallery.</p>
+        <p className="text-default-500 text-xl">
+          No images found in the gallery.
+        </p>
       </div>
     );
   }
@@ -86,7 +92,12 @@ function InstagramSliderGallery({ images }: { images: GalleryImage[] }) {
             shadow="sm"
           >
             <CardBody className="h-full overflow-hidden p-0">
-              <Image src={image.url} alt={image.caption || "Gallery Image"} height={256} isZoomed />
+              <Image
+                src={image.url}
+                alt={image.caption || "Gallery Image"}
+                height={256}
+                isZoomed
+              />
             </CardBody>
           </Card>
         ))}
@@ -103,7 +114,9 @@ function InstagramSliderGallery({ images }: { images: GalleryImage[] }) {
               <ArrowRightIcon className="h-6 w-6" />
             </div>
             <div className="flex flex-col items-center">
-              <span className="text-primary text-xl font-bold">Full Gallery</span>
+              <span className="text-primary text-xl font-bold">
+                Full Gallery
+              </span>
               <span className="text-default-500 text-xs font-semibold tracking-widest uppercase">
                 Explore More
               </span>
@@ -137,7 +150,8 @@ function InstagramCarouselGallery({
     const handleScroll = () => {
       setShowLeftButton(scrollContainer.scrollLeft > 0);
       setShowRightButton(
-        scrollContainer.scrollLeft < scrollContainer.scrollWidth - scrollContainer.clientWidth,
+        scrollContainer.scrollLeft <
+          scrollContainer.scrollWidth - scrollContainer.clientWidth,
       );
     };
 
@@ -203,7 +217,12 @@ function InstagramCarouselGallery({
             className="bg-default/20 group relative h-64 min-w-32 shrink-0 snap-center overflow-hidden"
             shadow="sm"
           >
-            <Image src={image.url} alt={image.caption || "Gallery Image"} height={256} isZoomed />
+            <Image
+              src={image.url}
+              alt={image.caption || "Gallery Image"}
+              height={256}
+              isZoomed
+            />
           </Card>
         ))}
 
@@ -231,7 +250,7 @@ function InstagramCarouselGallery({
       {showLeftButton && (
         <Button
           onPress={scrollLeft}
-          className="absolute top-1/2 left-8 z-10 hidden -translate-y-1/2 sm:flex"
+          className="absolute top-1/2 left-4 z-10 hidden -translate-y-1/2 sm:flex"
           size="lg"
           isIconOnly
         >
@@ -242,7 +261,7 @@ function InstagramCarouselGallery({
       {showRightButton && (
         <Button
           onPress={scrollRight}
-          className="absolute top-1/2 right-8 z-10 hidden -translate-y-1/2 sm:flex"
+          className="absolute top-1/2 right-4 z-10 hidden -translate-y-1/2 sm:flex"
           size="lg"
           isIconOnly
         >
@@ -271,6 +290,8 @@ function InstagramGridGallery({ images }: { images: GalleryImage[] }) {
         {images.map((image, index) => (
           <motion.div
             key={image._id}
+            whileHover={{ rotate: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             variants={{
               hidden: {
                 opacity: 0,
@@ -291,7 +312,11 @@ function InstagramGridGallery({ images }: { images: GalleryImage[] }) {
               </CardBody>
 
               <CardFooter className="bg-default/50 absolute bottom-1 z-10 ml-1 flex w-[calc(100%-0.5rem)] flex-col items-start overflow-hidden rounded-xl border-1 border-white/20 py-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                {image.caption && <p className="text-tiny mb-1 text-white/80">{image.caption}</p>}
+                {image.caption && (
+                  <p className="text-tiny mb-1 text-white/80">
+                    {image.caption}
+                  </p>
+                )}
                 {image.date && (
                   <p className="self-end text-[10px] font-medium text-white/60">
                     {new Date(image.date).toLocaleDateString(undefined, {
