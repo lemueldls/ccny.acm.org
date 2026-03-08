@@ -1,12 +1,11 @@
 "use client";
 
-import { ScrollShadow } from "@heroui/react";
 import { cn } from "@heroui/react";
-import { useEffect } from "react";
 
 import HomePageHeader from "@/app/home/header";
 import InstagramGallery from "@/components/instagram-gallery";
-import { brand } from "@/lib/fonts";
+
+import HomePageFooter from "../footer";
 
 export default function GalleryPage() {
   return (
@@ -24,13 +23,7 @@ export default function GalleryPage() {
         <InstagramGallery />
       </div>
 
-      <footer className="texture bg-background/60 dark:bg-default/10 flex flex-col gap-4 p-4">
-        <div className="m-4 flex flex-col justify-center gap-4 text-center sm:flex-row sm:gap-16 sm:text-left">
-          <div>
-            <span className="text-default-500">&copy; 2025 ACM @ CCNY</span>
-          </div>
-        </div>
-      </footer>
+      <HomePageFooter />
     </div>
   );
 }
