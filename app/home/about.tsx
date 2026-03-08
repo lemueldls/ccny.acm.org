@@ -37,7 +37,7 @@ export default function HomePageAbout() {
       </CardBody>
       <Divider className="mt-6 mb-8" />
       <CardFooter className="h-64">
-        <InstagramGallery variant="slider" shuffle />
+        <InstagramGallery variant="slider" shuffle limit={12} />
       </CardFooter>
     </Card>
   );

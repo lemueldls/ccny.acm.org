@@ -208,7 +208,7 @@ function InstagramCarouselGallery({
           </Card>
         ))}
 
-        {/* <Card
+        <Card
           className="group border-primary/30 bg-primary/5 relative flex shrink-0 snap-center items-center justify-center overflow-hidden rounded-3xl border-2 border-dashed transition-all duration-500"
           shadow="none"
         >
@@ -216,7 +216,7 @@ function InstagramCarouselGallery({
             href="/gallery"
             className="flex h-full w-50 flex-col items-center justify-center gap-4 text-center transition-transform duration-300 group-hover:scale-105"
           >
-            <div className="bg-primary shadow-primary/30 group-hover:shadow-primary/50 flex h-16 w-16 items-center justify-center rounded-2xl text-white shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-12">
+            <div className="bg-primary shadow-primary/30 group-hover:shadow-primary/50 flex h-16 w-16 items-center justify-center rounded-2xl text-white shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:-rotate-12">
               <ArrowRightIcon className="h-6 w-6" />
             </div>
             <div className="flex flex-col items-center">
@@ -226,7 +226,7 @@ function InstagramCarouselGallery({
               </span>
             </div>
           </Link>
-          </Card> */}
+        </Card>
       </ScrollShadow>
 
       {showLeftButton && (
