@@ -1,13 +1,12 @@
 import type { ButtonProps, PressEvent } from "@heroui/react";
+import { Button } from "@heroui/react";
 import type {
   GlobalOptions as ConfettiGlobalOptions,
   CreateTypes as ConfettiInstance,
   Options as ConfettiOptions,
 } from "canvas-confetti";
-import type { ReactNode } from "react";
-
-import { Button } from "@heroui/react";
 import confetti from "canvas-confetti";
+import type { ReactNode } from "react";
 import React, {
   createContext,
   forwardRef,

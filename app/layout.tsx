@@ -1,7 +1,6 @@
 import "@/styles/globals.css";
-import type { Metadata, Viewport } from "next";
-
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
+import type { Metadata, Viewport } from "next";
 import { Organization, WithContext } from "schema-dts";
 
 import { lato } from "@/lib/fonts";

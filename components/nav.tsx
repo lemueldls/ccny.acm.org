@@ -1,7 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
-
 import { useAuthActions } from "@convex-dev/auth/react";
 import {
   ArrowLeftEndOnRectangleIcon,
@@ -32,6 +30,7 @@ import { useQuery } from "convex/react";
 import { useTheme } from "next-themes";
 import NextImage from "next/image";
 import { usePathname } from "next/navigation";
+import type { ReactNode } from "react";
 import { useState } from "react";
 
 import { api } from "@/convex/_generated/api";

@@ -1,9 +1,7 @@
 "use client";
 
-import type { CardProps } from "@heroui/react";
-import type { ReactNode } from "react";
-
 import { ArrowTopRightOnSquareIcon, CalendarDaysIcon, MapPinIcon } from "@heroicons/react/16/solid";
+import type { CardProps } from "@heroui/react";
 import {
   Button,
   Card,
@@ -21,6 +19,7 @@ import {
   getLocalTimeZone,
   parseDateTime,
 } from "@internationalized/date";
+import type { ReactNode } from "react";
 
 import { SerializedEvent, eventKindColorMap, eventKindTextMap } from "@/lib/events";
 

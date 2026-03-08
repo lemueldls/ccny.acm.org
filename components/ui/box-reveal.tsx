@@ -1,8 +1,7 @@
 "use client";
 
-import type { ReactElement } from "react";
-
 import { motion, useAnimation, useInView } from "framer-motion";
+import type { ReactElement } from "react";
 import { useEffect, useRef } from "react";
 
 interface BoxRevealProps {

@@ -1,6 +1,5 @@
-import type { Config } from "tailwindcss";
-
 import { heroui } from "@heroui/react";
+import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
 
 import themes from "./themes.json";

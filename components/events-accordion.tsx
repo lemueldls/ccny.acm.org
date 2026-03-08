@@ -3,7 +3,6 @@ import { preloadQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
 
 import type { EventsAccordionClientProps } from "./events-accordion.client";
-
 import EventsAccordionClient from "./events-accordion.client";
 
 interface EventAccordionProps extends Omit<EventsAccordionClientProps, "preloadedEvents"> {}

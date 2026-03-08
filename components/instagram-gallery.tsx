@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  ArrowRightIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/24/solid";
+import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import {
   Button,
   Card,
@@ -18,10 +14,10 @@ import {
 import { useQuery } from "convex/react";
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 import { api } from "@/convex/_generated/api";
 import { GalleryImage } from "@/convex/gallery";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 export interface InstagramGalleryProps {
   variant?: "slider" | "collage";
@@ -53,9 +49,7 @@ export default function InstagramGallery({
   if (allImages.length === 0) {
     return (
       <div className="bg-default/10 border-default-300 rounded-xl border border-dashed p-12 text-center">
-        <p className="text-default-500 text-xl">
-          No images found in the gallery.
-        </p>
+        <p className="text-default-500 text-xl">No images found in the gallery.</p>
       </div>
     );
   }
@@ -93,12 +87,7 @@ function InstagramSliderGallery({ images }: { images: GalleryImage[] }) {
             shadow="sm"
           >
             <CardBody className="h-full overflow-hidden p-0">
-              <Image
-                src={image.url}
-                alt={image.caption || "Gallery Image"}
-                height={256}
-                isZoomed
-              />
+              <Image src={image.url} alt={image.caption || "Gallery Image"} height={256} isZoomed />
             </CardBody>
           </Card>
         ))}
@@ -115,9 +104,7 @@ function InstagramSliderGallery({ images }: { images: GalleryImage[] }) {
               <ArrowRightIcon className="h-6 w-6" />
             </div>
             <div className="flex flex-col items-center">
-              <span className="text-primary text-xl font-bold">
-                Full Gallery
-              </span>
+              <span className="text-primary text-xl font-bold">Full Gallery</span>
               <span className="text-default-500 text-xs font-semibold tracking-widest uppercase">
                 Explore More
               </span>
@@ -151,8 +138,7 @@ function InstagramCarouselGallery({
     const handleScroll = () => {
       setShowLeftButton(scrollContainer.scrollLeft > 0);
       setShowRightButton(
-        scrollContainer.scrollLeft <
-          scrollContainer.scrollWidth - scrollContainer.clientWidth,
+        scrollContainer.scrollLeft < scrollContainer.scrollWidth - scrollContainer.clientWidth,
       );
     };
 
@@ -218,12 +204,7 @@ function InstagramCarouselGallery({
             className="bg-default/20 group relative h-64 min-w-32 shrink-0 snap-center overflow-hidden"
             shadow="sm"
           >
-            <Image
-              src={image.url}
-              alt={image.caption || "Gallery Image"}
-              height={256}
-              isZoomed
-            />
+            <Image src={image.url} alt={image.caption || "Gallery Image"} height={256} isZoomed />
           </Card>
         ))}
 
@@ -275,9 +256,7 @@ function InstagramCarouselGallery({
 
 function InstagramGridGallery({ images }: { images: GalleryImage[] }) {
   return (
-    <ResponsiveMasonry
-      columnsCountBreakPoints={{ 640: 1, 768: 2, 1024: 3, 1280: 4 }}
-    >
+    <ResponsiveMasonry columnsCountBreakPoints={{ 640: 1, 768: 2, 1024: 3, 1280: 4 }}>
       <Masonry gutter="1rem">
         {images.map((image, index) => (
           <motion.div
@@ -303,11 +282,7 @@ function InstagramGridGallery({ images }: { images: GalleryImage[] }) {
               </CardBody>
 
               <CardFooter className="bg-default/50 absolute bottom-1 z-10 ml-1 flex w-[calc(100%-0.5rem)] flex-col items-start overflow-hidden rounded-xl border-1 border-white/20 py-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                {image.caption && (
-                  <p className="text-tiny mb-1 text-white/80">
-                    {image.caption}
-                  </p>
-                )}
+                {image.caption && <p className="text-tiny mb-1 text-white/80">{image.caption}</p>}
                 {image.date && (
                   <p className="self-end text-[10px] font-medium text-white/60">
                     {new Date(image.date).toLocaleDateString(undefined, {
