@@ -49,6 +49,12 @@ export default function HomePageHeader() {
             Events
           </Link>
         </NavbarItem>
+
+        <NavbarItem>
+          <Link color="foreground" href="/gallery">
+            Gallery
+          </Link>
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarContent justify="end">
