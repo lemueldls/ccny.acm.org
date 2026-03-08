@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 
+import { internal } from "./_generated/api";
 import { Doc } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 
@@ -27,8 +28,11 @@ export const get = query({
 
 export const getAll = query({
   args: {},
-  handler: async (ctx) => {
+  handler: async (ctx): Promise<GalleryImage[]> => {
+    await ctx.runQuery(internal.users.requireAdmin);
+
     const images = await ctx.db.query("gallery").withIndex("by_date").order("desc").collect();
+
     return Promise.all(
       images.map(async (img) => ({
         ...img,
@@ -46,6 +50,8 @@ export const addImage = mutation({
     active: v.boolean(),
   },
   handler: async (ctx, args) => {
+    await ctx.runQuery(internal.users.requireAdmin);
+
     return await ctx.db.insert("gallery", args);
   },
 });
@@ -59,6 +65,8 @@ export const updateImage = mutation({
     active: v.optional(v.boolean()),
   },
   handler: async (ctx, { id, ...args }) => {
+    await ctx.runQuery(internal.users.requireAdmin);
+
     await ctx.db.patch(id, args);
   },
 });
@@ -66,42 +74,12 @@ export const updateImage = mutation({
 export const removeImage = mutation({
   args: { id: v.id("gallery") },
   handler: async (ctx, { id }) => {
+    await ctx.runQuery(internal.users.requireAdmin);
+
     await ctx.db.delete(id);
   },
 });
 
 export const generateUploadUrl = mutation(async (ctx) => {
   return await ctx.storage.generateUploadUrl();
-});
-
-export const importInstagram = mutation({
-  args: {
-    posts: v.array(
-      v.object({
-        storageId: v.id("_storage"),
-        caption: v.string(),
-        date: v.number(),
-      }),
-    ),
-  },
-  handler: async (ctx, args) => {
-    let count = 0;
-    for (const post of args.posts) {
-      let decodedCaption = post.caption;
-      try {
-        decodedCaption = decodeURIComponent(escape(post.caption));
-      } catch (e) {
-        // Just use original if it fails
-      }
-
-      await ctx.db.insert("gallery", {
-        image: post.storageId,
-        caption: decodedCaption,
-        date: post.date,
-        active: true,
-      });
-      count++;
-    }
-    return count;
-  },
 });
