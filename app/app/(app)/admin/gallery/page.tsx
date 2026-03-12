@@ -20,7 +20,7 @@ import { useMutation, useQuery } from "convex/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { api } from "@/convex/_generated/api";
-import { Doc } from "@/convex/_generated/dataModel";
+import { Doc, Id } from "@/convex/_generated/dataModel";
 
 // const timeZone = getLocalTimeZone();
 const timeZone = "America/New_York";
@@ -160,10 +160,10 @@ export default function AdminGalleryPage() {
   }, []);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !uploadingForId) return;
+    const files = e.target.files;
+    if (!files || !uploadingForId) return;
 
-    try {
+    const uploadOne = async (file: File) => {
       const postUrl = await generateUploadUrl();
       const result = await fetch(postUrl, {
         method: "POST",
@@ -172,18 +172,28 @@ export default function AdminGalleryPage() {
       });
 
       if (!result.ok) throw new Error("Upload failed");
+      const { storageId } = await result.json();
 
-      const { storageId: image } = await result.json();
+      return storageId as Id<"_storage">;
+    };
 
+    try {
       if (uploadingForId === "new") {
-        await addImage({
-          image,
-          caption: "Uploaded Image",
-          active: true,
-          date: Date.now(),
-        });
-        addToast({ color: "success", title: "Image added to gallery!" });
+        // add a new record for each selected file
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const image = await uploadOne(file);
+          await addImage({
+            image,
+            caption: "Uploaded Image",
+            active: true,
+            date: Date.now(),
+          });
+        }
+        addToast({ color: "success", title: "Images added to gallery!" });
       } else {
+        // replace existing image, just take the first file
+        const image = await uploadOne(files[0]);
         await updateImage({ id: uploadingForId, image });
         addToast({ color: "success", title: "Image updated!" });
       }
@@ -237,6 +247,7 @@ export default function AdminGalleryPage() {
             ref={fileInputRef}
             className="hidden"
             accept="image/*"
+            multiple
             onChange={handleFileChange}
           />
 
