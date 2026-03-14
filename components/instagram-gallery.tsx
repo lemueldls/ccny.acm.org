@@ -1,19 +1,27 @@
 "use client";
 
-import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import {
+  ArrowRightIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/solid";
 import {
   Button,
   Card,
   CardBody,
   CardFooter,
+  cn,
   Image,
   Link,
   ScrollShadow,
   Skeleton,
 } from "@heroui/react";
 import { useQuery } from "convex/react";
-import { motion } from "framer-motion";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 import { api } from "@/convex/_generated/api";
@@ -31,10 +39,77 @@ export default function InstagramGallery({
   shuffle,
 }: InstagramGalleryProps) {
   const allImages = useQuery(api.gallery.get);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  if (shuffle && allImages) {
-    allImages.sort(() => Math.random() - 0.5);
-  }
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const images = useMemo(() => {
+    if (!allImages) return [];
+    let processed = [...allImages];
+    if (shuffle) {
+      processed.sort(() => Math.random() - 0.5);
+    }
+    return limit ? processed.slice(0, limit) : processed;
+  }, [allImages, shuffle, limit]);
+
+  const handleOpen = useCallback(
+    (index: number) => {
+      if (pathname === "/gallery") {
+        const params = new URLSearchParams(searchParams);
+        params.set("img", images[index]._id);
+        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+      } else {
+        setSelectedIndex(index);
+      }
+    },
+    [images, pathname, router, searchParams],
+  );
+
+  const handleNext = useCallback(() => {
+    const currentIdx =
+      pathname === "/gallery" && searchParams.get("img")
+        ? images.findIndex((img) => img._id === searchParams.get("img"))
+        : selectedIndex;
+
+    if (currentIdx !== null && currentIdx !== -1) {
+      handleOpen((currentIdx + 1) % images.length);
+    }
+  }, [handleOpen, selectedIndex, images, pathname, searchParams]);
+
+  const handlePrev = useCallback(() => {
+    const currentIdx =
+      pathname === "/gallery" && searchParams.get("img")
+        ? images.findIndex((img) => img._id === searchParams.get("img"))
+        : selectedIndex;
+
+    if (currentIdx !== null && currentIdx !== -1) {
+      handleOpen((currentIdx - 1 + images.length) % images.length);
+    }
+  }, [handleOpen, selectedIndex, images, pathname, searchParams]);
+
+  const handleClose = useCallback(() => {
+    if (pathname === "/gallery") {
+      const params = new URLSearchParams(searchParams);
+      params.delete("img");
+      const query = params.toString();
+      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    } else {
+      setSelectedIndex(null);
+    }
+  }, [pathname, router, searchParams]);
+
+  const imagesToMap = useMemo(() => images, [images]);
+
+  useEffect(() => {
+    if (pathname !== "/gallery") return;
+    const imgId = searchParams.get("img");
+    if (imagesToMap.length > 0) {
+      const index = imgId ? imagesToMap.findIndex((img) => img._id === imgId) : -1;
+      setSelectedIndex(index !== -1 ? index : null);
+    }
+  }, [searchParams, imagesToMap, pathname]);
 
   if (allImages === undefined) {
     return (
@@ -54,13 +129,27 @@ export default function InstagramGallery({
     );
   }
 
-  const images = limit ? allImages.slice(0, limit) : allImages;
-
   if (variant === "slider") {
     return <InstagramGalleryCarousel images={images} />;
   }
 
-  return <InstagramGalleryGrid images={images} />;
+  return (
+    <>
+      <InstagramGalleryGrid images={images} onImageClick={handleOpen} />
+
+      <AnimatePresence>
+        {selectedIndex !== null && (
+          <Lightbox
+            images={images}
+            selectedIndex={selectedIndex}
+            onClose={handleClose}
+            onNext={handleNext}
+            onPrev={handlePrev}
+          />
+        )}
+      </AnimatePresence>
+    </>
+  );
 }
 
 function InstagramGalleryCarousel({
@@ -145,7 +234,7 @@ function InstagramGalleryCarousel({
         {images.map((image) => (
           <Card
             as={Link}
-            href="/gallery"
+            href={`/gallery?img=${image._id}`}
             key={image._id}
             className="bg-default/20 group relative h-64 min-w-32 shrink-0 snap-center overflow-hidden"
             shadow="sm"
@@ -200,13 +289,21 @@ function InstagramGalleryCarousel({
   );
 }
 
-function InstagramGalleryGrid({ images }: { images: GalleryImage[] }) {
+function InstagramGalleryGrid({
+  images,
+  onImageClick,
+}: {
+  images: GalleryImage[];
+  onImageClick: (index: number) => void;
+}) {
   return (
     <ResponsiveMasonry columnsCountBreakPoints={{ 640: 1, 768: 2, 1024: 3, 1280: 4 }}>
       <Masonry gutter="1rem">
         {images.map((image, index) => (
           <motion.div
             key={image._id}
+            onClick={() => onImageClick(index)}
+            className="cursor-pointer"
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
             viewport={{ once: true }}
             initial={{
@@ -244,5 +341,151 @@ function InstagramGalleryGrid({ images }: { images: GalleryImage[] }) {
         ))}
       </Masonry>
     </ResponsiveMasonry>
+  );
+}
+
+function Lightbox({
+  images,
+  selectedIndex,
+  onClose,
+  onNext,
+  onPrev,
+}: {
+  images: GalleryImage[];
+  selectedIndex: number | null;
+  onClose: () => void;
+  onNext: () => void;
+  onPrev: () => void;
+}) {
+  useHotkeys("esc", onClose, { enabled: selectedIndex !== null });
+  useHotkeys("right", onNext, { enabled: selectedIndex !== null });
+  useHotkeys("left", onPrev, { enabled: selectedIndex !== null });
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (selectedIndex !== null) {
+      document.body.style.overflow = "hidden";
+      containerRef.current?.focus();
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedIndex]);
+
+  if (selectedIndex === null) return null;
+
+  const currentImage = images[selectedIndex];
+
+  return (
+    <motion.div
+        ref={containerRef}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-100 flex items-center justify-center bg-black/95 p-4 backdrop-blur-xl md:p-12"
+        onClick={onClose}
+        role="dialog"
+        aria-modal="true"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") onClose();
+          if (e.key === "ArrowRight") onNext();
+          if (e.key === "ArrowLeft") onPrev();
+        }}
+      >
+        <Button
+          isIconOnly
+          radius="full"
+          variant="flat"
+          color="primary"
+          size="lg"
+          onPress={() => onClose()}
+          className="absolute top-6 right-6 z-110 transition-colors"
+        >
+          <XMarkIcon className="size-6" />
+        </Button>
+
+        <Button
+          isIconOnly
+          radius="full"
+          variant="flat"
+          color="primary"
+          size="lg"
+          onPress={() => onPrev()}
+          className="absolute bottom-4 left-6 z-110 -translate-y-1/2 sm:top-1/2"
+        >
+          <ChevronLeftIcon className="size-6" />
+        </Button>
+
+        <Button
+          isIconOnly
+          radius="full"
+          variant="flat"
+          color="primary"
+          size="lg"
+          onPress={() => onNext()}
+          className="absolute right-6 bottom-4 z-110 -translate-y-1/2 sm:top-1/2"
+        >
+          <ChevronRightIcon className="size-6" />
+        </Button>
+
+        <div
+          className="relative flex h-full w-full flex-col items-center justify-between outline-none"
+          // onClick={(e) => e.stopPropagation()}
+          // onKeyDown={(e) => {
+          //   if (e.key === "Enter" || e.key === " ") e.stopPropagation();
+          // }}
+          role="presentation"
+        >
+          <div className="flex flex-1 items-center justify-center">
+            <motion.div
+              key={currentImage._id}
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="flex flex-col items-center justify-center gap-6"
+            >
+              <div className="relative flex max-h-[70vh] items-center justify-center overflow-hidden rounded-2xl shadow-2xl">
+                <Image
+                  src={currentImage.url}
+                  alt={currentImage.caption || ""}
+                  className="max-h-[70vh] w-auto max-w-[90vw] object-contain"
+                />
+              </div>
+
+              {(currentImage.caption || currentImage.date) && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="max-w-3xl space-y-2 text-center text-pretty"
+                >
+                  {currentImage.date && (
+                    <p className="text-sm font-medium tracking-wide text-white/50 uppercase">
+                      {new Date(currentImage.date).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </p>
+                  )}
+
+                  {currentImage.caption && (
+                    <h3 className="font-semibold text-white md:text-lg">{currentImage.caption}</h3>
+                  )}
+                </motion.div>
+              )}
+            </motion.div>
+          </div>
+
+          {/* <div className="absolute bottom-0 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-medium tracking-widest text-white/60 uppercase backdrop-blur-md">
+            {selectedIndex + 1} / {images.length}
+          </div> */}
+        </div>
+      </motion.div>
   );
 }
