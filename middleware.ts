@@ -17,6 +17,7 @@ export const config = {
 
 const isLoginPage = createRouteMatcher(["/login"]);
 const isAdminPage = createRouteMatcher(["/admin"]);
+const isHashPath = createRouteMatcher(["/about", "/team", "/events"]);
 
 const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN;
 
@@ -87,11 +88,13 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
   }
 
   if (hostname === adminDomain) {
-    return NextResponse.redirect(new URL(`/admin${path === "/" ? "" : path}`, process.env.NEXT_PUBLIC_APP_URL));
+    return NextResponse.redirect(
+      new URL(`/admin${path === "/" ? "" : path}`, process.env.NEXT_PUBLIC_APP_URL),
+    );
   }
 
   if (hostname === "ccny.acm.org" || hostname === "localhost:3000" || hostname === rootDomain) {
-    if (url.pathname === "/about" || url.pathname === "/team" || url.pathname === "/events") {
+    if (isHashPath(req)) {
       return NextResponse.redirect(new URL(`/#${path.slice(1)}`, req.url));
     }
 
