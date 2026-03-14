@@ -87,12 +87,12 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
   }
 
   if (hostname === adminDomain) {
-    return NextResponse.redirect(new URL("/admin", process.env.NEXT_PUBLIC_APP_URL));
+    return NextResponse.redirect(new URL(`/admin${path === "/" ? "" : path}`, process.env.NEXT_PUBLIC_APP_URL));
   }
 
   if (hostname === "ccny.acm.org" || hostname === "localhost:3000" || hostname === rootDomain) {
     if (url.pathname === "/about" || url.pathname === "/team" || url.pathname === "/events") {
-      return NextResponse.redirect(new URL(`/#${url.pathname.slice(1)}`, req.url));
+      return NextResponse.redirect(new URL(`/#${path.slice(1)}`, req.url));
     }
 
     return NextResponse.rewrite(new URL(`/home${path === "/" ? "" : path}`, req.url));
