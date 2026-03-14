@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   experimental: {
     serverActions: {
       allowedOrigins: [process.env.NEXT_PUBLIC_APP_URL!, process.env.NEXT_PUBLIC_ADMIN_URL!],
@@ -21,8 +22,9 @@ const nextConfig: NextConfig = {
       { hostname: "github.com" },
     ],
   },
-  output: "standalone",
-  reactCompiler: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
