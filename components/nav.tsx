@@ -185,7 +185,7 @@ export default function Nav({ children }: { children: ReactNode }) {
                   <DropdownItem
                     key="link-github"
                     startContent={<SimpleIconsGithub className="h-5 w-5" />}
-                    onPress={() => signIn("github")}
+                    onPress={() => void signIn("github", { redirectTo: pathname })}
                   >
                     Link GitHub
                   </DropdownItem>
@@ -195,7 +195,7 @@ export default function Nav({ children }: { children: ReactNode }) {
                   <DropdownItem
                     key="link-discord"
                     startContent={<SimpleIconsDiscord className="h-5 w-5" />}
-                    onPress={() => signIn("discord")}
+                    onPress={() => void signIn("discord", { redirectTo: pathname })}
                   >
                     Link Discord
                   </DropdownItem>

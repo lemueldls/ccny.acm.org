@@ -21,28 +21,30 @@ export default function LoginPage() {
         </h1>
       </CardHeader>
       <CardBody className="gap-4">
-        <LoginButton
-          // className="hover:text-[#5865F2]"
-          provider="github"
-          variant="faded"
-          startContent={<SimpleIconsGithub className="h-5 w-5" />}
-        >
-          Login with GitHub
-        </LoginButton>
-        <LoginButton
-          className="hover:text-[#5865F2]"
-          provider="discord"
-          variant="faded"
-          startContent={<SimpleIconsDiscord className="h-5 w-5" />}
-        >
-          Login with Discord
-        </LoginButton>
+        <Suspense>
+          <LoginButton
+            // className="hover:text-[#5865F2]"
+            provider="github"
+            variant="faded"
+            startContent={<SimpleIconsGithub className="h-5 w-5" />}
+          >
+            Login with GitHub
+          </LoginButton>
+          <LoginButton
+            className="hover:text-[#5865F2]"
+            provider="discord"
+            variant="faded"
+            startContent={<SimpleIconsDiscord className="h-5 w-5" />}
+          >
+            Login with Discord
+          </LoginButton>
 
-        <Divider />
+          <Divider />
 
-        <LoginButton provider="anonymous" variant="bordered">
-          Login Anonymously
-        </LoginButton>
+          <LoginButton provider="anonymous" variant="bordered">
+            Login Anonymously
+          </LoginButton>
+        </Suspense>
 
         <CardFooter>
           <p className="text-foreground-600 text-center">

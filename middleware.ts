@@ -58,11 +58,14 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
 
     if (await convexAuth.isAuthenticated()) {
       if (isLoginPage(req)) {
-        return NextResponse.redirect(new URL("/", req.url));
+        const redirectTo = url.searchParams.get("redirectTo") || "/";
+        return NextResponse.redirect(new URL(redirectTo, req.url));
       }
     } else {
       if (!isLoginPage(req)) {
-        return NextResponse.redirect(new URL("/login", req.url));
+        const loginUrl = new URL("/login", req.url);
+        loginUrl.searchParams.set("redirectTo", path);
+        return NextResponse.redirect(loginUrl);
       }
     }
 
@@ -71,7 +74,9 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
       const user = await fetchQuery(api.users.currentUser, {}, { token });
 
       if (!user) {
-        return NextResponse.redirect(new URL("/login", req.url));
+        const loginUrl = new URL("/login", req.url);
+        loginUrl.searchParams.set("redirectTo", path);
+        return NextResponse.redirect(loginUrl);
       }
       if (!user.isAdmin) {
         return new Response("Not authorized", { status: 403 });

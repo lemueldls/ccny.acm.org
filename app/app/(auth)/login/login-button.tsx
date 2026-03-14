@@ -37,7 +37,7 @@ export default function LoginButton(props: LoginButtonProps) {
       isLoading={loading}
       onPress={() => {
         setLoading(true);
-        signIn(provider);
+        void signIn(provider, { redirectTo: searchParams?.get("redirectTo") || "/" });
       }}
       startContent={!loading && startContent}
       spinner={<LoadingDots color="#A8A29E" />}
