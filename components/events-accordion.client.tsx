@@ -108,7 +108,7 @@ export default function EventsAccordionClient(props: EventsAccordionClientProps)
             )
           }
           id="happening-today"
-          classNames={{ title: "text-4xl font-bold leading-none" }}
+          classNames={{ title: "text-4xl font-bold leading-none cursor-pointer" }}
         >
           <EventGrid events={happeningToday.toReversed()} showEditLink={props.showEditLink} />
         </AccordionItem>
@@ -121,7 +121,7 @@ export default function EventsAccordionClient(props: EventsAccordionClientProps)
             areUpcomingEvents ? null : <span className="text-xl">There are no upcoming events</span>
           }
           id="upcoming-events"
-          classNames={{ title: "text-4xl font-bold leading-none" }}
+          classNames={{ title: "text-4xl font-bold leading-none cursor-pointer" }}
         >
           <EventGrid events={upcomingEvents.toReversed()} showEditLink={props.showEditLink} />
         </AccordionItem>
@@ -136,7 +136,7 @@ export default function EventsAccordionClient(props: EventsAccordionClientProps)
             )
           }
           id="past-events"
-          classNames={{ title: "text-4xl font-bold leading-none" }}
+          classNames={{ title: "text-4xl font-bold leading-none cursor-pointer" }}
         >
           <EventGrid events={pastEvents} showEditLink={props.showEditLink} rsvpIsDisabled />
         </AccordionItem>
