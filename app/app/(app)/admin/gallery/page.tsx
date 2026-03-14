@@ -57,16 +57,13 @@ function GalleryCard({
   };
 
   return (
-    <Card
-      isBlurred
-      className="bg-default/10 border-none shadow-sm transition-transform hover:scale-[1.01]"
-    >
+    <Card isBlurred className="bg-default/10 border-none shadow-sm transition-transform">
       <CardBody className="flex flex-col gap-4 p-4">
         <div className="group relative aspect-video w-full overflow-hidden rounded-xl shadow-lg">
           <Image
             src={image.url || ""}
             alt={image.caption || "Gallery Image"}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="h-full w-full object-cover transition-transform duration-500"
             removeWrapper
           />
           <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -126,18 +123,20 @@ function GalleryCard({
                 onBlur={handleUpdate}
                 className="flex-1"
               />
-              <Button
-                isIconOnly
-                size="sm"
-                variant="light"
-                color="danger"
-                onPress={() => onRemove(image._id)}
-                title="Remove Item"
-              >
-                <TrashIcon className="size-5" />
-              </Button>
             </div>
           </div>
+
+          <Button
+            isIconOnly
+            size="sm"
+            variant="light"
+            color="danger"
+            onPress={() => onRemove(image._id)}
+            title="Remove Item"
+            className="self-end"
+          >
+            <TrashIcon className="size-5" />
+          </Button>
         </div>
       </CardBody>
     </Card>
@@ -179,14 +178,13 @@ export default function AdminGalleryPage() {
 
     try {
       if (uploadingForId === "new") {
-        // add a new record for each selected file
         for (let i = 0; i < files.length; i++) {
           const file = files[i];
           const image = await uploadOne(file);
           await addImage({
             image,
-            caption: "Uploaded Image",
-            active: true,
+            caption: "",
+            active: false,
             date: Date.now(),
           });
         }
