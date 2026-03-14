@@ -30,27 +30,24 @@ const sidebarItems = [
 
 export default function AuthLayout({ children }: RootLayoutProps) {
   return (
-    <div className="flex w-full overflow-hidden">
-      <Navbar className="texture hidden w-full max-w-sm flex-col justify-start p-8 sm:flex">
-        <NavbarContent justify="start" className="flex-col">
-          {sidebarItems.map((item, i) => (
-            <NavbarItem key={i} className="w-full">
-              <Button
-                size="lg"
-                as={Link}
-                href={item.href}
-                className="w-full justify-start"
-                variant="light"
-                startContent={item.startContent}
-              >
-                {item.title}
-              </Button>
-            </NavbarItem>
-          ))}
-        </NavbarContent>
-      </Navbar>
+    <div className="flex h-full w-full flex-col overflow-hidden sm:flex-row">
+      <nav className="texture no-scrollbar border-default-100 flex w-full shrink-0 flex-row justify-center gap-2 overflow-x-auto p-2 sm:max-w-sm sm:flex-col sm:justify-start sm:border-r sm:p-8">
+        {sidebarItems.map((item, i) => (
+          <Button
+            key={i}
+            size="lg"
+            as={Link}
+            href={item.href}
+            className="shrink-0 justify-start sm:w-full"
+            variant="light"
+            startContent={item.startContent}
+          >
+            {item.title}
+          </Button>
+        ))}
+      </nav>
 
-      <div className="flex-1 overflow-auto p-8">{children}</div>
+      <div className="flex-1 overflow-auto p-4 sm:p-8">{children}</div>
     </div>
   );
 }

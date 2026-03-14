@@ -1,18 +1,24 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 import { useAuthActions } from "@convex-dev/auth/react";
 import {
   ArrowLeftEndOnRectangleIcon,
   ArrowLeftStartOnRectangleIcon,
+  CalendarDaysIcon,
   EnvelopeIcon as EnvelopeIcon20,
   MoonIcon,
+  PhotoIcon,
   SunIcon,
+  UsersIcon,
 } from "@heroicons/react/20/solid";
 import {
   Avatar,
   BreadcrumbItem,
   Breadcrumbs,
   Button,
+  Divider,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -23,6 +29,8 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
   NavbarMenuToggle,
   User,
 } from "@heroui/react";
@@ -30,7 +38,6 @@ import { useQuery } from "convex/react";
 import { useTheme } from "next-themes";
 import NextImage from "next/image";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
 import { useState } from "react";
 
 import { api } from "@/convex/_generated/api";
@@ -43,8 +50,6 @@ import ThemeToggle from "./theme-toggle";
 
 export default function Nav({ children }: { children: ReactNode }) {
   const { signOut, signIn } = useAuthActions();
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // const segments = useSelectedLayoutSegments();
   // const { id } = useParams() as { id?: string };
@@ -63,13 +68,8 @@ export default function Nav({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <Navbar className="texture" onMenuOpenChange={setIsMenuOpen}>
+      <Navbar className="texture">
         <NavbarContent justify="start">
-          <NavbarMenuToggle
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            className="sm:hidden"
-          />
-
           <NavbarBrand className="flex items-center">
             <Link href={process.env.NEXT_PUBLIC_ROOT_URL}>
               <Image
@@ -97,7 +97,7 @@ export default function Nav({ children }: { children: ReactNode }) {
               maxItems={3}
               itemsBeforeCollapse={3}
               itemsAfterCollapse={0}
-              className="hidden sm:block"
+              className="flex"
               renderEllipsis={({ items, ellipsisIcon, separator }) => (
                 <div key="ellipsis" className="flex items-center">
                   <Dropdown>
@@ -145,7 +145,7 @@ export default function Nav({ children }: { children: ReactNode }) {
             </Link>
           </NavbarItem>
         </NavbarContent> */}
-        <NavbarContent className="hidden sm:flex" justify="end">
+        <NavbarContent justify="end" className="flex-0!">
           <NavbarItem>
             <Dropdown placement="bottom-end">
               <DropdownTrigger>
