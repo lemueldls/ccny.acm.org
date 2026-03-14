@@ -62,4 +62,3 @@ jobs:
           remote_path: ${{ secrets.DEPLOY_PATH }}
           remote_key: ${{ secrets.DEPLOY_KEY }}
           remote_key_pass: ${{ secrets.DEPLOY_KEY_PASS }}
-          debug: true
