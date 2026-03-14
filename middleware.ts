@@ -10,7 +10,7 @@ import { api } from "./convex/_generated/api";
 
 export const config = {
   matcher: [
-    "/((?!api/|_next/|_static/|gradients|team|vendor|_icons|_vercel|[\\w-]+\\.\\w+).*)",
+    "/((?!api/|_next/|_static/|gradients|vendor|_icons|_vercel|[\\w-]+\\.\\w+).*)",
     "/api/auth(.*)",
   ],
 };
@@ -90,8 +90,11 @@ export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
     return NextResponse.redirect(new URL("/admin", process.env.NEXT_PUBLIC_APP_URL));
   }
 
-  // rewrite root application to `/home` folder
   if (hostname === "ccny.acm.org" || hostname === "localhost:3000" || hostname === rootDomain) {
+    if (url.pathname === "/about" || url.pathname === "/team" || url.pathname === "/events") {
+      return NextResponse.redirect(new URL(`/#${url.pathname.slice(1)}`, req.url));
+    }
+
     return NextResponse.rewrite(new URL(`/home${path === "/" ? "" : path}`, req.url));
   }
 

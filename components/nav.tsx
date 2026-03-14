@@ -74,10 +74,10 @@ export default function Nav({ children }: { children: ReactNode }) {
             <Link href={process.env.NEXT_PUBLIC_ROOT_URL}>
               <Image
                 as={NextImage}
-                src={`/icon-on-${resolvedTheme}.webp`}
+                src={`/logo.svg`}
                 width={44}
                 height={44}
-                alt="Icon"
+                alt="ACM @ CCNY Logo"
               />
             </Link>
 
