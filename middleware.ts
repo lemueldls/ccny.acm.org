@@ -29,7 +29,13 @@ const adminHost = adminUrl ? new URL(adminUrl).host : `admin.${rootDomain}`;
 
 export default convexAuthNextjsMiddleware(async (req, { convexAuth }) => {
   const url = req.nextUrl;
-  const host = url.host;
+
+  // const host = url.host;
+  const host = req.headers
+    // .get("x-forwarded-host")!
+    .get("Host")!
+    .replace(".localhost:3000", `.${rootDomain}`);
+
   const searchParams = url.searchParams.toString();
   // get the pathname of the request (e.g. /, /about, /blog/first-post)
   const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ""}`;
